@@ -1666,7 +1666,7 @@
     input:
       motion_sensor: binary_sensor.powder_room_motion_occupancy
       target_entity: light.powder_room_light
-      no_motion_wait: input_number.time_in_minutes_automation_waits_to_turn_off_after_no_motion
+      no_motion_wait: input_number.time_automation_waits_to_turn_off_after_no_motion_medium
 - id: '1641844323492'
   alias: Front Door Protect - Person Notification
   description: ''

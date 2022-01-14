@@ -337,9 +337,6 @@
     entity_id: device_tracker.shannons_iphone
     zone: zone.home
     event: leave
-  - platform: state
-    entity_id: person.kevin_kowalski
-    to: not_home
   condition:
   - condition: not
     conditions:
@@ -351,9 +348,6 @@
       - condition: zone
         entity_id: device_tracker.shannons_iphone
         zone: zone.home
-      - condition: state
-        entity_id: device_tracker.kevins_iphone
-        state: home
   action:
   - type: turn_off
     device_id: 5364ebdb1d63351833073f854e50a2b6

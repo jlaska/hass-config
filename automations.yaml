@@ -1675,3 +1675,33 @@
       lovelace_view: /lovelace-cameras/front-door-protect
       silence_timer: 15
       objects: person
+- id: '1642538127999'
+  alias: Garage Door - Notify When Open
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_door_contact
+    to: 'on'
+  - platform: state
+    entity_id: cover.garage_door_opener
+    to: opened
+  condition: []
+  action:
+  - service: notify.notify
+    data:
+      title: Garage Door Open
+      message: The {{ state_attr(trigger.entity_id, 'friendly_name') }} opened at
+        {{ as_timestamp(state_attr(this.entity_id, 'last_triggered'))|timestamp_custom('%I:%M
+        %p') }}
+      data:
+        entity_id: camera.garage_protect_high
+        group: garage-door
+        tag: garage-door-open
+  - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
+    timeout: '2:00:00'
+  - service: notify.mobile_app_james_iphone
+    data:
+      message: clear_notification
+      data:
+        tag: garage-door-open
+  mode: single

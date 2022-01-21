@@ -32,7 +32,9 @@ binary_sensor.front_door_contact_ias_zone:
   device_class: door
 binary_sensor.attic_door_contact_ias_zone:
   device_class: door
-binary_sensor.nintendo_switch:
+binary_sensor.william_nintendo_switch:
+  icon: mdi:nintendo-switch
+binary_sensor.henry_s_nintendo_switch:
   icon: mdi:nintendo-switch
 binary_sensor.mudroom_door_ias_zone:
   device_class: door

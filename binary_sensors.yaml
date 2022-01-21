@@ -1,6 +1,10 @@
 - platform: ping
-  name: 'Nintendo Switch'
-  host: !secret ip_nintendo_switch
+  name: William's Nintendo Switch
+  host: !secret nintendo_switch_host_1
+  scan_interval: 120
+- platform: ping
+  name: Henry's Nintendo Switch
+  host: !secret nintendo_switch_host_2
   scan_interval: 120
 
 # Create humidistat sensors (https://github.com/basschipper/homeassistant-generic-hygrostat)

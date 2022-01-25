@@ -703,6 +703,7 @@
       no_motion_wait: input_number.time_in_minutes_automation_waits_to_turn_off_after_no_motion
       motion_sensor: binary_sensor.kids_bathroom_motion_occupancy
       illuminance_sensor: sensor.kids_bathroom_motion_illuminance_lux
+      turn_off_blocker_entity: binary_sensor.kids_bathroom_hygrostat
 - id: '1620651897512'
   alias: Notify If Any Door Left Open
   description: ''
@@ -762,6 +763,7 @@
       target_entity: light.guest_bathroom_light
       motion_sensor: binary_sensor.guest_bathroom_motion_occupancy
       illuminance_sensor: sensor.guest_bathroom_motion_illuminance_lux
+      turn_off_blocker_entity: binary_sensor.guest_bathroom_hygrostat
 - id: '1622206147425'
   alias: Notify When Solaredge Offline
   description: ''
@@ -1063,6 +1065,7 @@
       time_limit_after: input_datetime.time_of_day_shower_automation_start
       time_limit_before: input_datetime.time_of_day_automation_stop
       no_motion_wait: input_number.time_automation_waits_to_turn_off_after_no_motion_medium
+      turn_off_blocker_entity: binary_sensor.master_bathroom_hygrostat
 - id: '1625665304293'
   alias: Laundry Cycle Finished
   description: Notify when a laundry cycle has finished
@@ -1361,6 +1364,12 @@
     event: leave
   condition: []
   action:
+  - service: script.announce
+    data:
+      message: '{{ state_attr(trigger.entity_id, ''friendly_name'') }} {{ trigger.event
+        == ''leave'' and ''left'' or ''arrived at'' }} {{ state_attr(trigger.zone.entity_id,
+        ''friendly_name'') }}'
+      entity_id: media_player.all_speakers
   - alias: Pulse lights
     service: script.zone_geofence_light_pulse
     data:

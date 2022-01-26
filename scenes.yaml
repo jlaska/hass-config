@@ -51,7 +51,7 @@
     light.guest_room_fan_light: false
     light.guest_room_nightstand: false
     light.henrys_room_light: false
-    light.henrys_room_fan_light: false
+    light.henry_s_room_fan_light: false
     light.henrys_room_lamps_zha_group_0x0002: false
     light.kitchen_cabinet_light: false
     light.kitchen_island_light: false
@@ -62,7 +62,7 @@
     light.master_bedroom_light: false
     light.master_bedroom_nightstand: false
     light.master_bedroom_fan_light: false
-    light.williams_room_fan_light: false
+    light.william_s_room_fan_light: false
     light.williams_room_lamps_zha_group_0x0003: false
     light.williams_room_light: false
     light.shannon_s_closet_light: false
@@ -150,7 +150,7 @@
   icon: hass:walk
   entities:
     fan.henrys_room_fan: false
-    light.henrys_room_fan_light: false
+    light.henry_s_room_fan_light: false
     light.henrys_room_floor_lamp: false
     light.henrys_room_table_lamp: false
     light.henrys_room_light: false

@@ -704,6 +704,7 @@
       motion_sensor: binary_sensor.kids_bathroom_motion_occupancy
       illuminance_sensor: sensor.kids_bathroom_motion_illuminance_lux
       turn_off_blocker_entity: binary_sensor.kids_bathroom_hygrostat
+      turn_off_blocker_wait: input_number.time_automation_waits_to_turn_off_after_no_motion_long
 - id: '1620651897512'
   alias: Notify If Any Door Left Open
   description: ''
@@ -764,6 +765,7 @@
       motion_sensor: binary_sensor.guest_bathroom_motion_occupancy
       illuminance_sensor: sensor.guest_bathroom_motion_illuminance_lux
       turn_off_blocker_entity: binary_sensor.guest_bathroom_hygrostat
+      turn_off_blocker_wait: input_number.time_automation_waits_to_turn_off_after_no_motion_long
 - id: '1622206147425'
   alias: Notify When Solaredge Offline
   description: ''
@@ -1066,6 +1068,7 @@
       time_limit_before: input_datetime.time_of_day_automation_stop
       no_motion_wait: input_number.time_automation_waits_to_turn_off_after_no_motion_medium
       turn_off_blocker_entity: binary_sensor.master_bathroom_hygrostat
+      turn_off_blocker_wait: input_number.time_automation_waits_to_turn_off_after_no_motion_long
 - id: '1625665304293'
   alias: Laundry Cycle Finished
   description: Notify when a laundry cycle has finished

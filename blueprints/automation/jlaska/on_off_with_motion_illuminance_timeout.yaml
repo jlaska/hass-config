@@ -89,6 +89,13 @@ blueprint:
       default:
       selector:
         entity: {}
+    turn_off_blocker_wait:
+      name: (OPTIONAL) Turn-off Blocking wait (minutes)
+      description: Time in minutes to wait for blocking entity to enter the desired state.
+      default:
+      selector:
+        entity:
+          domain: input_number
     target_off_entity:
       name: (OPTIONAL) Turn-off entity
       description: If defined, this entity will be turned off instead of the default
@@ -110,6 +117,7 @@ variables:
   no_motion_wait: !input 'no_motion_wait'
   entity_domain: '{{ states[target_entity].domain }}'
   turn_off_blocker_entity: !input 'turn_off_blocker_entity'
+  turn_off_blocker_wait: !input 'turn_off_blocker_wait'
   target_off_entity: !input 'target_off_entity'
 trigger:
   platform: state
@@ -148,6 +156,25 @@ action:
     to: 'off'
 - delay:
     minutes: '{{ states[no_motion_wait].state | int }}'
+- choose:
+  - alias: "If both turn-off blocker entity and turn-off blocker wait defined, then wait"
+    conditions:
+      - condition: template
+        value_template: '{{ turn_off_blocker_entity != none }}'
+      - condition: template
+        value_template: '{{ turn_off_blocker_wait != none }}'
+    sequence:
+      - wait_template: '{{ states[turn_off_blocker_entity].state == ''off'' }}'
+        timeout:
+          minutes: '{{ states[turn_off_blocker_wait].state | int }}'
+#      The following doesn't work ... not sure why
+#      - wait_for_trigger:
+#          platform: state
+#          entity_id: !input 'turn_off_blocker_entity'
+#          from: 'on'
+#          to: 'off'
+#        timeout:
+#          minutes: '{{ states[turn_off_blocker_wait].state | int }}'
 - condition: template
   value_template: '{{ (turn_off_blocker_entity == none) or (states[turn_off_blocker_entity].state
     == ''off'') }}'

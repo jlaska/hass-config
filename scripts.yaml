@@ -341,13 +341,19 @@ announce:
       sequence:
       - service: media_player.volume_set
         target:
-          entity_id: '{{ entity_id }}'
+          entity_id:
+          - '{{ entity_id }}'
+          - media_player.living_room_speaker
+          - media_player.kitchen_display
         data:
           volume_level: 0.7
     default:
     - service: media_player.volume_set
       target:
-        entity_id: '{{ entity_id }}'
+        entity_id:
+        - '{{ entity_id }}'
+        - media_player.living_room_speaker
+        - media_player.kitchen_display
       data:
         volume_level: 0.3
   - alias: Announce

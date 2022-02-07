@@ -1176,23 +1176,23 @@
     from: 'off'
     to: 'on'
   action:
-  - service: notify.notify
-    data:
-      message: Home Assistant {{ state_attr('binary_sensor.updater', 'newest_version')
-        }} is available.
-  - service: notify.persistent_notification
-    data:
-      title: Home Assistant Update
-      message: Home Assistant {{ state_attr('binary_sensor.updater', 'newest_version')
-        }} is available ([release notes](state_attr('binary_sensor.updater', 'release_notes'))
   - service: notify.mobile_app_james_iphone
     data:
-      title: Home Assistant Update Available
-      message: Home Assistant {{ state_attr('binary_sensor.updater', 'newest_version')
-        }} is available
+      title: Update Available
+      message: 'A new Home Assistant release is now available ({{ state_attr(''binary_sensor.updater'',
+        ''newest_version'') }})
+
+        '
       data:
         tag: home_assistant_update
         url: '{{ state_attr(''binary_sensor.updater'', ''release_notes'') }}'
+  - service: notify.persistent_notification
+    data:
+      title: Update Available
+      message: 'A new Home Assistant release is now available ([{{ state_attr(''binary_sensor.updater'',
+        ''newest_version'') }}]({{state_attr(''binary_sensor.updater'',''release_notes'')}}))
+
+        '
   mode: single
 - id: '1629811616934'
   alias: Master Bedroom Ceiling Fan

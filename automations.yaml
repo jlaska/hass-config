@@ -622,7 +622,6 @@
       message: The garage door is still open after sunset
   - service: script.announce
     data:
-      entity_id: media_player.all_speakers
       message: The garage door is open after sunset
   mode: single
 - id: '1619438138688'
@@ -735,7 +734,6 @@
         tag: notify-door-open-{{ trigger.entity_id }}
   - service: script.announce
     data:
-      entity_id: media_player.all_speakers
       message: The {{ state_attr(trigger.entity_id, 'friendly_name')|replace(' Contact','')
         }} is open
   - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
@@ -747,7 +745,6 @@
         tag: notify-door-open-{{ trigger.entity_id }}
   - service: script.announce
     data:
-      entity_id: media_player.all_speakers
       message: Thank you
   mode: parallel
   max: 6
@@ -1093,7 +1090,6 @@
         and states('sensor.vs553419c_laundry_cycle') or states('sensor.ms963932g_laundry_cycle')
         }} cycle of the {{ state_attr(trigger.to_state.entity_id, 'friendly_name')|replace('State','')|replace('VS553419C','')|replace('MS963932G','')
         }} has finished
-      entity_id: media_player.all_speakers
   mode: parallel
   max: 2
 - id: '1625752603984'
@@ -1372,7 +1368,6 @@
       message: '{{ state_attr(trigger.entity_id, ''friendly_name'') }} {{ trigger.event
         == ''leave'' and ''left'' or ''arrived at'' }} {{ state_attr(trigger.zone.entity_id,
         ''friendly_name'') }}'
-      entity_id: media_player.all_speakers
   - alias: Pulse lights
     service: script.zone_geofence_light_pulse
     data:

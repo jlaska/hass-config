@@ -328,40 +328,8 @@ sengled_light_pulse_test:
       transition: 4
 announce:
   alias: Announce
-  sequence:
-  - alias: Set volume
-    choose:
-    - conditions:
-      - condition: template
-        value_template: '{% set current_time = now().strftime("%H:%M:%S") -%}
-
-          {{ current_time < states(''input_datetime.lights_out_kids'') }}
-
-          '
-      sequence:
-      - service: media_player.volume_set
-        target:
-          entity_id:
-          - '{{ entity_id }}'
-          - media_player.living_room_speaker
-          - media_player.kitchen_display
-        data:
-          volume_level: 0.7
-    default:
-    - service: media_player.volume_set
-      target:
-        entity_id:
-        - '{{ entity_id }}'
-        - media_player.living_room_speaker
-        - media_player.kitchen_display
-      data:
-        volume_level: 0.3
-  - alias: Announce
-    service: tts.google_translate_say
-    target:
-      entity_id: '{{ entity_id }}'
-    data:
-      message: '{{ message }}'
+  mode: restart
+  icon: mdi:bullhorn-outline
   fields:
     message:
       description: Message to announce
@@ -369,5 +337,60 @@ announce:
     entity_id:
       description: Entity id
       default: media_player.all_speakers
-  mode: restart
-  icon: mdi:bullhorn-outline
+  variables:
+    all_speakers:
+    - entity_id: media_player.all_speakers
+      normal: 0.7
+      quiet: 0.3
+      announce: true
+    - entity_id: media_player.living_room_speaker
+      normal: 0.7
+      quiet: 0.3
+      announce: false
+    - entity_id: media_player.kitchen_display
+      normal: 0.7
+      quiet: 0.3
+      announce: false
+    - entity_id: media_player.master_bedroom
+      normal: 0.3
+      quiet: 0.3
+      announce: true
+    - entity_id: media_player.kitchen
+      normal: 0.3
+      quiet: 0.3
+      announce: false
+  sequence:
+  - variables:
+      volume_mode: '{% set current_time = now().strftime("%H:%M:%S") -%}
+
+        {{ current_time < states(''input_datetime.lights_out_kids'') and ''normal''
+        or ''quiet'' }}
+
+        '
+  - alias: Set volume
+    repeat:
+      while:
+      - alias: Loop through speakers
+        condition: template
+        value_template: '{{ repeat.index <= all_speakers|length }}'
+      sequence:
+      - alias: Set volume
+        service: media_player.volume_set
+        target:
+          entity_id: '{{ all_speakers[repeat.index - 1][''entity_id''] }}'
+        data:
+          volume_level: '{{ all_speakers[repeat.index - 1][ volume_mode ] }}'
+  - alias: Announce
+    repeat:
+      while:
+      - alias: Loop through speakers
+        condition: template
+        value_template: '{{ repeat.index <= all_speakers|length }}'
+      sequence:
+      - condition: '{{ all_speakers[repeat.index - 1][''announce''] }}'
+      - alias: Announce
+        service: tts.google_translate_say
+        target:
+          entity_id: '{{ all_speakers[repeat.index - 1][''entity_id''] }}'
+        data:
+          message: '{{ message }}'

@@ -1367,23 +1367,26 @@
     target:
       entity_id: script.announce
     data:
-      message: '{{ state_attr(trigger.entity_id, ''friendly_name'') }} {{ trigger.event
-        == ''leave'' and ''left'' or ''arrived at'' }} {{ state_attr(trigger.zone.entity_id,
-        ''friendly_name'') }}'
+      variables:
+        message: '{{ state_attr(trigger.entity_id, ''friendly_name'') }} {{ trigger.event
+          == ''leave'' and ''left'' or ''arrived at'' }} {{ state_attr(trigger.zone.entity_id,
+          ''friendly_name'') }}'
   - service: script.turn_on
     target:
       entity_id: script.zone_geofence_light_pulse
     data:
-      trigger_event: '{{ trigger.event }}'
-      trigger_zone: '{{ trigger.zone.entity_id }}'
-      trigger_person: '{{ trigger.entity_id }}'
+      variables:
+        trigger_event: '{{ trigger.event }}'
+        trigger_zone: '{{ trigger.zone.entity_id }}'
+        trigger_person: '{{ trigger.entity_id }}'
   - service: script.turn_on
     target:
       entity_id: script.zone_geofence_notification
     data:
-      trigger_event: '{{ trigger.event }}'
-      trigger_zone: '{{ trigger.zone.entity_id }}'
-      trigger_person: '{{ trigger.entity_id }}'
+      variables:
+        trigger_event: '{{ trigger.event }}'
+        trigger_zone: '{{ trigger.zone.entity_id }}'
+        trigger_person: '{{ trigger.entity_id }}'
   mode: single
 - id: '1632007420377'
   alias: Welcome Back (after dark)

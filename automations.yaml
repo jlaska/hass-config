@@ -1363,19 +1363,23 @@
     event: leave
   condition: []
   action:
-  - service: script.announce
+  - service: script.turn_on
+    target:
+      entity_id: script.announce
     data:
       message: '{{ state_attr(trigger.entity_id, ''friendly_name'') }} {{ trigger.event
         == ''leave'' and ''left'' or ''arrived at'' }} {{ state_attr(trigger.zone.entity_id,
         ''friendly_name'') }}'
-  - alias: Pulse lights
-    service: script.zone_geofence_light_pulse
+  - service: script.turn_on
+    target:
+      entity_id: script.zone_geofence_light_pulse
     data:
       trigger_event: '{{ trigger.event }}'
       trigger_zone: '{{ trigger.zone.entity_id }}'
       trigger_person: '{{ trigger.entity_id }}'
-  - alias: Send notifications
-    service: script.zone_geofence_notification
+  - service: script.turn_on
+    target:
+      entity_id: script.zone_geofence_notification
     data:
       trigger_event: '{{ trigger.event }}'
       trigger_zone: '{{ trigger.zone.entity_id }}'
@@ -1589,7 +1593,7 @@
         target:
           area_id: henry_s_room
 - id: '1640023160697'
-  alias: Front Door - Bell
+  alias: Front Door - Doorbell Greeting
   description: ''
   trigger:
   - platform: state
@@ -1598,11 +1602,11 @@
   condition: []
   action:
   - service: media_player.play_media
-    target:
-      entity_id: media_player.front_door_protect_speaker
     data:
       media_content_type: music
       media_content_id: https://quicksounds.com/uploads/tracks/1759518219_656234714_1828201613.mp3
+    target:
+      entity_id: media_player.front_door_protect_speaker
   mode: single
 - id: '1641050133796'
   alias: Entryway Hall Light Switch Double Tap

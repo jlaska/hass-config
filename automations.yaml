@@ -553,7 +553,7 @@
     condition: or
     conditions:
     - condition: numeric_state
-      entity_id: binary_sensor.dining_room_motion_occupancy
+      entity_id: sensor.dining_room_motion_illuminance_lux
       below: input_number.illumination_low_cutoff_value
     - condition: numeric_state
       entity_id: sensor.kitchen_motion_illuminance_lux
@@ -583,7 +583,6 @@
         hours: 1
         minutes: 0
         seconds: 0
-        milliseconds: 0
     continue_on_timeout: false
   - condition: state
     entity_id: binary_sensor.downstairs_motion_any
@@ -595,6 +594,7 @@
       - dining_room
       - kitchen
       - living_room
+    data: {}
   mode: restart
 - id: '1618877720683'
   alias: Notify Garage Door Open at Sunset

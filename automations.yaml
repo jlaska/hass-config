@@ -1121,48 +1121,6 @@
       entity_id: media_player.all_speakers
       message: A leak was detected in the laundry room
   mode: single
-- id: '1628526357140'
-  alias: Notify When Person Detected
-  description: Notify when everyone is away and a person is detected
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.front_door_protect_motion
-    attribute: event_object
-    to: person
-  condition:
-  - condition: template
-    value_template: '{{ utcnow() - state_attr(''automation.person_notification_when_away'',
-      ''last_triggered'') > timedelta(minutes=5) }}'
-  action:
-  - service: camera.record
-    target:
-      entity_id: camera.front_door_protect_high
-    data:
-      lookback: 10
-      duration: 15
-      filename: /config/www/recording.{{ trigger.entity_id }}.mp4
-  - service: camera.snapshot
-    target:
-      entity_id: camera.front_door_protect_high
-    data:
-      filename: /config/www/snapshot.{{ trigger.entity_id }}.jpg
-  - service: notify.mobile_app_james_iphone
-    data:
-      title: '{{ trigger.to_state.attributes.event_object|capitalize }} Detected'
-      message: '{{ state_attr(trigger.to_state.entity_id, ''friendly_name'') }}'
-      data:
-        tag: person_detected
-        entity_id: camera.front_door_protect_high
-        push:
-          category: camera
-        image: '{{ trigger.to_state.attributes.event_thumbnail }}'
-        __image: /local/snapshot.{{ trigger.entity_id }}.jpg
-        __video: /local/recording.{{ trigger.entity_id }}.mp4
-        actions:
-        - action: LIVE
-          title: Recorded Event
-          uri: /local/recording.{{ trigger.entity_id }}.mp4
-  mode: single
 - id: '1629366808660'
   alias: Update Available Notification
   description: ''

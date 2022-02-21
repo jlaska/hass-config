@@ -1054,7 +1054,7 @@
   mode: parallel
   max: 6
 - id: '1624750206254'
-  alias: Master Bathroom Shower Light - Activity (jlaska)
+  alias: Master Bathroom Shower Light - Activity
   description: Turn on Shower light during shower time in the evening
   use_blueprint:
     path: jlaska/on_off_with_motion_illuminance_timeout.yaml

@@ -394,3 +394,36 @@ announce:
           entity_id: '{{ all_speakers[repeat.index - 1][''entity_id''] }}'
         data:
           message: '{{ message }}'
+notify:
+  alias: Notify
+  mode: single
+  icon: mdi:bell-ring
+  fields:
+    title:
+      description: Notification title
+      required: true
+    message:
+      description: Notification message
+      required: true
+    data:
+      description: 'Notification data (e.g. {''tag'': ''foo'', ''group'': ''bar''})'
+      required: false
+      default: {}
+    service:
+      description: 'Notification service (default: notify.mobile_app_james_iphone)'
+      default: notify.mobile_app_james_iphone
+      required: false
+    is_persistent:
+      description: 'Whether a persistent notification should be used (default: false)'
+      default: false
+  sequence:
+  - service: '{{ service }}'
+    data:
+      title: '{{ title }}'
+      message: '{{ message }}'
+      data: '{{ data }}'
+  - condition: '{{ is_persistent }}'
+  - service: notify.persistent_notification
+    data:
+      title: '{{ title }}'
+      message: '{{ message }}'

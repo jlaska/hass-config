@@ -1129,22 +1129,39 @@
     entity_id: binary_sensor.updater
     from: 'off'
     to: 'on'
+  - platform: state
+    entity_id: sensor.hacs
+    to:
+  - platform: homeassistant
+    event: start
+  condition:
+  - condition: template
+    value_template: '{{ states(''sensor.hacs'')|int > 0 or is_state(''binary_sensor.updater'',
+      ''on'') }}'
   action:
+  - variables:
+      update_name: '{{ is_state(''binary_sensor.updater'', ''on'') and ''Home Assistant''
+        or state_attr(''sensor.hacs'', ''repositories'')[0][''display_name''] }}'
+      update_version: '{{ is_state(''binary_sensor.updater'', ''on'') and state_attr(''binary_sensor.updater'',
+        ''newest_version'') or state_attr(''sensor.hacs'', ''repositories'')[0][''available_version'']
+        }}'
+      update_url: '{{ is_state(''binary_sensor.updater'', ''on'') and state_attr(''binary_sensor.updater'',''release_notes'')
+        or ''/hacs''}}'
   - service: notify.mobile_app_james_iphone
     data:
       title: Update Available
-      message: 'A new Home Assistant release is now available ({{ state_attr(''binary_sensor.updater'',
-        ''newest_version'') }})
+      message: 'A new {{ update_name }} release is now available ({{ update_version
+        }})
 
         '
       data:
         tag: home_assistant_update
-        url: '{{ state_attr(''binary_sensor.updater'', ''release_notes'') }}'
+        url: '{{ update_url }}'
   - service: notify.persistent_notification
     data:
       title: Update Available
-      message: 'A new Home Assistant release is now available ([{{ state_attr(''binary_sensor.updater'',
-        ''newest_version'') }}]({{state_attr(''binary_sensor.updater'',''release_notes'')}}))
+      message: 'A new {{ update_name }} release is now available ([{{ update_version
+        }}]({{ update_url}}))
 
         '
   mode: single

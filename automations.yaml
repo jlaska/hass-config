@@ -112,7 +112,7 @@
       entity_id: binary_sensor.downstairs_motion_any
       from: 'on'
       to: 'off'
-      for: 0:{{states('input_number.time_automation_waits_to_turn_off_after_no_motion_long')|
+      for: 0:{{states('input_number.inactivity_timeout_long')|
         int }}:00
     continue_on_timeout: false
   - scene: scene.downstairs_inactivity
@@ -150,7 +150,7 @@
       illuminance_cutoff: input_number.illumination_high_cutoff_value
       time_limit_after: input_datetime.time_of_day_automation_start
       time_limit_before: input_datetime.time_of_day_automation_stop
-      no_motion_wait: input_number.time_in_minutes_automation_waits_to_turn_off_after_no_motion
+      no_motion_wait: input_number.inactivity_timeout_short
       motion_sensor: binary_sensor.laundry_room_motion_occupancy
       illuminance_sensor: sensor.master_bedroom_motion_illuminance_lux
 - id: '1617925080161'
@@ -163,7 +163,7 @@
       illuminance_cutoff: input_number.illumination_medium_cutoff_value
       time_limit_after: input_datetime.time_of_day_automation_start
       time_limit_before: input_datetime.time_of_day_automation_stop
-      no_motion_wait: input_number.time_in_minutes_automation_waits_to_turn_off_after_no_motion
+      no_motion_wait: input_number.inactivity_timeout_short
       motion_sensor: binary_sensor.master_bathroom_motion_occupancy
       illuminance_sensor: sensor.master_bedroom_motion_illuminance_lux
 - id: '1617970121884'
@@ -212,7 +212,7 @@
       area_id: mudroom
       entity_id: light.garage_light
   - delay:
-      minutes: "{{\n  states('input_number.time_in_minutes_automation_waits_to_turn_off_after_no_motion')|int(0)\n\
+      minutes: "{{\n  states('input_number.inactivity_timeout_short')|int(0)\n\
         }}"
   - wait_template: "{{ is_state('binary_sensor.garage_motion_any', 'off')\n   and\
       \ is_state('binary_sensor.garage_door_contact', 'off')\n   and is_state('binary_sensor.mudroom_door_contact',\
@@ -630,7 +630,7 @@
   use_blueprint:
     path: freakshock88/motion_illuminance_activated_entity.yaml
     input:
-      no_motion_wait: input_number.time_in_minutes_automation_waits_to_turn_off_after_no_motion
+      no_motion_wait: input_number.inactivity_timeout_short
       target_entity: light.mudroom_light
       turn_off_blocker_entity: light.garage_light
       motion_sensor: binary_sensor.mudroom_motion_occupancy
@@ -641,7 +641,7 @@
     path: jlaska/on_off_with_motion_illuminance_timeout.yaml
     input:
       illuminance_cutoff: input_number.illumination_low_cutoff_value
-      no_motion_wait: input_number.time_in_minutes_automation_waits_to_turn_off_after_no_motion
+      no_motion_wait: input_number.inactivity_timeout_short
       illuminance_sensor: sensor.kitchen_motion_illuminance_lux
       motion_sensor: binary_sensor.back_door_contact
       target_entity: light.sunroom_fan_light
@@ -653,7 +653,7 @@
     input:
       target_entity: light.entryway_door_light
       illuminance_cutoff: input_number.illumination_very_low_cutoff_value
-      no_motion_wait: input_number.time_in_minutes_automation_waits_to_turn_off_after_no_motion
+      no_motion_wait: input_number.inactivity_timeout_short
       motion_sensor:
       - binary_sensor.front_door_contact
       - binary_sensor.front_door_protect_doorbell
@@ -669,7 +669,7 @@
       target_entity: light.dining_room_light
       motion_sensor: binary_sensor.dining_room_motion_occupancy
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
-      no_motion_wait: input_number.time_automation_waits_to_turn_off_after_no_motion_medium
+      no_motion_wait: input_number.inactivity_timeout_medium
 - id: '1619530751693'
   alias: Sunrise
   description: ''
@@ -699,11 +699,11 @@
       illuminance_cutoff: input_number.illumination_medium_cutoff_value
       time_limit_after: input_datetime.time_of_day_automation_start
       time_limit_before: input_datetime.time_of_day_automation_stop
-      no_motion_wait: input_number.time_in_minutes_automation_waits_to_turn_off_after_no_motion
+      no_motion_wait: input_number.inactivity_timeout_short
       motion_sensor: binary_sensor.kids_bathroom_motion_occupancy
       illuminance_sensor: sensor.kids_bathroom_motion_illuminance_lux
       turn_off_blocker_entity: binary_sensor.kids_bathroom_hygrostat
-      turn_off_blocker_wait: input_number.time_automation_waits_to_turn_off_after_no_motion_long
+      turn_off_blocker_wait: input_number.inactivity_timeout_long
 - id: '1620651897512'
   alias: Notify If Any Door Left Open
   description: ''
@@ -724,7 +724,7 @@
       seconds: 0
   condition: []
   action:
-  - service: notify.notify
+  - service: script.notify
     data:
       title: The {{ state_attr(trigger.entity_id, 'friendly_name') }} is open
       message: Please close the {{ state_attr(trigger.entity_id, 'friendly_name')
@@ -738,8 +738,9 @@
         }} is open
   - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
     timeout: 0:15:00
-  - service: notify.notify
+  - service: script.notify
     data:
+      title: ''
       message: clear_notification
       data:
         tag: notify-door-open-{{ trigger.entity_id }}
@@ -757,12 +758,12 @@
       illuminance_cutoff: input_number.illumination_medium_cutoff_value
       time_limit_after: input_datetime.time_of_day_automation_start
       time_limit_before: input_datetime.goodnight_start_time
-      no_motion_wait: input_number.time_in_minutes_automation_waits_to_turn_off_after_no_motion
+      no_motion_wait: input_number.inactivity_timeout_short
       target_entity: light.guest_bathroom_light
       motion_sensor: binary_sensor.guest_bathroom_motion_occupancy
       illuminance_sensor: sensor.guest_bathroom_motion_illuminance_lux
       turn_off_blocker_entity: binary_sensor.guest_bathroom_hygrostat
-      turn_off_blocker_wait: input_number.time_automation_waits_to_turn_off_after_no_motion_long
+      turn_off_blocker_wait: input_number.inactivity_timeout_long
 - id: '1622206147425'
   alias: Notify When Solaredge Offline
   description: ''
@@ -943,26 +944,26 @@
     to: 'on'
     for:
       hours: 0
-      minutes: 10
+      minutes: '{{ states(''input_number.inactivity_timeout_medium'')|int
+        }}'
       seconds: 0
-      milliseconds: 0
     id: powder_room_fan
   - platform: state
     entity_id: light.powder_room_light
     to: 'on'
     for:
       hours: 0
-      minutes: 10
+      minutes: '{{ states(''input_number.inactivity_timeout_medium'')|int
+        }}'
       seconds: 0
-      milliseconds: 0
     id: powder_room_light
   - platform: state
     entity_id: light.master_bathroom_toilet_light
     for:
       hours: 0
-      minutes: 10
+      minutes: '{{ states(''input_number.inactivity_timeout_medium'')|int
+        }}'
       seconds: 0
-      milliseconds: 0
     to: 'on'
     id: master_bathroom_toilet_light
   - platform: state
@@ -970,9 +971,9 @@
     to: 'on'
     for:
       hours: 0
-      minutes: 10
+      minutes: '{{ states(''input_number.inactivity_timeout_medium'')|int
+        }}'
       seconds: 0
-      milliseconds: 0
     id: master_bathroom_toilet_fan
   - platform: state
     entity_id: fan.guest_bathroom_fan
@@ -980,17 +981,17 @@
     to: 'on'
     for:
       hours: 0
-      minutes: 10
+      minutes: '{{ states(''input_number.inactivity_timeout_medium'')|int
+        }}'
       seconds: 0
-      milliseconds: 0
   - platform: state
     id: kids_bathroom_fan
     to: 'on'
     for:
       hours: 0
-      minutes: 10
+      minutes: '{{ states(''input_number.inactivity_timeout_medium'')|int
+        }}'
       seconds: 0
-      milliseconds: 0
     entity_id: fan.kids_bathroom_fan
   - platform: state
     entity_id: fan.master_bathroom_fan
@@ -998,17 +999,16 @@
     to: 'on'
     for:
       hours: 0
-      minutes: 10
+      minutes: '{{ states(''input_number.inactivity_timeout_medium'')|int
+        }}'
       seconds: 0
-      milliseconds: 0
   - platform: state
     entity_id: fan.sunroom_fan
     to: 'on'
     for:
-      hours: 1
-      minutes: 0
+      hours: 0
+      minutes: '{{ states(''input_number.inactivity_timeout_extralong'')|int }}'
       seconds: 0
-      milliseconds: 0
     id: sunroom_fan
   condition:
   - condition: or
@@ -1063,9 +1063,9 @@
       target_entity: light.master_bathroom_shower_light
       time_limit_after: input_datetime.time_of_day_shower_automation_start
       time_limit_before: input_datetime.time_of_day_automation_stop
-      no_motion_wait: input_number.time_automation_waits_to_turn_off_after_no_motion_medium
+      no_motion_wait: input_number.inactivity_timeout_medium
       turn_off_blocker_entity: binary_sensor.master_bathroom_hygrostat
-      turn_off_blocker_wait: input_number.time_automation_waits_to_turn_off_after_no_motion_long
+      turn_off_blocker_wait: input_number.inactivity_timeout_long
 - id: '1625665304293'
   alias: Laundry Cycle Finished
   description: Notify when a laundry cycle has finished
@@ -1485,7 +1485,7 @@
     path: jlaska/on_off_with_motion_illuminance_timeout.yaml
     input:
       illuminance_cutoff: input_number.illumination_very_low_cutoff_value
-      no_motion_wait: input_number.time_in_minutes_automation_waits_to_turn_off_after_no_motion
+      no_motion_wait: input_number.inactivity_timeout_short
       motion_sensor: binary_sensor.front_door_contact,binary_sensor.front_door_protect_doorbell,binary_sensor.front_door_protect_person
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
       target_entity: light.front_door_light
@@ -1649,7 +1649,7 @@
     input:
       motion_sensor: binary_sensor.powder_room_motion_occupancy
       target_entity: light.powder_room_light
-      no_motion_wait: input_number.time_automation_waits_to_turn_off_after_no_motion_medium
+      no_motion_wait: input_number.inactivity_timeout_medium
 - id: '1641844323492'
   alias: Front Door Protect - Person Notification
   description: ''
@@ -1676,20 +1676,21 @@
     to: opened
   condition: []
   action:
-  - service: notify.notify
+  - service: script.notify
     data:
       title: Garage Door Open
-      message: The {{ state_attr(trigger.entity_id, 'friendly_name') }} opened at
-        {{ as_timestamp(state_attr(this.entity_id, 'last_triggered'))|timestamp_custom('%I:%M
-        %p') }}
+      message: |
+        The {{ state_attr(trigger.entity_id, 'friendly_name') }} opened
+        at {{ as_timestamp(state_attr(this.entity_id, 'last_triggered'))|timestamp_custom('%I:%M %p') }}
       data:
         entity_id: camera.garage_protect_high
         group: garage-door
         tag: garage-door-open
   - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
     timeout: '2:00:00'
-  - service: notify.mobile_app_james_iphone
+  - service: script.notify
     data:
+      title: ''
       message: clear_notification
       data:
         tag: garage-door-open

@@ -88,7 +88,7 @@
     domain: binary_sensor
   condition:
   - condition: numeric_state
-    below: input_number.illumination_medium_cutoff_value
+    below: input_number.illumination_medium
     entity_id: sensor.kitchen_motion_illuminance_lux
   - condition: or
     conditions:
@@ -147,7 +147,7 @@
     path: jlaska/on_off_with_motion_illuminance_timeout.yaml
     input:
       target_entity: light.laundry_room_light
-      illuminance_cutoff: input_number.illumination_high_cutoff_value
+      illuminance_cutoff: input_number.illumination_high
       time_limit_after: input_datetime.time_of_day_automation_start
       time_limit_before: input_datetime.time_of_day_automation_stop
       no_motion_wait: input_number.inactivity_timeout_short
@@ -160,7 +160,7 @@
     path: jlaska/on_off_with_motion_illuminance_timeout.yaml
     input:
       target_entity: light.master_bathroom_light
-      illuminance_cutoff: input_number.illumination_medium_cutoff_value
+      illuminance_cutoff: input_number.illumination_medium
       time_limit_after: input_datetime.time_of_day_automation_start
       time_limit_before: input_datetime.time_of_day_automation_stop
       no_motion_wait: input_number.inactivity_timeout_short
@@ -236,7 +236,7 @@
   - platform: numeric_state
     for: 00:20:00
     entity_id: sensor.kitchen_motion_illuminance_lux
-    above: input_number.illumination_medium_cutoff_value
+    above: input_number.illumination_medium
   condition:
   - condition: time
     after: input_datetime.time_of_day_automation_start
@@ -554,10 +554,10 @@
     conditions:
     - condition: numeric_state
       entity_id: sensor.dining_room_motion_illuminance_lux
-      below: input_number.illumination_low_cutoff_value
+      below: input_number.illumination_low
     - condition: numeric_state
       entity_id: sensor.kitchen_motion_illuminance_lux
-      below: input_number.illumination_low_cutoff_value
+      below: input_number.illumination_low
     - condition: state
       entity_id: sun.sun
       state: below_horizon
@@ -640,7 +640,7 @@
   use_blueprint:
     path: jlaska/on_off_with_motion_illuminance_timeout.yaml
     input:
-      illuminance_cutoff: input_number.illumination_low_cutoff_value
+      illuminance_cutoff: input_number.illumination_low
       no_motion_wait: input_number.inactivity_timeout_short
       illuminance_sensor: sensor.kitchen_motion_illuminance_lux
       motion_sensor: binary_sensor.back_door_contact
@@ -652,7 +652,7 @@
     path: jlaska/on_off_with_motion_illuminance_timeout.yaml
     input:
       target_entity: light.entryway_door_light
-      illuminance_cutoff: input_number.illumination_very_low_cutoff_value
+      illuminance_cutoff: input_number.illumination_very_low
       no_motion_wait: input_number.inactivity_timeout_short
       motion_sensor:
       - binary_sensor.front_door_contact
@@ -665,7 +665,7 @@
     path: jlaska/on_off_with_motion_illuminance_timeout.yaml
     input:
       turn_off_blocker_entity: light.entryway_hall_light
-      illuminance_cutoff: input_number.illumination_very_low_cutoff_value
+      illuminance_cutoff: input_number.illumination_very_low
       target_entity: light.dining_room_light
       motion_sensor: binary_sensor.dining_room_motion_occupancy
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
@@ -696,7 +696,7 @@
     path: jlaska/on_off_with_motion_illuminance_timeout.yaml
     input:
       target_entity: light.kids_bathroom_light
-      illuminance_cutoff: input_number.illumination_medium_cutoff_value
+      illuminance_cutoff: input_number.illumination_medium
       time_limit_after: input_datetime.time_of_day_automation_start
       time_limit_before: input_datetime.time_of_day_automation_stop
       no_motion_wait: input_number.inactivity_timeout_short
@@ -755,7 +755,7 @@
   use_blueprint:
     path: jlaska/on_off_with_motion_illuminance_timeout.yaml
     input:
-      illuminance_cutoff: input_number.illumination_medium_cutoff_value
+      illuminance_cutoff: input_number.illumination_medium
       time_limit_after: input_datetime.time_of_day_automation_start
       time_limit_before: input_datetime.goodnight_start_time
       no_motion_wait: input_number.inactivity_timeout_short
@@ -1484,7 +1484,7 @@
   use_blueprint:
     path: jlaska/on_off_with_motion_illuminance_timeout.yaml
     input:
-      illuminance_cutoff: input_number.illumination_very_low_cutoff_value
+      illuminance_cutoff: input_number.illumination_very_low
       no_motion_wait: input_number.inactivity_timeout_short
       motion_sensor: binary_sensor.front_door_contact,binary_sensor.front_door_protect_doorbell,binary_sensor.front_door_protect_person
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux

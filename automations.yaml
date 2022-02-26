@@ -1210,39 +1210,20 @@
   description: Turn on/off bathroom fans based on humidity sensor state
   trigger:
   - platform: state
-    entity_id: binary_sensor.master_bathroom_hygrostat
-    from:
-    - 'off'
-    - 'on'
+    entity_id:
+    - binary_sensor.master_bathroom_hygrostat
+    - binary_sensor.kids_bathroom_hygrostat
+    - binary_sensor.guest_bathroom_hygrostat
     to:
-    - 'off'
-    - 'on'
-    id: fan.master_bathroom_fan
-  - platform: state
-    entity_id: binary_sensor.kids_bathroom_hygrostat
-    from:
-    - 'off'
-    - 'on'
-    to:
-    - 'off'
-    - 'on'
-    id: fan.kids_bathroom_fan
-  - platform: state
-    entity_id: binary_sensor.guest_bathroom_hygrostat
-    from:
-    - 'off'
-    - 'on'
-    to:
-    - 'off'
-    - 'on'
-    id: fan.guest_bathroom_fan
   condition:
   - condition: template
     value_template: '{{ trigger.to_state.state != trigger.from_state.state }}'
   action:
-  - service: fan.turn_{{ trigger.to_state.state }}
+  - alias: Turn on/off any fan found in the same area_id
+    service: fan.turn_{{ states(trigger.to_state.entity_id) }}
     target:
-      entity_id: '{{ trigger.id }}'
+      entity_id: "{{ expand(area_entities(area_id(trigger.entity_id)))\n   | selectattr('domain',\
+        \ 'eq', 'fan')\n   | map(attribute='entity_id') | list }}\n"
   mode: parallel
   max: 4
 - id: '1631220675733'

@@ -301,28 +301,36 @@
     - cover.garage_door_opener
     to:
     - opening
+    - open
     - 'on'
   condition:
   - condition: state
     entity_id: sun.sun
     state: below_horizon
   action:
-  - service: light.turn_on
+  - alias: Turn exterior spot lights on
+    service: light.turn_on
     target:
       entity_id:
       - light.back_spot_light
       - light.front_spot_light
-  - wait_template: '{{ states(trigger.entity_id) in [''off'', ''closed''] }}'
+    data: {}
+  - alias: Wait until all exterior doors are closed
+    wait_template: "{{ not expand(['binary_sensor.back_door_contact', 'binary_sensor.front_door_contact',\
+      \ 'binary_sensor.garage_door_contact', 'cover.garage_door_opener'])\n  | rejectattr('state',\
+      \ 'in', ['off', 'closed'])\n  | map(attribute='name') | list }}\n"
   - delay:
       hours: 0
       minutes: 5
       seconds: 0
       milliseconds: 0
-  - service: light.turn_off
+  - alias: Turn exterior spot lights off
+    service: light.turn_off
     target:
       entity_id:
       - light.back_spot_light
       - light.front_spot_light
+    data: {}
   mode: restart
 - id: '1618075117826'
   alias: Goodbye

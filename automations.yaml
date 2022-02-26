@@ -112,8 +112,8 @@
       entity_id: binary_sensor.downstairs_motion_any
       from: 'on'
       to: 'off'
-      for: 0:{{states('input_number.inactivity_timeout_long')|
-        int }}:00
+      for:
+        minutes: '{{states(''input_number.inactivity_timeout_long'')|int }}'
     continue_on_timeout: false
   - scene: scene.downstairs_inactivity
   mode: restart
@@ -212,8 +212,7 @@
       area_id: mudroom
       entity_id: light.garage_light
   - delay:
-      minutes: "{{\n  states('input_number.inactivity_timeout_short')|int(0)\n\
-        }}"
+      minutes: "{{ states('input_number.inactivity_timeout_short')|int(0) }}"
   - wait_template: "{{ is_state('binary_sensor.garage_motion_any', 'off')\n   and\
       \ is_state('binary_sensor.garage_door_contact', 'off')\n   and is_state('binary_sensor.mudroom_door_contact',\
       \ 'off') \n}} "
@@ -1516,7 +1515,7 @@
         target:
           entity_id: fan.master_bedroom_fan
 - id: '1639618452473'
-  alias: Master Bathroom Light Double Tap
+  alias: Master Bathroom Light - Double Tap
   description: ''
   use_blueprint:
     path: kpine/ge_double.yaml
@@ -1528,12 +1527,14 @@
           area_id:
           - master_bathroom
           - master_closet
+        data: {}
       double_tap_off:
       - service: light.turn_off
         target:
           area_id:
           - master_closet
           - master_bathroom
+        data: {}
 - id: '1639944886830'
   alias: Williams Room Light Double Tap
   description: ''

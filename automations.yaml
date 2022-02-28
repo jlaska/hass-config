@@ -29,10 +29,10 @@
     attribute: elevation
     above: '-18.0'
   condition:
-  - alias: Only trigger dawn once a morning
+  - alias: Last triggered more than 6 hours ago
     condition: template
-    value_template: '{{ utcnow() - state_attr(''automation.exterior_lights_turn_off'',
-      ''last_triggered'') > timedelta(hours=6) }}'
+    value_template: '{{ utcnow() - state_attr(this, ''last_triggered'') > timedelta(hours=6)
+      }}'
   action:
   - scene: scene.dawn
   mode: single
@@ -394,9 +394,10 @@
     entity_id: binary_sensor.downstairs_motion_any
     state: 'off'
     for: 00:45:00
-  - condition: template
-    value_template: '{{ utcnow() - state_attr(''automation.bed_time'', ''last_triggered'')
-      > timedelta(hours=16) }}'
+  - alias: Last trigger more than 16 hours ago
+    condition: template
+    value_template: '{{ utcnow() - state_attr(this, ''last_triggered'') > timedelta(hours=16)
+      }}'
   action:
   - service: light.turn_off
     data: {}
@@ -422,12 +423,14 @@
       area_id:
       - living_room
       - sunroom
+    data: {}
   - service: switch.turn_off
     target:
       entity_id:
       - switch.kitchen_plug_ge_on_off
       - switch.williams_room_plug_ge_on_off
       - switch.holiday_light_switch
+    data: {}
   mode: single
 - id: '1618103078420'
   alias: Watching A Movie
@@ -455,16 +458,11 @@
   alias: William’s Room - Daytime Inactivity
   description: ''
   trigger:
-  - type: no_motion
-    platform: device
-    device_id: cc8cea0e1b73302c304724df2e6a3ff5
+  - platform: state
     entity_id: binary_sensor.williams_protect_motion
-    domain: binary_sensor
+    to: 'off'
     for:
-      hours: 0
-      minutes: 20
-      seconds: 0
-      milliseconds: 0
+      minutes: '{{ states(''input_number.inactivity_timeout_long'')|int }}'
   - platform: numeric_state
     entity_id: sun.sun
     attribute: elevation
@@ -477,19 +475,20 @@
     attribute: elevation
     above: '4.0'
   - condition: state
-    entity_id: binary_sensor.williams_protect_motion
-    state: 'off'
-    for:
-      hours: 0
-      minutes: 20
-      seconds: 0
-      milliseconds: 0
+    entity_id: sun.sun
+    state: above_horizon
   - condition: time
     before: input_datetime.time_of_day_automation_stop
-  - alias: Assert sunset was not already triggered today
+  - alias: Assert a fan or light is on
     condition: template
-    value_template: '{{ as_timestamp(state_attr(''automation.sunset'', ''last_triggered''))|timestamp_custom(''%-d'')
-      != as_timestamp(now())|timestamp_custom(''%-d'')}}'
+    value_template: "{{ expand(area_entities(area_id('binary_sensor.williams_protect_motion')))\n\
+      \  |selectattr('domain', 'in', ['light','fan'])\n  |selectattr('state', 'eq',\
+      \ 'on')\n  |list|length > 0}}\n"
+  - alias: Assert no recent motion
+    condition: template
+    value_template: "{{ states.binary_sensor.williams_protect_motion.last_updated\
+      \ <=\n  utcnow() - timedelta(minutes=states('input_number.inactivity_timeout_long')|int)\
+      \ }}\n"
   action:
   - service: light.turn_off
     data: {}
@@ -498,21 +497,17 @@
   - service: fan.turn_off
     target:
       entity_id: fan.williams_room_fan
+    data: {}
   mode: single
 - id: '1618275716490'
   alias: Henry’s Room - Daytime Inactivity
   description: ''
   trigger:
-  - type: no_motion
-    platform: device
-    device_id: 63cae940cd0fb6c810fd9accdd273f4b
+  - platform: state
     entity_id: binary_sensor.henrys_protect_motion
-    domain: binary_sensor
+    to: 'off'
     for:
-      hours: 0
-      minutes: 20
-      seconds: 0
-      milliseconds: 0
+      minutes: '{{ states(''input_number.inactivity_timeout_long'')|int }}'
   - platform: numeric_state
     entity_id: sun.sun
     attribute: elevation
@@ -524,27 +519,30 @@
     entity_id: sun.sun
     attribute: elevation
     above: '4.0'
+  - condition: state
+    entity_id: sun.sun
+    state: above_horizon
   - condition: time
     before: input_datetime.time_of_day_automation_stop
-  - condition: state
-    entity_id: binary_sensor.henrys_protect_motion
-    state: 'off'
-    for:
-      hours: 0
-      minutes: 20
-      seconds: 0
-      milliseconds: 0
-  - alias: Assert sunset was not already triggered today
+  - alias: Assert a fan or light is on
     condition: template
-    value_template: '{{ as_timestamp(state_attr(''automation.sunset'', ''last_triggered''))|timestamp_custom(''%-d'')
-      != as_timestamp(now())|timestamp_custom(''%-d'')}}'
+    value_template: "{{ expand(area_entities(area_id('binary_sensor.henrys_protect_motion')))\n\
+      \  |selectattr('domain', 'in', ['light','fan'])\n  |selectattr('state', 'eq',\
+      \ 'on')\n  |list|length > 0}}\n"
+  - alias: Assert no recent motion
+    condition: template
+    value_template: "{{ states.binary_sensor.henrys_protect_motion.last_updated <=\n\
+      \  utcnow() - timedelta(minutes=states('input_number.inactivity_timeout_long')|int)\
+      \ }}\n"
   action:
   - service: light.turn_off
     target:
       area_id: henry_s_room
+    data: {}
   - service: fan.turn_off
     target:
       entity_id: fan.henrys_room_fan
+    data: {}
   mode: single
 - id: '1618704455944'
   alias: Roomba Cycle
@@ -829,13 +827,10 @@
   description: Turn off lights and fan when no occupancy detected
   trigger:
   - platform: state
+    entity_id: binary_sensor.master_bedroom_motion_occupancy
     to: 'off'
     for:
-      hours: 0
-      minutes: 30
-      seconds: 0
-      milliseconds: 0
-    entity_id: binary_sensor.master_bedroom_motion_occupancy
+      minutes: '{{ states(''input_number.inactivity_timeout_long'')|int }}'
   condition:
   - condition: state
     entity_id: sun.sun
@@ -846,10 +841,16 @@
   - condition: state
     entity_id: calendar.jlaska_redhat_com
     state: 'off'
-  - alias: Assert sunset was not already triggered today
+  - alias: Assert no recent motion
     condition: template
-    value_template: '{{ as_timestamp(state_attr(''automation.sunset'', ''last_triggered''))|timestamp_custom(''%-d'')
-      != as_timestamp(now())|timestamp_custom(''%-d'')}}'
+    value_template: "{{ states.binary_sensor.master_bedroom_motion_occupancy.last_updated\
+      \ <=\n  utcnow() - timedelta(minutes=states('input_number.inactivity_timeout_long')|int)\
+      \ }}\n"
+  - alias: Assert a fan or light is on
+    condition: template
+    value_template: "{{ expand(area_entities(area_id('binary_sensor.master_bedroom_motion_occupancy')))\n\
+      \  |selectattr('domain', 'in', ['light','fan'])\n  |selectattr('state', 'eq',\
+      \ 'on')\n  |list|length > 0}}\n"
   action:
   - service: light.turn_off
     data: {}
@@ -858,6 +859,7 @@
   - service: fan.turn_off
     target:
       entity_id: fan.master_bedroom_fan
+    data: {}
   mode: restart
 - id: '1624216292589'
   alias: Guest Room - Daytime Inactivity
@@ -866,7 +868,8 @@
   - platform: state
     entity_id: binary_sensor.guest_room_motion_any
     to: 'off'
-    for: 00:30:00
+    for:
+      minutes: '{{ states(''input_number.inactivity_timeout_long'')|int }}'
   - platform: numeric_state
     entity_id: sun.sun
     attribute: elevation
@@ -874,46 +877,25 @@
   - platform: time
     at: input_datetime.time_of_day_automation_start
   condition:
-  - condition: state
-    entity_id: binary_sensor.guest_room_motion_any
-    state: 'off'
-    for: 00:30:00
-  - condition: time
-    before: input_datetime.time_of_day_automation_stop
   - condition: numeric_state
     entity_id: sun.sun
     attribute: elevation
     above: '4.0'
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: fan.guest_room_fan
-      state: 'on'
-      for:
-        hours: 0
-        minutes: 30
-        seconds: 0
-        milliseconds: 0
-    - condition: state
-      entity_id: light.guest_room_fan_light
-      state: 'on'
-      for:
-        hours: 0
-        minutes: 30
-        seconds: 0
-        milliseconds: 0
-    - condition: state
-      entity_id: light.guest_room_nightstand
-      state: 'on'
-      for:
-        hours: 0
-        minutes: 30
-        seconds: 0
-        milliseconds: 0
-  - alias: Assert sunset was not already triggered today
+  - condition: state
+    entity_id: sun.sun
+    state: above_horizon
+  - condition: time
+    before: input_datetime.time_of_day_automation_stop
+  - alias: Assert a fan or light is on
     condition: template
-    value_template: '{{ as_timestamp(state_attr(''automation.sunset'', ''last_triggered''))|timestamp_custom(''%-d'')
-      != as_timestamp(now())|timestamp_custom(''%-d'')}}'
+    value_template: "{{ expand(area_entities(area_id('binary_sensor.guest_room_motion_any')))\n\
+      \  |selectattr('domain', 'in', ['light','fan'])\n  |selectattr('state', 'eq',\
+      \ 'on')\n  |list|length > 0}}\n"
+  - alias: Assert no recent motion
+    condition: template
+    value_template: "{{ states.binary_sensor.guest_room_motion_any.last_updated <=\n\
+      \  utcnow() - timedelta(minutes=states('input_number.inactivity_timeout_long')|int)\
+      \ }}\n"
   action:
   - service: light.turn_off
     data: {}
@@ -1191,6 +1173,8 @@
       area_id:
       - dining_room
       - entryway
+      entity_id: light.stairway_light
+    data: {}
   mode: restart
 - id: '1631050114594'
   alias: Bathroom Humidity Automation
@@ -1477,6 +1461,7 @@
       - service: light.turn_off
         target:
           area_id: henry_s_room
+        data: {}
 - id: '1640023160697'
   alias: Front Door - Doorbell Greeting
   description: ''
@@ -1506,12 +1491,14 @@
           area_id:
           - entryway
           - dining_room
+        data: {}
       double_tap_off:
       - service: light.turn_off
         target:
           area_id:
           - dining_room
           - entryway
+        data: {}
 - id: '1641313962210'
   alias: Weather Image Downloader
   description: ''

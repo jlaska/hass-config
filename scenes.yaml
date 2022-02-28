@@ -128,13 +128,14 @@
       state: 'on'
 - id: '1619302411141'
   name: Piano Time
-  icon: mdi:piano
   entities:
     light.dining_room_light:
       brightness: 255
       state: 'on'
     light.entryway_door_light: true
     light.entryway_hall_light: true
+    light.stairway_light: true
+  icon: mdi:piano
 - id: '1622419078893'
   name: Dusk
   icon: mdi:weather-sunset-down
@@ -146,7 +147,7 @@
     light.front_spot_light: false
     light.back_spot_light: false
 - id: '1626997515367'
-  name: "Henry's Room Inactivity"
+  name: Henry's Room Inactivity
   icon: hass:walk
   entities:
     fan.henrys_room_fan: false

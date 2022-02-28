@@ -1440,7 +1440,7 @@
           - master_bathroom
         data: {}
 - id: '1639944886830'
-  alias: Williams Room Light Double Tap
+  alias: Williams Room Light - Double Tap
   description: ''
   use_blueprint:
     path: kpine/ge_double.yaml
@@ -1457,8 +1457,9 @@
       - service: light.turn_off
         target:
           area_id: william_s_room
+        data: {}
 - id: '1639947431355'
-  alias: Henrys Room Light Double Tap
+  alias: Henrys Room Light - Double Tap
   description: ''
   use_blueprint:
     path: kpine/ge_double.yaml
@@ -1492,7 +1493,7 @@
       entity_id: media_player.front_door_protect_speaker
   mode: single
 - id: '1641050133796'
-  alias: Entryway Hall Light Switch Double Tap
+  alias: Entryway Hall Light - Double Tap
   description: ''
   use_blueprint:
     path: kpine/ge_double.yaml

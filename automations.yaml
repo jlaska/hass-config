@@ -812,23 +812,6 @@
       - service: fan.toggle
         target:
           entity_id: fan.guest_room_fan
-- id: '1622336796126'
-  alias: Shannon’s Closet Light - Timer
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: light.shannon_s_closet_light
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
-      milliseconds: 0
-  condition: []
-  action:
-  - service: light.turn_off
-    target:
-      entity_id: light.shannon_s_closet_light
-  mode: restart
 - id: '1622383389825'
   alias: Dusk (exterior)
   description: Turn on exterior lights at dusk
@@ -941,13 +924,15 @@
   - service: fan.turn_off
     target:
       area_id: guest_room
-  mode: restart
+    data: {}
+  mode: single
 - id: '1624222738706'
   alias: Bathroom Fan/Light Timer
   description: Turn off bathroom lights/fans after a period of time
   trigger:
   - platform: state
     entity_id:
+    - light.shannon_s_closet_light
     - light.powder_room_light
     - light.master_bathroom_toilet_light
     - fan.powder_room_fan
@@ -961,9 +946,11 @@
   - platform: state
     entity_id:
     - fan.sunroom_fan
+    - light.upstairs_hallway_light
+    - light.stairway_light
     to: 'on'
     for:
-      minutes: '{{ states(''input_number.inactivity_timeout_extralong'')|int }}'
+      minutes: '{{ states(''input_number.inactivity_timeout_long'')|int }}'
   condition:
   - alias: Determine whether trigger will be handled by another automation
     condition: not
@@ -987,7 +974,7 @@
     target:
       entity_id: '{{ trigger.to_state.entity_id }}'
   mode: parallel
-  max: 6
+  max: 8
 - id: '1624750206254'
   alias: Master Bathroom Shower Light - Activity
   description: Turn on Shower light during shower time in the evening

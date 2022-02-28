@@ -161,7 +161,7 @@ zone_geofence_handler:
       trigger_person: '{{ trigger_person }}'
       trigger_zone: '{{ trigger_zone }}'
 zone_geofence_light_pulse:
-  mode: restart
+  mode: single
   alias: Zone Geofence Light Pulse
   icon: hass:led-strip
   variables:

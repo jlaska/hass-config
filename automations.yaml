@@ -1209,8 +1209,9 @@
   - alias: Turn on/off any fan found in the same area_id
     service: fan.turn_{{ states(trigger.to_state.entity_id) }}
     target:
-      entity_id: "{{ expand(area_entities(area_id(trigger.entity_id)))\n   | selectattr('domain',\
-        \ 'eq', 'fan')\n   | map(attribute='entity_id') | list }}\n"
+      entity_id: '{{ ''fan.%s_fan'' % area_id(trigger.entity_id) }}
+
+        '
   mode: parallel
   max: 4
 - id: '1631220675733'

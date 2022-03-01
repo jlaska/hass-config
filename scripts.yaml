@@ -355,16 +355,18 @@ announce:
       normal: 0.3
       quiet: 0.3
       announce: true
-    - entity_id: media_player.kitchen
+    - entity_id: media_player.living_room_homepod_left
       normal: 0.3
       quiet: 0.3
-      announce: false
+      announce: true
+    - entity_id: media_player.living_room_homepod_right
+      normal: 0.3
+      quiet: 0.3
+      announce: true
   sequence:
   - variables:
-      volume_mode: '{% set current_time = now().strftime("%H:%M:%S") -%}
-
-        {{ current_time < states(''input_datetime.lights_out_kids'') and ''normal''
-        or ''quiet'' }}
+      volume_mode: '{% set current_time = now().strftime("%H:%M:%S") -%} {{ current_time
+        < states(''input_datetime.lights_out_kids'') and ''normal'' or ''quiet'' }}
 
         '
   - alias: Set volume

@@ -915,6 +915,7 @@
   - platform: state
     entity_id:
     - light.shannon_s_closet_light
+    - light.william_s_closet_light
     - light.powder_room_light
     - light.master_bathroom_toilet_light
     - fan.powder_room_fan

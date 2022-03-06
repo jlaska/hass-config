@@ -68,6 +68,7 @@
     light.shannon_s_closet_light: false
     light.upstairs_hallway_light: false
     light.stairway_light: false
+    light.william_s_closet_light: false
 - id: '1617837408158'
   name: Downstairs Activity
   icon: mdi:motion-sensor

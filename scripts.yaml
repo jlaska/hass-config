@@ -18,6 +18,8 @@ ge_switch_led_light:
     - switch.shannons_closet_light_switch
     - switch.stairway_light_switch
     - switch.upstairs_hallway_light_switch
+    - switch.williams_closet_light_switch
+    - switch.james_closet_light_switch
     node_ids:
     - 2
     - 3

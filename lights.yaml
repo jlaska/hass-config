@@ -98,4 +98,7 @@
   entity_id: switch.upstairs_hallway_light_switch
 - platform: switch
   name: "William's Closet Light"
-  entity_id: switch.williams_closet_light
+  entity_id: switch.williams_closet_light_switch
+- platform: switch
+  name: "James' Closet Light"
+  entity_id: switch.james_closet_light_switch

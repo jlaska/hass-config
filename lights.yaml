@@ -102,3 +102,6 @@
 - platform: switch
   name: "James' Closet Light"
   entity_id: switch.james_closet_light_switch
+- platform: switch
+  name: "Guest Room Closet Light"
+  entity_id: switch.guest_room_closet_light_switch

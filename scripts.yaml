@@ -20,6 +20,7 @@ ge_switch_led_light:
     - switch.upstairs_hallway_light_switch
     - switch.williams_closet_light_switch
     - switch.james_closet_light_switch
+    - switch.guest_room_closet_light_switch
     node_ids:
     - 2
     - 3
@@ -360,11 +361,11 @@ announce:
     - entity_id: media_player.living_room_homepod_left
       normal: 0.3
       quiet: 0.3
-      announce: true
+      announce: false
     - entity_id: media_player.living_room_homepod_right
       normal: 0.3
       quiet: 0.3
-      announce: true
+      announce: false
   sequence:
   - variables:
       volume_mode: '{% set current_time = now().strftime("%H:%M:%S") -%} {{ current_time
@@ -406,24 +407,38 @@ notify:
     title:
       description: Notification title
       required: true
+      selector:
+        text:
     message:
       description: Notification message
       required: true
+      selector:
+        text:
+          multiline: true
     data:
       description: 'Notification data (e.g. {''tag'': ''foo'', ''group'': ''bar''})'
       required: false
       default: {}
+      selector:
+        object:
     service:
       description: 'Notification service entity_id (default: notify.notify)'
       default: notify.notify
       example: notify.notify
       required: false
+      selector:
+        text:
     is_persistent:
       description: 'Whether a persistent notification should be used (default: false)'
       default: false
+      required: false
+      selector:
+        boolean:
   sequence:
   - choose:
-    - conditions: '{{ service == ''notify.mobile_app_james_iphone'' }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ service == ''notify.mobile_app_james_iphone'' }}'
       sequence:
       - service: notify.mobile_app_james_iphone
         data:

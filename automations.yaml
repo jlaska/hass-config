@@ -768,7 +768,7 @@
       motion_sensor: binary_sensor.guest_bathroom_motion_occupancy
       illuminance_sensor: sensor.guest_bathroom_motion_illuminance_lux
       turn_off_blocker_entity: binary_sensor.guest_bathroom_hygrostat
-      turn_off_blocker_wait: input_number.inactivity_timeout_long
+      turn_off_blocker_wait: input_number.inactivity_timeout_extralong
 - id: '1622206147425'
   alias: Notify When Solaredge Offline
   description: ''
@@ -915,7 +915,9 @@
   - platform: state
     entity_id:
     - light.shannon_s_closet_light
+    - light.james_closet_light
     - light.william_s_closet_light
+    - light.guest_room_closet_light
     - light.powder_room_light
     - light.master_bathroom_toilet_light
     - fan.powder_room_fan
@@ -1031,9 +1033,9 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.updater
     from: 'off'
     to: 'on'
+    entity_id: binary_sensor.home_assistant_website_update_available
   - platform: state
     entity_id: sensor.hacs
     to:
@@ -1041,17 +1043,26 @@
     event: start
   condition:
   - condition: template
-    value_template: '{{ states(''sensor.hacs'')|int > 0 or is_state(''binary_sensor.updater'',
+    value_template: '{{ states(''sensor.hacs'')|int > 0 or is_state(''binary_sensor.home_assistant_website_update_available'',
       ''on'') }}'
   action:
   - variables:
-      update_name: '{{ is_state(''binary_sensor.updater'', ''on'') and ''Home Assistant''
-        or state_attr(''sensor.hacs'', ''repositories'')[0][''display_name''] }}'
-      update_version: '{{ is_state(''binary_sensor.updater'', ''on'') and state_attr(''binary_sensor.updater'',
-        ''newest_version'') or state_attr(''sensor.hacs'', ''repositories'')[0][''available_version'']
-        }}'
-      update_url: '{{ is_state(''binary_sensor.updater'', ''on'') and state_attr(''binary_sensor.updater'',''release_notes'')
-        or ''/hacs''}}'
+      update_name: "{% if trigger.entity_id == 'sensor.hacs' %}\n  {{ state_attr('sensor.hacs',\
+        \ 'repositories')[0]['display_name'] }}\n{% elif trigger.entity_id == 'binary_sensor.home_assistant_website_update_available'\
+        \ %}\n  Home Assistant\n{% else %}\n  {{ is_state('binary_sensor.home_assistant_website_update_available',\n\
+        \  'on') and 'Home Assistant' or state_attr('sensor.hacs',\n  'repositories')[0]['display_name']\
+        \ }}\n{% endif %}"
+      update_version: "{% if trigger.entity_id == 'sensor.hacs' %}\n  {{ state_attr('sensor.hacs',\
+        \ 'repositories')[0]['available_version'] }}\n{% elif trigger.entity_id ==\
+        \ 'binary_sensor.home_assistant_website_update_available' %}\n  {{ states('sensor.home_assistant_website')\
+        \ }}}\n{% else %}\n  {{ is_state('binary_sensor.home_assistant_website_update_available',\n\
+        \  'on') and states('sensor.home_assistant_website') or\n  state_attr('sensor.hacs',\
+        \ 'repositories')[0]['available_version'] }}\n{% endif %}"
+      update_url: "{% if trigger.entity_id == 'sensor.hacs' %}\n  /hacs\n{% elif trigger.entity_id\
+        \ == 'binary_sensor.home_assistant_website_update_available' %}\n  {{ state_attr('sensor.home_assistant_website','release_notes')\
+        \ }}\n{% else %}\n  {{ is_state('binary_sensor.home_assistant_website_update_available',\n\
+        \  'on') and\n  state_attr('sensor.home_assistant_website','release_notes')\
+        \ or\n  '/hacs'}}\n{% endif %}"
   - service: notify.mobile_app_james_iphone
     data:
       title: Update Available

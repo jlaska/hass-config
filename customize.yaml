@@ -32,14 +32,6 @@ binary_sensor.front_door_contact_ias_zone:
   device_class: door
 binary_sensor.attic_door_contact_ias_zone:
   device_class: door
-binary_sensor.william_s_nintendo_switch:
-  icon: mdi:nintendo-switch
-binary_sensor.william_s_ipad:
-  icon: mdi:tablet
-binary_sensor.henry_s_nintendo_switch:
-  icon: mdi:nintendo-switch
-binary_sensor.henry_s_ipad:
-  icon: mdi:tablet
 binary_sensor.mudroom_door_ias_zone:
   device_class: door
 binary_sensor.kitchen_refrigerator_contact_on_off:
@@ -48,3 +40,15 @@ binary_sensor.garage_freezer_contact_on_off:
   device_class: door
 sensor.laundry_room_vibration_sensor_strength:
   state_class: measurement
+device_tracker.williams_nintendo_switch_ping:
+  friendly_name: "William's Nintendo Switch"
+  icon: mdi:nintendo-switch
+device_tracker.williams_ipad_ping:
+  friendly_name: "William's iPad"
+  icon: mdi:tablet
+device_tracker.henrys_nintendo_switch_ping:
+  friendly_name: "William's Nintendo Switch"
+  icon: mdi:nintendo-switch
+device_tracker.henrys_ipad_ping:
+  friendly_name: "Henry's iPad"
+  icon: mdi:tablet

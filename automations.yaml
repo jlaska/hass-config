@@ -31,8 +31,8 @@
   condition:
   - alias: Last triggered more than 6 hours ago
     condition: template
-    value_template: '{{ utcnow() - state_attr(this, ''last_triggered'') > timedelta(hours=6)
-      }}'
+    value_template: '{{ utcnow() - state_attr(this.entity_id, ''last_triggered'')
+      > timedelta(hours=6) }}'
   action:
   - scene: scene.dawn
   mode: single

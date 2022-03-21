@@ -120,3 +120,6 @@ input_text:
     max: 255
     min: 10
     mode: text
+
+# Enable/disable browser mod plugin
+# browser_mod:

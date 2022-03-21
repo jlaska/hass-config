@@ -381,10 +381,9 @@ announce:
       sequence:
       - alias: Set volume
         service: media_player.volume_set
-        target:
-          entity_id: '{{ all_speakers[repeat.index - 1][''entity_id''] }}'
         data:
           volume_level: '{{ all_speakers[repeat.index - 1][ volume_mode ] }}'
+          entity_id: '{{ all_speakers[repeat.index - 1][''entity_id''] }}'
   - alias: Announce
     repeat:
       while:
@@ -395,10 +394,9 @@ announce:
       - condition: '{{ all_speakers[repeat.index - 1][''announce''] }}'
       - alias: Announce
         service: tts.google_translate_say
-        target:
-          entity_id: '{{ all_speakers[repeat.index - 1][''entity_id''] }}'
         data:
           message: '{{ message }}'
+          entity_id: '{{ all_speakers[repeat.index - 1][''entity_id''] }}'
 notify:
   alias: Notify
   mode: single

@@ -105,3 +105,9 @@
 - platform: switch
   name: "Guest Room Closet Light"
   entity_id: switch.guest_room_closet_light_switch
+- platform: switch
+  name: "Attic Light"
+  entity_id: switch.attic_light_switch
+- platform: switch
+  name: "Attic Stairway Light"
+  entity_id: switch.attic_stairway_light_switch

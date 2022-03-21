@@ -936,8 +936,6 @@
     - light.james_closet_light
     - light.william_s_closet_light
     - light.guest_room_closet_light
-    - light.powder_room_light
-    - light.master_bathroom_toilet_light
     - fan.powder_room_fan
     - fan.master_bathroom_toilet_fan
     - fan.guest_bathroom_fan
@@ -951,6 +949,8 @@
     - fan.sunroom_fan
     - light.upstairs_hallway_light
     - light.stairway_light
+    - light.attic_light
+    - light.attic_stairway_light
     to: 'on'
     for:
       minutes: '{{ states(''input_number.inactivity_timeout_long'')|int }}'
@@ -1619,3 +1619,14 @@
       data:
         tag: garage-door-open
   mode: single
+- id: '1647367670259'
+  alias: Master Bathroom Toilet Activity
+  description: ''
+  use_blueprint:
+    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    input:
+      motion_sensor: binary_sensor.master_bathroom_toilet_motion_occupancy
+      target_entity: light.master_bathroom_toilet_light
+      no_motion_wait: input_number.inactivity_timeout_short
+      time_limit_after: input_datetime.time_of_day_automation_start
+      time_limit_before: input_datetime.goodnight_start_time

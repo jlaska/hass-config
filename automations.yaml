@@ -1073,7 +1073,7 @@
       update_version: "{% if trigger.entity_id == 'sensor.hacs' %}\n  {{ state_attr('sensor.hacs',\
         \ 'repositories')[0]['available_version'] }}\n{% elif trigger.entity_id ==\
         \ 'binary_sensor.home_assistant_website_update_available' %}\n  {{ states('sensor.home_assistant_website')\
-        \ }}}\n{% else %}\n  {{ is_state('binary_sensor.home_assistant_website_update_available',\n\
+        \ }}\n{% else %}\n  {{ is_state('binary_sensor.home_assistant_website_update_available',\n\
         \  'on') and states('sensor.home_assistant_website') or\n  state_attr('sensor.hacs',\
         \ 'repositories')[0]['available_version'] }}\n{% endif %}"
       update_url: "{% if trigger.entity_id == 'sensor.hacs' %}\n  /hacs\n{% elif trigger.entity_id\
@@ -1094,8 +1094,8 @@
   - service: notify.persistent_notification
     data:
       title: Update Available
-      message: 'A new {{ update_name }} release is now available ([{{ update_version
-        }}]({{ update_url}}))
+      message: 'A new {{ update_name }} release is now available ( [{{ update_version
+        }}]({{ update_url }}) )
 
         '
   mode: single

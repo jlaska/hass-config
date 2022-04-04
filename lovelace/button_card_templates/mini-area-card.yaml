@@ -1,0 +1,247 @@
+mini-area-card:
+  variables:
+    motion_entity: null
+    door_entity: null
+    sensor_entity: null
+    light_entity: null
+    fan_entity: null
+  show_name: true
+  show_state: false
+  show_icon: false
+  show_live_stream: false
+  styles:
+    card:
+      - padding: 0px
+      - aspect-ratio: 16 / 9
+      - background: linear-gradient(0deg, rgba(33, 33, 33, 0.9) 0%, rgba(33, 33, 33, 0) 45%)
+      - background-color: rgba(0,100,150,0.7)
+    grid:
+      - grid-template-areas: |
+          "n alerts"
+          "sensors buttons"
+      - grid-template-columns: 1fr max-content
+      - grid-template-rows: 1fr 1fr
+    name:
+      - color: var(--text-accent-color, var(--text-primary-color))
+      - justify-self: start
+      - align-self: start
+      - padding-left: 15px
+      - z-index: 1
+    img_cell:
+      - grid-column: 1 / span 2
+      - grid-row: 1 / span 2
+    custom_fields:
+      sensors:
+        - padding-left: 15px
+      camera_image:
+        - position: absolute
+        - width: 100%
+        - z-index: 0
+  custom_fields:
+    camera_image: |
+      [[[
+        return (typeof entity !== 'undefined') ? html`
+          <hui-image
+            .hass=${hass}
+            .cameraImage=${entity.entity_id}
+            .entity=${entity.entity_id}
+            .cameraView="auto"
+            .width="100%"
+          ></hui-image>` : ``;
+      ]]]
+    alerts:
+      card:
+        type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: 1fr 1fr
+          grid-template-rows: auto
+        cards:
+          - type: custom:button-card
+            entity: '[[[ return variables.door_entity ]]]'
+            show_icon: true
+            show_state: false
+            show_name: false
+            icon: |
+              [[[
+                if (variables.door_entity !== null && 'current_activity' in states[variables.door_entity].attributes ) {
+                  var current_activity = states[variables.door_entity].attributes.current_activity;
+                  console.log(current_activity);
+                  if (current_activity == 'Watch TV') {
+                    return states['switch.hubname_watch_tv'].attributes.icon;
+                  } else if (current_activity == 'Watch Apple TV') {
+                    return states['switch.hubname_watch_apple_tv'].attributes.icon;
+                  } else if (current_activity == 'Watch Nintendo') {
+                    return states['switch.hubname_watch_nintendo'].attributes.icon;
+                  } else {
+                    return 'mdi:television-off';
+                  }
+                }
+              ]]]
+            styles:
+              card:
+                - box-shadow: none
+                - background: none
+                - width: var(--mdc-icon-button-size, 28px)
+                - height: var(--mdc-icon-button-size, 28px)
+                - padding: >-
+                    calc( (var(--mdc-icon-button-size, 28px) -
+                    var(--mdc-icon-size, 28px)) / 2 )
+              icon:
+                - width: 100%
+                - background: var(--accent-color)
+                - color: var(--text-accent-color, var(--text-primary-color))
+                - border-radius: 50%
+            state:
+              - value: 'off'
+                styles:
+                  card:
+                    - display: none
+              - value: docked
+                styles:
+                  card:
+                    - display: none
+          - type: custom:button-card
+            entity: '[[[ return variables.motion_entity ]]]'
+            show_icon: true
+            show_state: false
+            show_name: false
+            styles:
+              card:
+                - box-shadow: none
+                - background: none
+                - width: var(--mdc-icon-button-size, 28px)
+                - height: var(--mdc-icon-button-size, 28px)
+                - padding: >-
+                    calc( (var(--mdc-icon-button-size, 28px) -
+                    var(--mdc-icon-size, 28px)) / 2 )
+              icon:
+                - width: 100%
+                - background: var(--accent-color)
+                - color: var(--text-accent-color, var(--text-primary-color))
+                - border-radius: 50%
+            state:
+              - value: 'off'
+                styles:
+                  card:
+                    - display: none
+    sensors:
+      card:
+        type: custom:button-card
+        entity: '[[[ return variables.sensor_entity ]]]'
+        show_icon: false
+        show_state: true
+        show_name: false
+        state_display: |
+          [[[
+            if ('unit_of_measurement' in states[variables.sensor_entity].attributes )
+              return `${Math.round(Number(states[variables.sensor_entity].state)).toFixed(0)} ${states[variables.sensor_entity].attributes.unit_of_measurement}`;
+            else
+              return states[variables.sensor_entity].state;
+          ]]]
+        styles:
+          grid:
+            - grid-template-columns: min-content auto
+            - grid-template-rows: 1fr
+            - grid-template-areas: |
+                "i s"
+          card:
+            - box-shadow: none
+            - background: none
+          icon:
+            - justify-self: start
+            - color: red
+            - border-radius: 50%
+            - background-color: 'var(--area-button-color, #727272b2)'
+            - height: calc(var(--mc-unit) * 0.475)
+            - width: calc(var(--mc-unit) * 0.5)
+            - '--mdc-icon-size': calc(var(--mc-unit) * 0.5)
+          state:
+            - justify-self: start
+            - color: var(--text-accent-color, var(--text-primary-color))
+            - font-size: 12px
+            - opacity: 0.8
+    buttons:
+      card:
+        type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: 1fr 1fr
+          grid-template-rows: auto
+        cards:
+          - type: custom:button-card
+            entity: '[[[ return variables.fan_entity ]]]'
+            show_icon: true
+            show_state: false
+            show_name: false
+            tap_action:
+              action: toggle
+            hold_action:
+              action: more-info
+            styles:
+              card:
+                - box-shadow: none
+                - background: none
+                - width: var(--mdc-icon-button-size, 28px)
+                - height: var(--mdc-icon-button-size, 28px)
+                - padding: >-
+                    calc( (var(--mdc-icon-button-size, 28px) -
+                    var(--mdc-icon-size, 28px)) / 2 )
+              icon:
+                - width: 100%
+                - border-radius: 50%
+                - color: white
+                - background-color: 'var(--area-button-color, #727272b2)'
+            state:
+              - value: 'on'
+                styles:
+                  icon:
+                    - color: var(--paper-item-icon-active-color)
+                    - animation: |
+                        [[[ 
+                          if (variables.fan_entity === null)
+                            return;
+                          if (['motion'].includes(states[variables.fan_entity].attributes.device_class)) {
+                            return 'wiggle 0.5s linear infinite alternate';
+                          } else if (variables.fan_entity.startsWith('fan.')) {
+                            return "rotating 1.5s reverse linear infinite";
+                          } 
+                        ]]]
+          - type: custom:button-card
+            entity: '[[[ return variables.light_entity ]]]'
+            show_icon: true
+            show_state: false
+            show_name: false
+            tap_action:
+              action: toggle
+            hold_action:
+              action: more-info
+            state:
+              - value: 'on'
+                styles:
+                  icon:
+                    - color: var(--paper-item-icon-active-color)
+                    - animation: |
+                        [[[ 
+                          if (variables.light_entity === null)
+                            return;
+                          if (['motion'].includes(states[variables.light_entity].attributes.device_class)) {
+                            return 'wiggle 0.5s linear infinite alternate';
+                          } else if (variables.light_entity.startsWith('fan.')) {
+                            return "rotating 1.5s reverse linear infinite";
+                          } 
+                        ]]]
+            styles:
+              card:
+                - box-shadow: none
+                - background: none
+                - width: var(--mdc-icon-button-size, 28px)
+                - height: var(--mdc-icon-button-size, 28px)
+                - padding: >-
+                    calc( (var(--mdc-icon-button-size, 28px) -
+                    var(--mdc-icon-size, 28px)) / 2 )
+              icon:
+                - width: 100%
+                - border-radius: 50%
+                - color: white
+                - background-color: 'var(--area-button-color, #727272b2)'

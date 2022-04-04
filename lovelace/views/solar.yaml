@@ -1,0 +1,74 @@
+title: Solar
+path: solar
+icon: mdi:solar-power
+badges: []
+cards:
+  - type: gauge
+    entity: sensor.powerwall_charge
+    min: 0
+    max: 100
+    severity:
+      green: 80
+      yellow: 40
+      red: 0
+  - type: custom:mini-graph-card
+    icon: mdi:solar-power
+    smoothing: false
+    entities:
+      - entity: sensor.powerwall_solar_now
+        name: Solar (API)
+        color: orange
+    points_per_hour: 12
+    hours_to_show: 8
+  - type: custom:mini-graph-card
+    icon: mdi:solar-power
+    smoothing: false
+    entities:
+      - entity: sensor.solaredge_modbus_ac_power
+        name: Solar (modbus)
+        color: orange
+    points_per_hour: 12
+    hours_to_show: 8
+  - type: custom:mini-graph-card
+    icon: hass:home
+    entities:
+      - entity: sensor.powerwall_load_now
+        name: Home
+        color: blue
+    smoothing: false
+    points_per_hour: 12
+    hours_to_show: 8
+  - type: custom:mini-graph-card
+    icon: mdi:transmission-tower
+    entities:
+      - entity: sensor.powerwall_site_now
+        name: Grid
+        color: grey
+    smoothing: false
+    points_per_hour: 12
+    hours_to_show: 8
+  - type: custom:mini-graph-card
+    smoothing: false
+    entities:
+      - entity: sensor.powerwall_battery_now
+        name: Powerwall
+        color: green
+    points_per_hour: 12
+    hours_to_show: 8
+  - type: custom:mini-graph-card
+    name: Solar
+    icon: mdi:solar-power
+    smoothing: false
+    entities:
+      - entity: sensor.powerwall_solar_now
+        name: Solar
+        color: orange
+      - entity: sensor.powerwall_load_now
+        name: Home
+        color: blue
+      - entity: sensor.powerwall_site_now
+        name: Grid
+        color: grey
+      - entity: sensor.powerwall_battery_now
+        name: Powerwall
+        color: green

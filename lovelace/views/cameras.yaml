@@ -1,0 +1,28 @@
+title: Cameras
+path: cameras
+icon: mdi:cctv
+badges: []
+cards:
+  - type: picture-entity
+    camera_image: camera.living_room_protect_high
+    entity: camera.living_room_protect_high
+  - type: picture-entity
+    entity: camera.dining_room_protect_high
+  - type: picture-entity
+    entity: camera.sunroom_protect_high
+  - type: picture-entity
+    entity: camera.guest_room_protect_high
+  - type: picture-entity
+    entity: camera.henrys_protect_high
+  - type: picture-entity
+    entity: camera.williams_protect_high
+  - type: picture-entity
+    entity: camera.garage_protect_high
+  - type: picture-entity
+    entity: camera.front_door_protect_high
+  - type: picture-entity
+    entity: camera.front_yard_protect_high
+  - type: picture-entity
+    entity: camera.back_yard_protect_high
+  - type: picture-entity
+    entity: camera.back_deck_protect_high

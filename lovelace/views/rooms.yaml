@@ -1,0 +1,43 @@
+title: Rooms
+path: rooms
+icon: mdi:home-circle-outline
+badges: []
+cards:
+  - type: area
+    area: living_room
+    show_camera: true
+  - type: area
+    area: kitchen
+  - type: area
+    area: dining_room
+    show_camera: true
+  - type: area
+    area: sunroom
+    show_camera: true
+  - type: area
+    area: garage
+    show_camera: true
+  - type: area
+    area: master_bedroom
+  - type: area
+    area: william_s_room
+    show_camera: true
+  - type: area
+    area: henry_s_room
+    show_camera: true
+  - type: area
+    area: guest_room
+    show_camera: true
+  - type: area
+    area: master_bathroom
+  - type: area
+    area: kids_bathroom
+  - type: area
+    area: guest_bathroom
+    show_camera: false
+  - type: area
+    area: attic
+    show_camera: true
+  - type: area
+    area: outside
+    show_camera: true

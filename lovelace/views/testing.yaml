@@ -1,0 +1,1406 @@
+title: Testing
+path: testing
+theme: ''
+icon: mdi:test-tube
+badges: []
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        entity: sensor.date_time
+        tap_action: more-info
+        hold_action: more-info
+        show_name: false
+        show_icon: false
+        show_label: false
+        styles:
+          card:
+            - color: var(--button-card-text-color)
+            - padding: 5px
+            - box-shadow: >-
+                var(--ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0,
+                0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px
+                rgba(0, 0, 0, 0.12) )
+            - background: >-
+                var(--ha-card-background, var(--card-background-color,
+                white))
+          grid:
+            - grid-template-areas: |
+                "time"
+                "date"
+            - grid-template-columns: auto
+            - grid-template-rows: auto
+          custom_fields:
+            time:
+              - justify-self: center
+              - align-self: center
+              - font-size: 68px
+            date:
+              - justify-self: center
+              - align-self: start
+              - font-size: 24px
+              - color: var(--secondary-text-color)
+              - overflow-wrap: break-word
+        custom_fields:
+          time: |
+            [[[ 
+              var now = new Date();
+              return now.toLocaleString('en-US', {
+                  hour: 'numeric',
+                  minute: 'numeric',
+                }); 
+              return now.toDateString();
+              // return states['sensor.time_hhmm'].state;
+            ]]]
+          date: |
+            [[[
+              var now = new Date();
+              return now.toLocaleString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  weekday: 'long'
+                }); 
+              return now.toDateString();
+              // return states['sensor.my_date'].state;
+            ]]]
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(4,auto)
+          grid-template-rows: min-content
+        cards:
+          - type: custom:button-card
+            entity: person.james_laska
+            show_name: false
+            show_icon: false
+            show_entity_picture: true
+            show_label: false
+            styles:
+              grid:
+                - grid-template-areas: |
+                    "i i i i"
+                    "activity location connection battery"
+                - grid-template-columns: repeat(4, 1fr)
+                - grid-template-rows: 70% 30%
+              card:
+                - width: 80px
+                - height: 80px
+                - background-color: none
+                - border-radius: 10% 10% 10% 10%
+                - padding: 0% 0%
+              entity_picture:
+                - width: 100%
+              activity:
+                - position: absolute
+                - padding: 0%
+              location:
+                - position: absolute
+                - padding: 0%
+              battery:
+                - position: absolute
+                - padding: 0%
+              connection:
+                - position: absolute
+                - padding: 0%
+            custom_fields:
+              activity:
+                card:
+                  type: custom:button-card
+                  entity: sensor.james_iphone_activity
+                  show_name: false
+                  show_label: false
+                  show_icon: true
+                  icon: |
+                    [[[
+                      return `${states['sensor.james_iphone_activity'].attributes.icon}`;
+                    ]]]
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 25px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+              location:
+                card:
+                  type: custom:button-card
+                  entity: person.james_laska
+                  show_name: false
+                  show_icon: true
+                  icon: |
+                    [[[
+                      var device_tracker = states['person.james_laska'].attributes.source;
+                      var location = states[device_tracker].state;
+                      var zone_entity = 'zone.' + location;
+
+                      if (zone_entity in states) {
+                        return `${states[zone_entity].attributes.icon}`;
+                      } else {
+                        for (let entity in states) {
+                          if (zone_entity == states[entity].attributes.friendly_name) {
+                            return `${states[entity].attributes.icon}`;
+                          }
+                        }
+                      }
+                      return 'mdi:map-marker-question-outline';
+                    ]]]
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 24px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+              battery:
+                card:
+                  type: custom:button-card
+                  entity: sensor.james_iphone_battery_state
+                  show_name: false
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 24px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+                  icon: |
+                    [[[
+                      var battery_level = states["sensor.james_iphone_battery_level"].state;
+                      var battery_round = parseInt(battery_level / 10) * 10;
+                      var is_charging = entity.state.toLowerCase() == 'charging';
+                      var is_charging = states["sensor.james_iphone_battery_state"].state.toLowerCase() == 'charging';
+                      var battery_icon = 'mdi:battery';
+
+                      if (battery_round == 100)
+                        battery_icon += '';
+                      else if (battery_round == 0)
+                        battery_icon += '-outline';
+                      else {
+                        if (is_charging)
+                          battery_icon += '-charging';
+                        battery_icon += '-' + battery_round;
+                      }
+
+                      return `${battery_icon}`;
+                    ]]]
+              connection:
+                card:
+                  type: custom:button-card
+                  entity: sensor.james_iphone_connection_type
+                  show_name: false
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 24px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+                  icon: |
+                    [[[
+                      var conn_type = states['sensor.james_iphone_connection_type'].state.toLowerCase();
+                      var conn_icon = '';
+                      var conn_name = '';
+                      if (conn_type == 'wi-fi') {
+                        conn_icon = 'mdi:wifi';
+                        conn_name = states['sensor.james_iphone_ssid'].state;
+                      } else if (conn_type == 'cellular') {
+                        conn_icon = 'mdi:signal';
+                        conn_name = states['sensor.james_iphone_sim_1'].state;
+                      } else {
+                        conn_icon = 'mdi:wifi-strength-alert-outline';
+                        conn_name = 'unknown';
+                      }
+
+                      return `${conn_icon}`;
+                    ]]]
+          - type: custom:button-card
+            entity: person.shannon_laska
+            show_name: false
+            show_icon: false
+            show_entity_picture: true
+            show_label: false
+            styles:
+              grid:
+                - grid-template-areas: |
+                    "i i i i"
+                    "activity location connection battery"
+                - grid-template-columns: repeat(4, 1fr)
+                - grid-template-rows: 70% 30%
+              card:
+                - width: 80px
+                - height: 80px
+                - background-color: none
+                - border-radius: 10% 10% 10% 10%
+                - padding: 0% 0%
+              entity_picture:
+                - width: 100%
+              activity:
+                - position: absolute
+                - padding: 0%
+              location:
+                - position: absolute
+                - padding: 0%
+              battery:
+                - position: absolute
+                - padding: 0%
+              connection:
+                - position: absolute
+                - padding: 0%
+            custom_fields:
+              activity:
+                card:
+                  type: custom:button-card
+                  entity: sensor.shannons_iphone_activity
+                  show_name: false
+                  show_label: false
+                  show_icon: true
+                  icon: |
+                    [[[
+                      return `${states['sensor.shannons_iphone_activity'].attributes.icon}`;
+                    ]]]
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 24px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+              location:
+                card:
+                  type: custom:button-card
+                  entity: person.shannon_laska
+                  show_name: false
+                  show_icon: true
+                  icon: |
+                    [[[
+                      var device_tracker = states['person.shannon_laska'].attributes.source;
+                      var location = states[device_tracker].state;
+                      var zone_entity = 'zone.' + location;
+
+                      if (zone_entity in states) {
+                        return `${states[zone_entity].attributes.icon}`;
+                      } else {
+                        for (let entity in states) {
+                          if (zone_entity == states[entity].attributes.friendly_name) {
+                            return `${states[entity].attributes.icon}`;
+                          }
+                        }
+                      }
+                      return 'mdi:map-marker-question-outline';
+                    ]]]
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 24px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+              battery:
+                card:
+                  type: custom:button-card
+                  entity: sensor.shannons_iphone_battery_state
+                  show_name: false
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 24px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+                  icon: |
+                    [[[
+                      var battery_level = states["sensor.shannons_iphone_battery_level"].state;
+                      var battery_round = parseInt(battery_level / 10) * 10;
+                      var is_charging = entity.state.toLowerCase() == 'charging';
+                      var is_charging = states["sensor.shannons_iphone_battery_state"].state.toLowerCase() == 'charging';
+                      var battery_icon = 'mdi:battery';
+
+                      if (battery_round == 100)
+                        battery_icon += '';
+                      else if (battery_round == 0)
+                        battery_icon += '-outline';
+                      else {
+                        if (is_charging)
+                          battery_icon += '-charging';
+                        battery_icon += '-' + battery_round;
+                      }
+
+                      return `${battery_icon}`;
+                    ]]]
+              connection:
+                card:
+                  type: custom:button-card
+                  entity: sensor.shannons_iphone_connection_type
+                  show_name: false
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 24px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+                  icon: |
+                    [[[
+                      var conn_type = states['sensor.shannons_iphone_connection_type'].state.toLowerCase();
+                      var conn_icon = '';
+                      var conn_name = '';
+                      if (conn_type == 'wi-fi') {
+                        conn_icon = 'mdi:wifi';
+                        conn_name = states['sensor.shannons_iphone_ssid'].state;
+                      } else if (conn_type == 'cellular') {
+                        conn_icon = 'mdi:signal';
+                        conn_name = states['sensor.shannons_iphone_sim_1'].state;
+                      } else {
+                        conn_icon = 'mdi:wifi-strength-alert-outline';
+                        conn_name = 'unknown';
+                      }
+
+                      return `${conn_icon}`;
+                    ]]]
+          - type: custom:button-card
+            entity: person.william_laska
+            show_name: false
+            show_icon: false
+            show_entity_picture: true
+            show_label: false
+            styles:
+              grid:
+                - grid-template-areas: |
+                    "i i i"
+                    "game laptop tablet"
+                - grid-template-columns: repeat(3, 1fr)
+                - grid-template-rows: 70% 30%
+              card:
+                - width: 80px
+                - height: 80px
+                - background-color: none
+                - border-radius: 10% 10% 10% 10%
+                - padding: 0% 0%
+              entity_picture:
+                - width: 100%
+              game:
+                - position: absolute
+                - padding: 0%
+              laptop:
+                - position: absolute
+                - padding: 0%
+              tablet:
+                - position: absolute
+                - padding: 0%
+            custom_fields:
+              game:
+                card:
+                  type: custom:button-card
+                  entity: device_tracker.williams_nintendo_switch_ping
+                  show_name: false
+                  show_label: false
+                  show_icon: true
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 24px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+                  state:
+                    - value: home
+                      styles:
+                        icon:
+                          - color: var(--paper-item-icon-active-color)
+              laptop:
+                card:
+                  type: custom:button-card
+                  entity: device_tracker.williams_chromebook
+                  show_name: false
+                  show_icon: true
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 24px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+                  state:
+                    - value: home
+                      styles:
+                        icon:
+                          - color: var(--paper-item-icon-active-color)
+              tablet:
+                card:
+                  type: custom:button-card
+                  entity: device_tracker.williams_ipad_ping
+                  show_name: false
+                  icon: mdi:tablet
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 24px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+                  state:
+                    - value: home
+                      styles:
+                        icon:
+                          - color: var(--paper-item-icon-active-color)
+          - type: custom:button-card
+            entity: person.henry_laska
+            show_name: false
+            show_icon: false
+            show_entity_picture: true
+            show_label: false
+            styles:
+              grid:
+                - grid-template-areas: |
+                    "i i i"
+                    "game laptop tablet"
+                - grid-template-columns: repeat(3, 1fr)
+                - grid-template-rows: 70% 30%
+              card:
+                - width: 80px
+                - height: 80px
+                - background-color: none
+                - border-radius: 10% 10% 10% 10%
+                - padding: 0% 0%
+              entity_picture:
+                - width: 100%
+              game:
+                - position: absolute
+                - padding: 0%
+              laptop:
+                - position: absolute
+                - padding: 0%
+              tablet:
+                - position: absolute
+                - padding: 0%
+            custom_fields:
+              game:
+                card:
+                  type: custom:button-card
+                  entity: device_tracker.henrys_nintendo_switch_ping
+                  show_name: false
+                  show_label: false
+                  show_icon: true
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 24px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+                  state:
+                    - value: home
+                      styles:
+                        icon:
+                          - color: var(--paper-item-icon-active-color)
+              laptop:
+                card:
+                  type: custom:button-card
+                  entity: device_tracker.family_chromebook
+                  show_name: false
+                  show_icon: true
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 24px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+                  state:
+                    - value: home
+                      styles:
+                        icon:
+                          - color: var(--paper-item-icon-active-color)
+              tablet:
+                card:
+                  type: custom:button-card
+                  entity: device_tracker.henrys_ipad_ping
+                  show_name: false
+                  icon: mdi:tablet
+                  styles:
+                    card:
+                      - box-shadow: none
+                      - background: none
+                      - width: var(--mdc-icon-size, 20px)
+                      - height: var(--mdc-icon-size, 24px)
+                    icon:
+                      - width: 100%
+                      - color: var(--paper-item-icon-color)
+                  state:
+                    - value: home
+                      styles:
+                        icon:
+                          - color: var(--paper-item-icon-active-color)
+      - type: custom:button-card
+        show_name: false
+        show_icon: false
+        show_label: false
+        styles:
+          card:
+            - color: var(--button-card-text-color)
+            - padding: 0px
+            - box-shadow: >-
+                var(--ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0,
+                0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px
+                rgba(0, 0, 0, 0.12) )
+            - background: >-
+                var(--ha-card-background, var(--card-background-color,
+                white))
+          grid:
+            - grid-template-areas: |
+                "people"
+            - grid-template-columns: repeat(auto-fit, minmax(0,1fr))
+            - grid-template-rows: auto
+          custom_fields:
+            people:
+              - justify-self: center
+              - align-content: center
+        custom_fields:
+          people:
+            card:
+              type: custom:layout-card
+              layout_type: custom:grid-layout
+              layout:
+                grid-template-columns: repeat(4,auto)
+                grid-template-rows: min-content
+              cards:
+                - type: custom:button-card
+                  template: person-state-card
+                  entity: person.james_laska
+                  variables:
+                    entity: person.james_laska
+                    activity: sensor.james_iphone_activity
+                    connection_type: sensor.james_iphone_connection_type
+                    battery_level: sensor.james_iphone_battery_level
+                - type: custom:button-card
+                  template: person-state-card
+                  entity: person.shannon_laska
+                  variables:
+                    entity: person.shannon_laska
+                    activity: sensor.shannons_iphone_activity
+                    connection_type: sensor.shannons_iphone_connection_type
+                    battery_level: sensor.shannons_iphone_battery_level
+                - type: custom:button-card
+                  template: person-state-card
+                  entity: person.william_laska
+                  variables:
+                    entity: person.william_laska
+                    activity: device_tracker.williams_chromebook
+                    connection_type: device_tracker.williams_ipad_ping
+                    battery_level: device_tracker.williams_nintendo_switch_ping
+                - type: custom:button-card
+                  template: person-state-card
+                  entity: person.henry_laska
+                  variables:
+                    entity: person.henry_laska
+                    activity: device_tracker.family_chromebook
+                    connection_type: device_tracker.henrys_ipad_ping
+                    battery_level: device_tracker.henrys_nintendo_switch_ping
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(4,auto)
+          grid-template-rows: min-content
+        cards:
+          - type: custom:button-card
+            entity: person.james_laska
+            show_name: false
+            show_entity_picture: true
+            show_label: false
+            styles:
+              card:
+                - width: 80px
+                - background-color: null
+                - border-radius: 5%
+                - padding: 0%
+              grid:
+                - grid-template-areas: |
+                    "i buttons"
+                - grid-template-columns: 80% 20%
+                - grid-template-rows: auto
+              entity_picture:
+                - width: 100%
+              buttons:
+                - justify-content: start
+            custom_fields:
+              buttons:
+                card:
+                  type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    grid-template-columns: 1fr
+                    grid-template-rows: repeat(4, 15px)
+                    grid-template-areas: |
+                      "cards"
+                  cards:
+                    - type: custom:button-card
+                      entity: sensor.james_iphone_activity
+                      show_name: false
+                      show_label: false
+                      show_icon: true
+                      icon: |
+                        [[[
+                          return `${states['sensor.james_iphone_activity'].attributes.icon}`;
+                        ]]]
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                    - type: custom:button-card
+                      entity: person.james_laska
+                      show_name: false
+                      show_icon: true
+                      icon: |
+                        [[[
+                          var device_tracker = states['person.james_laska'].attributes.source;
+                          var location = states[device_tracker].state;
+                          var zone_entity = 'zone.' + location;
+
+                          if (zone_entity in states) {
+                            return `${states[zone_entity].attributes.icon}`;
+                          } else {
+                            for (let entity in states) {
+                              if (zone_entity == states[entity].attributes.friendly_name) {
+                                return `${states[entity].attributes.icon}`;
+                              }
+                            }
+                          }
+                          return 'mdi:map-marker-question-outline';
+                        ]]]
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                    - type: custom:button-card
+                      entity: sensor.james_iphone_battery_state
+                      show_name: false
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                      icon: |
+                        [[[
+                          var battery_level = states["sensor.james_iphone_battery_level"].state;
+                          var battery_round = parseInt(battery_level / 10) * 10;
+                          var is_charging = states["sensor.james_iphone_battery_state"].state.toLowerCase() == 'charging';
+                          var battery_icon = 'mdi:battery';
+
+                          if (battery_round == 100)
+                            battery_icon += '';
+                          else if (battery_round == 0)
+                            battery_icon += '-outline';
+                          else {
+                            if (is_charging)
+                              battery_icon += '-charging';
+                            battery_icon += '-' + battery_round;
+                          }
+
+                          return `${battery_icon}`;
+                        ]]]
+                    - type: custom:button-card
+                      entity: sensor.james_iphone_connection_type
+                      show_name: false
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                      icon: |
+                        [[[
+                          var conn_type = states['sensor.james_iphone_connection_type'].state.toLowerCase();
+                          var conn_icon = '';
+                          var conn_name = '';
+                          if (conn_type == 'wi-fi') {
+                            conn_icon = 'mdi:wifi';
+                            conn_name = states['sensor.james_iphone_ssid'].state;
+                          } else if (conn_type == 'cellular') {
+                            conn_icon = 'mdi:signal';
+                            conn_name = states['sensor.james_iphone_sim_1'].state;
+                          } else {
+                            conn_icon = 'mdi:wifi-strength-alert-outline';
+                            conn_name = 'unknown';
+                          }
+
+                          return `${conn_icon}`;
+                        ]]]
+          - type: custom:button-card
+            entity: person.shannon_laska
+            show_name: false
+            show_entity_picture: true
+            show_label: false
+            styles:
+              card:
+                - width: 80px
+                - background-color: null
+                - border-radius: 5%
+                - padding: 0%
+              grid:
+                - grid-template-areas: |
+                    "i buttons"
+                - grid-template-columns: 80% 20%
+                - grid-template-rows: auto
+              entity_picture:
+                - width: 100%
+              buttons:
+                - justify-content: start
+            custom_fields:
+              buttons:
+                card:
+                  type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    grid-template-columns: 1fr
+                    grid-template-rows: repeat(4, 15px)
+                    grid-template-areas: |
+                      "cards"
+                  cards:
+                    - type: custom:button-card
+                      entity: sensor.james_iphone_activity
+                      show_name: false
+                      show_label: false
+                      show_icon: true
+                      icon: |
+                        [[[
+                          return `${states['sensor.james_iphone_activity'].attributes.icon}`;
+                        ]]]
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                    - type: custom:button-card
+                      entity: person.james_laska
+                      show_name: false
+                      show_icon: true
+                      icon: |
+                        [[[
+                          var device_tracker = states['person.james_laska'].attributes.source;
+                          var location = states[device_tracker].state;
+                          var zone_entity = 'zone.' + location;
+
+                          if (zone_entity in states) {
+                            return `${states[zone_entity].attributes.icon}`;
+                          } else {
+                            for (let entity in states) {
+                              if (zone_entity == states[entity].attributes.friendly_name) {
+                                return `${states[entity].attributes.icon}`;
+                              }
+                            }
+                          }
+                          return 'mdi:map-marker-question-outline';
+                        ]]]
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                    - type: custom:button-card
+                      entity: sensor.james_iphone_battery_state
+                      show_name: false
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                      icon: |
+                        [[[
+                          var battery_level = states["sensor.james_iphone_battery_level"].state;
+                          var battery_round = parseInt(battery_level / 10) * 10;
+                          var is_charging = states["sensor.james_iphone_battery_state"].state.toLowerCase() == 'charging';
+                          var battery_icon = 'mdi:battery';
+
+                          if (battery_round == 100)
+                            battery_icon += '';
+                          else if (battery_round == 0)
+                            battery_icon += '-outline';
+                          else {
+                            if (is_charging)
+                              battery_icon += '-charging';
+                            battery_icon += '-' + battery_round;
+                          }
+
+                          return `${battery_icon}`;
+                        ]]]
+                    - type: custom:button-card
+                      entity: sensor.james_iphone_connection_type
+                      show_name: false
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                      icon: |
+                        [[[
+                          var conn_type = states['sensor.james_iphone_connection_type'].state.toLowerCase();
+                          var conn_icon = '';
+                          var conn_name = '';
+                          if (conn_type == 'wi-fi') {
+                            conn_icon = 'mdi:wifi';
+                            conn_name = states['sensor.james_iphone_ssid'].state;
+                          } else if (conn_type == 'cellular') {
+                            conn_icon = 'mdi:signal';
+                            conn_name = states['sensor.james_iphone_sim_1'].state;
+                          } else {
+                            conn_icon = 'mdi:wifi-strength-alert-outline';
+                            conn_name = 'unknown';
+                          }
+
+                          return `${conn_icon}`;
+                        ]]]
+          - type: custom:button-card
+            entity: person.william_laska
+            show_name: false
+            show_entity_picture: true
+            show_label: false
+            styles:
+              card:
+                - width: 80px
+                - background-color: null
+                - border-radius: 5%
+                - padding: 0%
+              grid:
+                - grid-template-areas: |
+                    "i buttons"
+                - grid-template-columns: 80% 20%
+                - grid-template-rows: auto
+              entity_picture:
+                - width: 100%
+              buttons:
+                - justify-content: start
+            custom_fields:
+              buttons:
+                card:
+                  type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    grid-template-columns: 1fr
+                    grid-template-rows: repeat(3, 18px)
+                    grid-template-areas: |
+                      "cards"
+                  cards:
+                    - type: custom:button-card
+                      entity: device_tracker.williams_nintendo_switch_ping
+                      show_name: false
+                      show_label: false
+                      show_icon: true
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                      state:
+                        - value: home
+                          styles:
+                            icon:
+                              - color: var(--paper-item-icon-active-color)
+                    - type: custom:button-card
+                      entity: device_tracker.williams_chromebook
+                      show_name: false
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                      state:
+                        - value: home
+                          styles:
+                            icon:
+                              - color: var(--paper-item-icon-active-color)
+                    - type: custom:button-card
+                      entity: device_tracker.williams_ipad_ping
+                      show_name: false
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                      state:
+                        - value: home
+                          styles:
+                            icon:
+                              - color: var(--paper-item-icon-active-color)
+          - type: custom:button-card
+            entity: person.henry_laska
+            show_name: false
+            show_entity_picture: true
+            show_label: false
+            styles:
+              card:
+                - width: 80px
+                - background-color: null
+                - border-radius: 5%
+                - padding: 0%
+              grid:
+                - grid-template-areas: |
+                    "i buttons"
+                - grid-template-columns: 80% 20%
+                - grid-template-rows: auto
+              entity_picture:
+                - width: 100%
+              buttons:
+                - justify-content: start
+            custom_fields:
+              buttons:
+                card:
+                  type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    grid-template-columns: 1fr
+                    grid-template-rows: repeat(3, 18px)
+                    grid-template-areas: |
+                      "cards"
+                  cards:
+                    - type: custom:button-card
+                      entity: device_tracker.henrys_nintendo_switch_ping
+                      show_name: false
+                      show_label: false
+                      show_icon: true
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                      state:
+                        - value: home
+                          styles:
+                            icon:
+                              - color: var(--paper-item-icon-active-color)
+                    - type: custom:button-card
+                      entity: device_tracker.family_chromebook
+                      show_name: false
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                      state:
+                        - value: home
+                          styles:
+                            icon:
+                              - color: var(--paper-item-icon-active-color)
+                    - type: custom:button-card
+                      entity: device_tracker.henrys_ipad_ping
+                      show_name: false
+                      styles:
+                        card:
+                          - box-shadow: none
+                          - background: none
+                          - width: var(--mdc-icon-size, 16px)
+                          - height: var(--mdc-icon-size, 16px)
+                          - font-size: .8em
+                          - margin: '-8px'
+                        icon:
+                          - width: 100%
+                          - color: var(--paper-item-icon-color)
+                      state:
+                        - value: home
+                          styles:
+                            icon:
+                              - color: var(--paper-item-icon-active-color)
+  - type: custom:button-card
+    entity: person.james_laska
+    show_entity_picture: true
+    name: |
+      [[[
+        return `<ha-icon
+          icon="${states['sensor.james_iphone_activity'].attributes.icon}"
+          style="color: var(--paper-item-icon-color); width: 20px; height: 20px; margin-right: 5px;">
+          </ha-icon><span style="color: var(--primary-text-color);">${entity.attributes.friendly_name.split(' ')[0]}</span>`
+        return `${entity.attributes.friendly_name.split(' ')[0]}`;
+      ]]]
+    styles:
+      card:
+        - width: 200px
+        - font-weight: 300
+        - font-size: 14px
+        - background-color: null
+        - border-radius: 0%
+        - padding: 4%
+        - text-transform: capitalize
+      grid:
+        - grid-template-areas: |
+            "i n"
+            "i location"
+            "i battery"
+            "i connection"
+            "i activity"
+        - grid-template-columns: 80px 1fr
+        - grid-template-rows: auto
+      entity_picture:
+        - width: 100%
+        - border-radius: 10%
+      img_cell:
+        - margin-right: 10%
+      name:
+        - justify-self: left
+      custom_fields:
+        battery:
+          - justify-self: left
+          - '--text-color-sensor': '[[[ if (''on'' !== ''on'') return "red"; ]]] '
+        connection:
+          - justify-self: left
+          - '--text-color-sensor': '[[[ if (''on'' !== ''on'') return "red"; ]]] '
+        location:
+          - justify-self: left
+        activity:
+          - display: none
+    custom_fields:
+      activity: |
+        [[[
+          return `<ha-icon
+            icon="${states['sensor.james_iphone_activity'].attributes.icon}"
+            style="width: 20px; height: 20px; margin-right: 5px;">
+            </ha-icon><span style="color: var(--primary-text-color);">${states['sensor.james_iphone_activity'].state}</span>`
+        ]]]
+      location: |
+        [[[
+          return `<ha-icon
+            icon="mdi:map-marker"
+            style="color: var(--paper-item-icon-color); width: 20px; height: 20px; margin-right: 5px;">
+            </ha-icon><span style="color: var(--primary-text-color);">${states['person.james_laska'].state}</span>`
+        ]]]
+      battery: |
+        [[[
+          var battery_level = states['sensor.james_iphone_battery_level'].state;
+          var battery_round = parseInt(battery_level / 10) * 10;
+          var is_charging = states['sensor.james_iphone_battery_state'].state.toLowerCase() == 'charging';
+          var battery_icon = 'mdi:battery';
+
+          if (battery_round == 100)
+            battery_icon += '';
+          else if (battery_round == 0)
+            battery_icon += '-outline';
+          else {
+            if (is_charging)
+              battery_icon += '-charging';
+            battery_icon += '-' + battery_round;
+          }
+
+          return `<ha-icon
+            icon="${battery_icon}"
+            style="color: var(--paper-item-icon-color); width: 20px; height: 20px; margin-right: 5px;">
+            </ha-icon><span style="color: var(--primary-text-color);">${states['sensor.james_iphone_battery_level'].state}%</span>`
+        ]]]
+      connection: |
+        [[[
+          var conn_type = states['sensor.james_iphone_connection_type'].state.toLowerCase();
+          var conn_icon = '';
+          var conn_name = '';
+          if (conn_type == 'wi-fi') {
+            conn_icon = 'mdi:wifi';
+            conn_name = states['sensor.james_iphone_ssid'].state;
+          } else if (conn_type == 'cellular') {
+            conn_icon = 'mdi:signal-cellular-outline';
+            conn_name = states['sensor.james_iphone_sim_1'].state;
+          } else {
+            conn_icon = 'mdi:wifi-strength-alert-outline';
+            conn_name = 'unknown';
+          }
+
+          return `<ha-icon
+            icon="${conn_icon}"
+            style="color: var(--paper-item-icon-color); width: 20px; height: 20px; margin-right: 5px;">
+            </ha-icon><span style="color: var(--text-color-sensor);">${conn_name}</span>`
+        ]]]
+  - type: custom:button-card
+    name: Appliances
+    show_icon: false
+    show_name: true
+    styles:
+      grid:
+        - grid-template-areas: |
+            "app1 app2"
+        - grid-template-columns: 1fr 1fr
+        - grid-template-rows: 1fr
+      name:
+        - position: absolute
+        - font-size: 28px
+        - opacity: 0.5
+        - align-self: start
+        - justify-self: center
+        - margin-top: '-10px'
+        - z-index: 1
+    custom_fields:
+      app1:
+        card:
+          type: custom:button-card
+          entity: sensor.ms963932g_laundry_machine_state
+          name: Washer
+      app2:
+        card:
+          type: custom:button-card
+          entity: sensor.vs553419c_laundry_machine_state
+          name: Dryer
+  - type: custom:button-card
+    entity: sensor.powerwall_charge
+    show_state: false
+    show_label: false
+    show_name: false
+    show_icon: true
+    icon: |
+      [[[
+        var battery_level = states['sensor.powerwall_charge'].state;
+        var battery_round = parseInt(battery_level / 10) * 10;
+        var is_charging = states['binary_sensor.powerwall_charging'].state.toLowerCase() == 'on';
+        // var is_charging = states['binary_sensor.powerwall_charging'].state;
+        var battery_icon = 'mdi:battery';
+
+        if (battery_round == 100)
+          battery_icon += '';
+        else if (battery_round == 0)
+          battery_icon += '-outline';
+        else {
+          if (is_charging)
+            battery_icon += '-charging';
+          battery_icon += '-' + battery_round;
+        }
+        return battery_icon;
+      ]]]
+    styles:
+      card:
+        - height: 40px
+        - padding: 0px
+        - background: |
+            [[[
+              var battery_level = states['sensor.powerwall_charge'].state;
+              var battery_round = parseInt(battery_level / 10) * 10;
+              if (battery_level >= 70) {
+                var background_color = 'rgba(15, 160, 15, 0.6)';
+                var accent_color = 'rgba(15, 160, 15, 1)';
+              } else if (battery_level >= 35) {
+                var background_color = 'rgba(255, 152, 0, 0.4)';
+                var accent_color = 'rgba(255, 152, 0, 1)';
+              } else {
+                var background_color = 'rgba(255, 35, 40, 0.4)';
+                var accent_color = 'rgba(255, 35, 40, 1)';
+              }
+              return 'linear-gradient(to right, '+ background_color + ' '+ parseInt(battery_round-1) +'%, '+ accent_color +' '+ parseInt(battery_round) +'%, var(--label-badge-background-color) '+ parseInt(battery_round) +'%)';
+            ]]] 
+      icon:
+        - transform: rotate(0deg)
+        - opacity: 0.3
+      custom_fields:
+        sensors:
+          - position: absolute
+          - justify-self: start
+          - align-self: start
+    custom_fields:
+      sensors:
+        card:
+          type: custom:layout-card
+          layout_type: custom:grid-layout
+          layout:
+            grid-template-columns: repeat(4,auto)
+            grid-template-rows: min-content
+          cards:
+            - type: custom:button-card
+              entity: sensor.powerwall_solar_now
+              show_icon: true
+              show_state: true
+              show_name: false
+              show_label: false
+              icon: mdi:solar-power
+              state_display: |
+                [[[
+                  return `${Number(states['sensor.powerwall_solar_now'].state).toFixed(2)} ${states['sensor.powerwall_solar_now'].attributes.unit_of_measurement}`;
+                ]]]
+              styles:
+                grid:
+                  - grid-template-areas: '"i s"'
+                card:
+                  - box-shadow: none
+                  - border-radius: 0px
+                  - background: none
+                state:
+                  - color: |
+                      [[[
+                        if (entity.state < 0)
+                          return 'red';
+                        else
+                          return 'green';
+                      ]]]
+            - type: custom:button-card
+              entity: sensor.powerwall_load_now
+              show_icon: true
+              show_state: true
+              show_name: false
+              show_label: false
+              icon: mdi:home-outline
+              state_display: |
+                [[[
+                  return `${Number(states['sensor.powerwall_load_now'].state).toFixed(2)} ${states['sensor.powerwall_load_now'].attributes.unit_of_measurement}`;
+                ]]]
+              styles:
+                grid:
+                  - grid-template-areas: '"i s"'
+                card:
+                  - box-shadow: none
+                  - border-radius: 0px
+                  - background: none
+                state:
+                  - color: |
+                      [[[
+                        if (entity.state > 0)
+                          return 'red';
+                        else
+                          return 'green';
+                      ]]]
+            - type: custom:button-card
+              entity: sensor.powerwall_battery_now
+              show_icon: true
+              show_state: true
+              show_name: false
+              show_label: false
+              icon: mdi:home-battery-outline
+              state_display: |
+                [[[
+                  return `${Number(states['sensor.powerwall_battery_now'].state).toFixed(2)} ${states['sensor.powerwall_battery_now'].attributes.unit_of_measurement}`;
+                ]]]
+              styles:
+                grid:
+                  - grid-template-areas: '"i s"'
+                card:
+                  - box-shadow: none
+                  - border-radius: 0px
+                  - background: none
+                state:
+                  - color: |
+                      [[[
+                        if (entity.state < 0)
+                          return 'red';
+                        else 
+                          return 'green';
+                      ]]]
+            - type: custom:button-card
+              entity: sensor.powerwall_site_now
+              show_icon: true
+              show_state: true
+              show_name: false
+              show_label: false
+              icon: mdi:transmission-tower
+              state_display: |
+                [[[
+                  return `${Number(states['sensor.powerwall_site_now'].state).toFixed(2)} ${states['sensor.powerwall_site_now'].attributes.unit_of_measurement}`;
+                ]]]
+              styles:
+                grid:
+                  - grid-template-areas: '"i s"'
+                card:
+                  - box-shadow: none
+                  - border-radius: 0px
+                  - background: none
+                state:
+                  - color: |
+                      [[[
+                        if (entity.state < 0)
+                          return 'red';
+                        else if (entity.state > 0)
+                          return 'green';
+                      ]]]

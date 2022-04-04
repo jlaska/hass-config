@@ -1,0 +1,221 @@
+title: Active Devices
+path: active-devices
+theme: ''
+icon: mdi:bell-ring
+badges: []
+cards:
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Lights
+    filter:
+      include:
+        - domain: light
+          state: 'on'
+          options:
+            secondary_info: last-changed
+      exclude:
+        - entity_id: light.henrys_room_*_lamp
+        - entity_id: light.williams_room_*_lamp
+        - entity_id: light.living_room_bookshelf_*
+        - entity_id: light.kitchen_end_table_light_*_on_off
+    sort:
+      method: name
+      ignore_case: true
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Fans
+    filter:
+      include:
+        - domain: fan
+          state: 'on'
+          options:
+            secondary_info: last-changed
+        - entity_id: climate.*
+          attributes:
+            fan_mode: 'on'
+          options:
+            secondary_info: last-changed
+    sort:
+      method: name
+      ignore_case: true
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Plugs
+    filter:
+      include:
+        - domain: switch
+          attributes:
+            icon: mdi:power-socket-us
+          options:
+            secondary_info: last-changed
+    sort:
+      method: name
+      ignore_case: true
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Doors
+    filter:
+      include:
+        - domain: binary_sensor
+          state: 'on'
+          attributes:
+            device_class: door
+          options:
+            secondary_info: last-changed
+        - domain: cover
+          not:
+            state: closed
+          options:
+            secondary_info: last-changed
+    sort:
+      method: name
+      ignore_case: true
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Appliances
+    filter:
+      include:
+        - entity_id: binary_sensor.laundry_room_*
+          state: 'on'
+          options:
+            secondary_info: last-changed
+        - entity_id: sensor.*_laundry_machine_state
+          state: Run
+          options:
+            secondary_info: last-changed
+        - entity_id: switch.hubname_*
+          state: 'on'
+          options:
+            secondary_info: last-changed
+      exclude:
+        - attributes:
+            device_class: motion
+        - attributes:
+            device_class: moisture
+    sort:
+      method: name
+      ignore_case: true
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Motion
+    filter:
+      include:
+        - domain: binary_sensor
+          state: 'on'
+          attributes:
+            device_class: motion
+          options:
+            secondary_info: last-changed
+        - domain: binary_sensor
+          state: 'on'
+          attributes:
+            device_class: occupancy
+          options:
+            secondary_info: last-changed
+      exclude:
+        - entity_id: '*_any'
+    sort:
+      method: name
+      ignore_case: true
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Unavailable
+    filter:
+      include:
+        - state: unavailable
+          options:
+            secondary_info: last-changed
+        - domain: zwave
+          attributes:
+            is_failed: true
+          options:
+            secondary_info: last-changed
+      exclude:
+        - entity_id: '*plex*'
+        - entity_id: switch.*_protect
+        - entity_id: switch.*_bullet
+        - domain: device_tracker
+        - domain: number
+    sort:
+      method: name
+      ignore_case: true
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Low Battery
+    filter:
+      include:
+        - domain: sensor
+          state: < 30
+          attributes:
+            device_class: battery
+          options:
+            type: custom:battery-state-entity
+            tap_action: more-info
+            secondary_info: last_changed
+        - domain: binary_sensor
+          state: 'on'
+          attributes:
+            device_class: battery
+          options:
+            type: custom:battery-state-entity
+            tap_action: more-info
+            secondary_info: last_changed
+    sort:
+      method: state
+      ignore_case: true
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Recent Automations
+    filter:
+      include:
+        - domain: automation
+          state: 'on'
+          options:
+            secondary_info: last-triggered
+    sort:
+      method: last_triggered
+      reverse: true
+      ignore_case: true
+      count: 5
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Illuminance
+    filter:
+      include:
+        - domain: sensor
+          attributes:
+            device_class: illuminance
+          options:
+            secondary_info: last-changed
+    sort:
+      method: name
+      ignore_case: true
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Plug Power
+    filter:
+      include:
+        - domain: sensor
+          entity_id: /.*(electrical|smartenergy).*/
+          state: '> 0.0'
+          options:
+            secondary_info: last-changed
+      exclude:
+        - entity_id: '*summation*'
+        - entity_id: '*rms_voltage'
+        - entity_id: '*rms_current'
+    sort:
+      method: state
+      reverse: true
+      ignore_case: true

@@ -1,0 +1,20 @@
+title: Home
+background: var(--background-image)
+# custom_header: !include /config/lovelace/custom_header.yaml
+# decluttering_templates: !include_dir_merge_named /config/lovelace/decluttering_templates/
+button_card_templates: !include_dir_merge_named lovelace/button_card_templates/
+
+# swipe-navigation - https://github.com/maykar/lovelace-swipe-navigation
+swipe_nav:
+  wrap: false
+  animate: swipe
+  prevent_default: true
+  swipe_amount: 35
+
+views:
+  - !include lovelace/views/main.yaml
+  - !include lovelace/views/active-devices.yaml
+  - !include lovelace/views/cameras.yaml
+  - !include lovelace/views/solar.yaml
+  - !include lovelace/views/rooms.yaml
+  - !include lovelace/views/testing.yaml

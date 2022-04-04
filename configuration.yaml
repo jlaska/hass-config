@@ -21,9 +21,20 @@ frontend:
   extra_module_url:
     - /hacsfiles/lovelace-card-mod/card-mod.js
 
+lovelace:
+  mode: storage
+  dashboards:
+    lovelace-yaml:
+      mode: yaml
+      title: YAML
+      icon: mdi:script
+      show_in_sidebar: true
+      filename: ui-lovelace.yaml
+
 logger:
   default: warning
-  logs: {}
+  logs:
+    homeassistant.components.http.ban: debug
 
 http:
   use_x_forwarded_for: true

@@ -1,0 +1,33 @@
+banner_header:
+  variables:
+    tap_action: more-info
+    tap_entity: '[[[ if (entity) { return entity.entity_id } else { return null;} ]]]'
+    hold_action: more-info
+    hold_entity: '[[[ if (entity) { return entity.entity_id } else { return null;} ]]]'
+  color_type: label-card
+  color: var(--card-background-color)
+  tap_action:
+    action: '[[[ return variables.tap_action ]]]'
+    entity: '[[[ return variables.tap_entity ]]]'
+  hold_action:
+    action: '[[[ return variables.hold_action ]]]'
+    entity: '[[[ return variables.hold_entity ]]]'
+  styles:
+    card:
+      - padding: 0px
+      - background: none
+      - border-bottom-left-radius: 0px
+      - border-bottom-right-radius: 0px
+      - box-shadow: 0px 0px
+    name:
+      - padding: 0.1em
+      - width: 100%
+      - font-weight: bold
+    grid:
+      - grid-template-areas: '"i" "n" "buttons"'
+      - grid-template-columns: 1fr
+      - grid-template-rows: 1fr min-content
+    custom_fields:
+      buttons:
+        - margin: 0
+        - padding: 0.3em

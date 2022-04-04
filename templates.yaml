@@ -74,7 +74,7 @@
       # state: "{{ states('sensor.airnow_pm2_5') }} {{ state_attr('sensor.airnow_pm2_5', 'unit_of_measurement') }} "
       state: "{{ states('sensor.u_s_main_pollutant') }}"
     - name: cc_particulate_matter_10_mm
-      state: "{{ states('state.climacell_particulate_matter_10_mm')|float or states('sensor.airnow_pm10')|float }}"
+      state: "{{ states('state.climacell_particulate_matter_10_mm')|float(0.0) or states('sensor.airnow_pm10')|float(0.0) }}"
     - name: cc_us_epa_air_quality_index
       # state: "{{ states('sensor.climacell_us_epa_air_quality_index')|lower != 'unknown' and states('sensor.climacell_us_epa_air_quality_index') or states('sensor.airnow_aqi') }}"
       state: "{{ states('sensor.u_s_air_quality_index') }}"

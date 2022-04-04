@@ -1061,7 +1061,7 @@
     event: start
   condition:
   - condition: template
-    value_template: '{{ states(''sensor.hacs'')|int > 0 or is_state(''binary_sensor.home_assistant_website_update_available'',
+    value_template: '{{ states(''sensor.hacs'')|int(0) > 0 or is_state(''binary_sensor.home_assistant_website_update_available'',
       ''on'') }}'
   action:
   - variables:

@@ -66,12 +66,12 @@ cards:
                       - overflow-wrap: break-word
                 custom_fields:
                   time: |
-                    [[[ 
+                    [[[
                       var now = new Date();
                       return now.toLocaleString('en-US', {
                           hour: 'numeric',
                           minute: 'numeric',
-                        }); 
+                        });
                       return now.toDateString();
                     ]]]
                   date: |
@@ -81,7 +81,7 @@ cards:
                           month: 'long',
                           day: 'numeric',
                           weekday: 'long'
-                        }); 
+                        });
                       return now.toDateString();
                     ]]]
               - type: custom:button-card
@@ -284,7 +284,7 @@ cards:
                         var accent_color = 'rgba(255, 35, 40, 1)';
                       }
                       return 'linear-gradient(to right, '+ background_color + ' '+ parseInt(battery_round-1) +'%, '+ accent_color +' '+ parseInt(battery_round) +'%, var(--label-badge-background-color) '+ parseInt(battery_round) +'%)';
-                    ]]] 
+                    ]]]
               icon:
                 - transform: rotate(0deg)
                 - opacity: 0.3
@@ -380,7 +380,7 @@ cards:
                               [[[
                                 if (entity.state < 0)
                                   return 'red';
-                                else 
+                                else
                                   return 'green';
                               ]]]
                     - type: custom:button-card
@@ -524,7 +524,7 @@ cards:
                   template: () => 'mdi:brightness-5'
                   style: >
                     (value) => ({ color:
-                    'var(--paper-item-icon-active-color)'}) 
+                    'var(--paper-item-icon-active-color)'})
                 unit: lx
                 source:
                   entity: sensor.master_bedroom_motion_illuminance_lux
@@ -561,7 +561,7 @@ cards:
           - type: custom:layout-card
             layout_type: custom:grid-layout
             layout:
-              grid-template-columns: repeat(auto-fill, minmax(min(180px, 100%), 1fr))
+              grid-template-columns: repeat(auto-fill, minmax(min(50%, 100%), 1fr))
               grid-template-rows: auto
             cards:
               - type: custom:button-card
@@ -670,7 +670,7 @@ cards:
                   template: () => 'mdi:brightness-5'
                   style: >
                     (value) => ({ color:
-                    'var(--paper-item-icon-active-color)'}) 
+                    'var(--paper-item-icon-active-color)'})
                 unit: lx
                 source:
                   entity: sensor.kitchen_motion_illuminance_lux

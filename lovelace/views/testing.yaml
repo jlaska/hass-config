@@ -70,7 +70,7 @@ cards:
           grid-template-rows: min-content
         cards:
           - type: custom:button-card
-            entity: person.james_laska
+            entity: person.james
             show_name: false
             show_icon: false
             show_entity_picture: true
@@ -126,12 +126,12 @@ cards:
               location:
                 card:
                   type: custom:button-card
-                  entity: person.james_laska
+                  entity: person.james
                   show_name: false
                   show_icon: true
                   icon: |
                     [[[
-                      var device_tracker = states['person.james_laska'].attributes.source;
+                      var device_tracker = states['person.james'].attributes.source;
                       var location = states[device_tracker].state;
                       var zone_entity = 'zone.' + location;
 
@@ -222,7 +222,7 @@ cards:
                       return `${conn_icon}`;
                     ]]]
           - type: custom:button-card
-            entity: person.shannon_laska
+            entity: person.shannon
             show_name: false
             show_icon: false
             show_entity_picture: true
@@ -278,12 +278,12 @@ cards:
               location:
                 card:
                   type: custom:button-card
-                  entity: person.shannon_laska
+                  entity: person.shannon
                   show_name: false
                   show_icon: true
                   icon: |
                     [[[
-                      var device_tracker = states['person.shannon_laska'].attributes.source;
+                      var device_tracker = states['person.shannon'].attributes.source;
                       var location = states[device_tracker].state;
                       var zone_entity = 'zone.' + location;
 
@@ -374,7 +374,7 @@ cards:
                       return `${conn_icon}`;
                     ]]]
           - type: custom:button-card
-            entity: person.william_laska
+            entity: person.william
             show_name: false
             show_icon: false
             show_entity_picture: true
@@ -466,7 +466,7 @@ cards:
                         icon:
                           - color: var(--paper-item-icon-active-color)
           - type: custom:button-card
-            entity: person.henry_laska
+            entity: person.henry
             show_name: false
             show_icon: false
             show_entity_picture: true
@@ -592,33 +592,33 @@ cards:
               cards:
                 - type: custom:button-card
                   template: person-state-card
-                  entity: person.james_laska
+                  entity: person.james
                   variables:
-                    entity: person.james_laska
+                    entity: person.james
                     activity: sensor.james_iphone_activity
                     connection_type: sensor.james_iphone_connection_type
                     battery_level: sensor.james_iphone_battery_level
                 - type: custom:button-card
                   template: person-state-card
-                  entity: person.shannon_laska
+                  entity: person.shannon
                   variables:
-                    entity: person.shannon_laska
+                    entity: person.shannon
                     activity: sensor.shannons_iphone_activity
                     connection_type: sensor.shannons_iphone_connection_type
                     battery_level: sensor.shannons_iphone_battery_level
                 - type: custom:button-card
                   template: person-state-card
-                  entity: person.william_laska
+                  entity: person.william
                   variables:
-                    entity: person.william_laska
+                    entity: person.william
                     activity: device_tracker.williams_chromebook
                     connection_type: device_tracker.williams_ipad_ping
                     battery_level: device_tracker.williams_nintendo_switch_ping
                 - type: custom:button-card
                   template: person-state-card
-                  entity: person.henry_laska
+                  entity: person.henry
                   variables:
-                    entity: person.henry_laska
+                    entity: person.henry
                     activity: device_tracker.family_chromebook
                     connection_type: device_tracker.henrys_ipad_ping
                     battery_level: device_tracker.henrys_nintendo_switch_ping
@@ -629,7 +629,7 @@ cards:
           grid-template-rows: min-content
         cards:
           - type: custom:button-card
-            entity: person.james_laska
+            entity: person.james
             show_name: false
             show_entity_picture: true
             show_label: false
@@ -680,12 +680,12 @@ cards:
                           - width: 100%
                           - color: var(--paper-item-icon-color)
                     - type: custom:button-card
-                      entity: person.james_laska
+                      entity: person.james
                       show_name: false
                       show_icon: true
                       icon: |
                         [[[
-                          var device_tracker = states['person.james_laska'].attributes.source;
+                          var device_tracker = states['person.james'].attributes.source;
                           var location = states[device_tracker].state;
                           var zone_entity = 'zone.' + location;
 
@@ -777,7 +777,7 @@ cards:
                           return `${conn_icon}`;
                         ]]]
           - type: custom:button-card
-            entity: person.shannon_laska
+            entity: person.shannon
             show_name: false
             show_entity_picture: true
             show_label: false
@@ -828,12 +828,12 @@ cards:
                           - width: 100%
                           - color: var(--paper-item-icon-color)
                     - type: custom:button-card
-                      entity: person.james_laska
+                      entity: person.james
                       show_name: false
                       show_icon: true
                       icon: |
                         [[[
-                          var device_tracker = states['person.james_laska'].attributes.source;
+                          var device_tracker = states['person.james'].attributes.source;
                           var location = states[device_tracker].state;
                           var zone_entity = 'zone.' + location;
 
@@ -925,7 +925,7 @@ cards:
                           return `${conn_icon}`;
                         ]]]
           - type: custom:button-card
-            entity: person.william_laska
+            entity: person.william
             show_name: false
             show_entity_picture: true
             show_label: false
@@ -1015,7 +1015,7 @@ cards:
                             icon:
                               - color: var(--paper-item-icon-active-color)
           - type: custom:button-card
-            entity: person.henry_laska
+            entity: person.henry
             show_name: false
             show_entity_picture: true
             show_label: false
@@ -1105,7 +1105,7 @@ cards:
                             icon:
                               - color: var(--paper-item-icon-active-color)
   - type: custom:button-card
-    entity: person.james_laska
+    entity: person.james
     show_entity_picture: true
     name: |
       [[[
@@ -1164,7 +1164,7 @@ cards:
           return `<ha-icon
             icon="mdi:map-marker"
             style="color: var(--paper-item-icon-color); width: 20px; height: 20px; margin-right: 5px;">
-            </ha-icon><span style="color: var(--primary-text-color);">${states['person.james_laska'].state}</span>`
+            </ha-icon><span style="color: var(--primary-text-color);">${states['person.james'].state}</span>`
         ]]]
       battery: |
         [[[

@@ -1234,24 +1234,24 @@
   trigger:
   - platform: zone
     entity_id:
-    - person.james_laska
-    - person.shannon_laska
+    - person.james
+    - person.shannon
     zone: zone.home
     event: enter
   - platform: zone
     entity_id:
-    - person.james_laska
-    - person.shannon_laska
+    - person.james
+    - person.shannon
     zone: zone.home
     event: leave
   - platform: zone
     entity_id:
-    - person.shannon_laska
+    - person.shannon
     zone: zone.ncdg
     event: leave
   - platform: zone
     entity_id:
-    - person.james_laska
+    - person.james
     zone: zone.rht
     event: leave
   condition: []
@@ -1287,8 +1287,8 @@
   trigger:
   - platform: zone
     entity_id:
-    - person.james_laska
-    - person.shannon_laska
+    - person.james
+    - person.shannon
     zone: zone.home
     event: enter
   condition:

@@ -85,7 +85,7 @@ zone_geofence_notification:
     - conditions:
       - condition: template
         value_template: '{{ trigger_zone == "zone.home" and trigger_event == "enter"
-          and trigger_person == "person.james_laska" }}'
+          and trigger_person == "person.james" }}'
       sequence:
       - service: notify.mobile_app_james_iphone
         data:
@@ -119,7 +119,7 @@ zone_geofence_notification:
               entity_id: cover.garage_door_opener
     - conditions:
       - condition: template
-        value_template: '{{ trigger_person != "person.james_laska" }}'
+        value_template: '{{ trigger_person != "person.james" }}'
       sequence:
       - service: notify.mobile_app_james_iphone
         data:

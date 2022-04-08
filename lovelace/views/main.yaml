@@ -9,9 +9,8 @@ cards:
   - type: custom:layout-card
     layout_type: custom:grid-layout
     layout:
-      grid-template-rows: min-content
       grid-template-columns: repeat(auto-fill, minmax(min(50%, 100%), 1fr))
-      # grid-template-rows: auto
+      grid-template-rows: min-content
       mediaquery:
         "(max-width: 600px)":
           grid-template-columns: 100%
@@ -291,8 +290,8 @@ cards:
               custom_fields:
                 sensors:
                   - position: absolute
-                  - justify-self: start
-                  - align-self: start
+                  - justify-self: center
+                  - align-self: center
             custom_fields:
               sensors:
                 card:

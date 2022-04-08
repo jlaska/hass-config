@@ -31,8 +31,16 @@ mini-area-card:
       - grid-column: 1 / span 2
       - grid-row: 1 / span 2
     custom_fields:
+      buttons:
+        - justify-self: end
+        - align-self: end
+        - padding-right: 10px
+        - padding-bottom: 10px
       sensors:
-        - padding-left: 15px
+        - justify-self: start
+        - align-self: end
+        - padding-left: 10px
+        - padding-bottom: 10px
       camera_image:
         - position: absolute
         - width: 100%

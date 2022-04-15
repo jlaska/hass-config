@@ -1260,6 +1260,30 @@
     - person.james
     zone: zone.rht
     event: leave
+  - platform: zone
+    entity_id:
+    - person.james
+    - person.shannon
+    zone: zone.xl_sports
+    event: enter
+  - platform: zone
+    entity_id:
+    - person.james
+    - person.shannon
+    zone: zone.xl_sports
+    event: leave
+  - platform: zone
+    entity_id:
+    - person.james
+    - person.shannon
+    zone: zone.xl_soccer
+    event: enter
+  - platform: zone
+    entity_id:
+    - person.james
+    - person.shannon
+    zone: zone.xl_soccer
+    event: leave
   condition: []
   action:
   - service: script.turn_on

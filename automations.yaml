@@ -738,6 +738,14 @@
       hours: 0
       minutes: 5
       seconds: 0
+  - platform: state
+    entity_id:
+    - binary_sensor.crawlspace_door_contact
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 1
   condition: []
   action:
   - service: script.notify

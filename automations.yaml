@@ -561,11 +561,9 @@
   alias: Roomba Cycle
   description: ''
   trigger:
-  - platform: device
-    device_id: 44be43b11976ca9c53539e52847d7cb5
-    domain: vacuum
+  - platform: state
     entity_id: vacuum.roomba
-    type: cleaning
+    to: cleaning
   condition:
   - alias: Is it dark in the area?
     condition: or

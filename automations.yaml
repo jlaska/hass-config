@@ -1660,3 +1660,14 @@
       no_motion_wait: input_number.inactivity_timeout_short
       time_limit_after: input_datetime.time_of_day_automation_start
       time_limit_before: input_datetime.goodnight_start_time
+- id: '1649466447589'
+  alias: Attic Door - Activity
+  description: ''
+  use_blueprint:
+    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    input:
+      motion_sensor: binary_sensor.attic_door_contact
+      target_entity: light.attic_stairway_light
+      no_motion_wait: input_number.inactivity_timeout_long
+      illuminance_cutoff: input_number.illumination_very_low
+      illuminance_sensor: sensor.master_bedroom_motion_illuminance_lux

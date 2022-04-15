@@ -871,7 +871,7 @@
       \ <= utcnow()\n}}"
   - alias: Assert not currently in a meeting
     condition: state
-    entity_id: calendar.jlaska_redhat_com
+    entity_id: calendar.work
     state: 'off'
   action:
   - service: light.turn_off

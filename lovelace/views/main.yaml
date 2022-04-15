@@ -604,6 +604,7 @@ cards:
                 name: Master
                 variables:
                   motion_entity: binary_sensor.master_bedroom_motion_occupancy
+                  door_entity: calendar.work
                   sensor_entity: sensor.master_bedroom_motion_temperature
                   light_entity: group.master_bedroom_lights
                   fan_entity: fan.master_bedroom_fan

@@ -244,7 +244,7 @@ cards:
             show_state: false
             show_label: false
             show_name: false
-            show_icon: true
+            show_icon: false
             icon: |
               [[[
                 var battery_level = states['sensor.powerwall_charge'].state;
@@ -298,7 +298,7 @@ cards:
                   type: custom:layout-card
                   layout_type: custom:grid-layout
                   layout:
-                    grid-template-columns: repeat(4,auto)
+                    grid-template-columns: repeat(5,auto)
                     grid-template-rows: min-content
                   cards:
                     - type: custom:button-card
@@ -320,13 +320,12 @@ cards:
                           - border-radius: 0px
                           - background: none
                         state:
-                          - mix-blend-mode: difference
                           - color: |
                               [[[
                                 if (entity.state < 0)
                                   return 'red';
                                 else
-                                  return 'green';
+                                  return 'darkgreen';
                               ]]]
                     - type: custom:button-card
                       entity: sensor.powerwall_load_now
@@ -347,13 +346,52 @@ cards:
                           - border-radius: 0px
                           - background: none
                         state:
-                          - mix-blend-mode: difference
                           - color: |
                               [[[
                                 if (entity.state > 0)
                                   return 'red';
                                 else
-                                  return 'green';
+                                  return 'darkgreen';
+                              ]]]
+                    - type: custom:button-card
+                      entity: sensor.powerwall_charge
+                      show_icon: true
+                      show_state: false
+                      show_name: false
+                      show_label: false
+                      icon: |
+                        [[[
+                          var battery_level = states['sensor.powerwall_charge'].state;
+                          var battery_round = parseInt(battery_level / 10) * 10;
+                          var is_charging = states['binary_sensor.powerwall_charging'].state.toLowerCase() == 'on';
+                          // var is_charging = states['binary_sensor.powerwall_charging'].state;
+                          var battery_icon = 'mdi:battery';
+
+                          if (battery_round == 100)
+                            battery_icon += '';
+                          else if (battery_round == 0)
+                            battery_icon += '-outline';
+                          else {
+                            if (is_charging)
+                              battery_icon += '-charging';
+                            battery_icon += '-' + battery_round;
+                          }
+                          return battery_icon;
+                        ]]]
+                      styles:
+                        grid:
+                          - grid-template-areas: '"i s"'
+                        card:
+                          - box-shadow: none
+                          - border-radius: 0px
+                          - background: none
+                        state:
+                          - color: |
+                              [[[
+                                if (entity.state < 0)
+                                  return 'red';
+                                else
+                                  return 'darkgreen';
                               ]]]
                     - type: custom:button-card
                       entity: sensor.powerwall_battery_now
@@ -374,13 +412,12 @@ cards:
                           - border-radius: 0px
                           - background: none
                         state:
-                          - mix-blend-mode: difference
                           - color: |
                               [[[
                                 if (entity.state < 0)
                                   return 'red';
                                 else
-                                  return 'green';
+                                  return 'darkgreen';
                               ]]]
                     - type: custom:button-card
                       entity: sensor.powerwall_site_now
@@ -401,13 +438,12 @@ cards:
                           - border-radius: 0px
                           - background: none
                         state:
-                          - mix-blend-mode: difference
                           - color: |
                               [[[
                                 if (entity.state < 0)
                                   return 'red';
                                 else if (entity.state > 0)
-                                  return 'green';
+                                  return 'darkgreen';
                               ]]]
       - type: vertical-stack
         view_layout:

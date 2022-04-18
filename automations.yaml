@@ -558,12 +558,13 @@
     data: {}
   mode: single
 - id: '1618704455944'
-  alias: Roomba Cycle
-  description: ''
+  alias: Vacuum Cycle
+  description: A full cycle of the roomba vacuum
   trigger:
   - platform: state
     entity_id: vacuum.roomba
     to: cleaning
+    for: 0:00:03
   condition:
   - alias: Is it dark in the area?
     condition: or
@@ -596,9 +597,10 @@
       entity_id: vacuum.roomba
       to: docked
       for:
-        hours: 1
-        minutes: 0
-        seconds: 0
+        seconds: 30
+    timeout:
+      hours: 1
+      minutes: 30
     continue_on_timeout: false
   - condition: state
     entity_id: binary_sensor.downstairs_motion_any

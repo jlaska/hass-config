@@ -124,6 +124,7 @@ cards:
                             activity: sensor.james_iphone_activity
                             connection_type: sensor.james_iphone_connection_type
                             battery_level: sensor.james_iphone_battery_level
+                            busy_entity: calendar.work
                         - type: custom:button-card
                           template: person-state-card
                           entity: person.shannon

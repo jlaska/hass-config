@@ -1,9 +1,10 @@
 person-state-card:
   variables:
-    entity: none
-    activity: none
-    battery_level: none
-    connection_type: none
+    entity: null
+    activity: null
+    battery_level: null
+    connection_type: null
+    busy_entity: null
   entity: '[[[ return variables.entity ]]]'
   layout: vertical
   show_entity_picture: true
@@ -26,6 +27,12 @@ person-state-card:
           var( --ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px
           1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)
           )
+      - border: |
+          [[[
+            if (variables.busy_entity && states[variables.busy_entity].state == 'on') {
+              return "2px solid var(--state-not_home-color)";
+            }
+          ]]]
     custom_fields:
       activity:
         - position: absolute
@@ -38,7 +45,7 @@ person-state-card:
         - padding: 2px
         - background-color: none
         - color: |
-            [[[ 
+            [[[
               if ('state' in states[variables.activity] && ['on', 'home'].includes(states[variables.activity].state.toLowerCase())) {
                 return `var(--paper-item-icon-active-color)`;
               } else {

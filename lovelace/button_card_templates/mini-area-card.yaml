@@ -25,7 +25,8 @@ mini-area-card:
       - color: var(--text-accent-color, var(--text-primary-color))
       - justify-self: start
       - align-self: start
-      - padding-left: 15px
+      - padding-top: 0px
+      - padding-left: 10px
       - z-index: 1
     img_cell:
       - grid-column: 1 / span 2
@@ -34,13 +35,13 @@ mini-area-card:
       alerts:
         - justify-self: end
         - align-self: start
-        - padding-right: 10px
-        - padding-bottom: 10px
+        - padding-right: 0px
+        - padding-top: 0px
       buttons:
         - justify-self: end
         - align-self: end
-        - padding-right: 10px
-        - padding-bottom: 10px
+        - padding-right: 0px
+        - padding-bottom: 0px
       sensors:
         - justify-self: start
         - align-self: end

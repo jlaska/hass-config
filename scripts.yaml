@@ -254,20 +254,6 @@ zone_geofence_light_pulse:
       brightness: '{{ light_brightness|int }}'
       transition: 4
       color_name: '{{ states(''input_text.zone_pulse_color'') }}'
-  - repeat:
-      while:
-      - condition: template
-        value_template: '{{ False and repeat.index < light_cycles|int }}'
-      sequence:
-      - delay:
-          seconds: 2
-      - service: light.toggle
-        target:
-          entity_id: '{{ sengled_entities|list }}'
-        data:
-          brightness: '{{ light_brightness|int }}'
-          transition: 1
-          color_name: '{{ states(''input_text.zone_pulse_color'') }}'
   - delay:
       hours: 0
       minutes: 0
@@ -346,26 +332,32 @@ announce:
       normal: 0.7
       quiet: 0.3
       announce: true
-    - entity_id: media_player.living_room_speaker
+      volume: true
+    - entity_id: media_player.dining_room_speaker
       normal: 0.7
       quiet: 0.3
       announce: false
-    - entity_id: media_player.kitchen_display
+      volume: true
+    - entity_id: media_player.living_room_display
       normal: 0.7
       quiet: 0.3
       announce: false
+      volume: true
     - entity_id: media_player.master_bedroom
       normal: 0.3
       quiet: 0.3
       announce: true
+      volume: false
     - entity_id: media_player.living_room_homepod_left
       normal: 0.3
       quiet: 0.3
       announce: false
+      volume: false
     - entity_id: media_player.living_room_homepod_right
       normal: 0.3
       quiet: 0.3
       announce: false
+      volume: false
   sequence:
   - variables:
       volume_mode: '{% set current_time = now().strftime("%H:%M:%S") -%} {{ current_time
@@ -379,6 +371,7 @@ announce:
         condition: template
         value_template: '{{ repeat.index <= all_speakers|length }}'
       sequence:
+      - condition: '{{ all_speakers[repeat.index - 1][''volume''] }}'
       - alias: Set volume
         service: media_player.volume_set
         data:

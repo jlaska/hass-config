@@ -1453,18 +1453,22 @@
       - service: light.toggle
         target:
           entity_id: light.master_bedroom_nightstand
+        data: {}
       double_action:
       - service: light.toggle
         target:
           entity_id: light.master_bedroom_light
+        data: {}
       - service: light.turn_off
         target:
           entity_id: light.master_bedroom_fan_light
-      hold_action: []
-      release_action:
+        data: {}
+      hold_action:
       - service: fan.toggle
+        data: {}
         target:
           entity_id: fan.master_bedroom_fan
+      release_action: []
 - id: '1639618452473'
   alias: Master Bathroom Light - Double Tap
   description: ''

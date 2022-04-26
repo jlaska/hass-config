@@ -614,6 +614,7 @@ cards:
                 name: M Bath
                 variables:
                   motion_entity: binary_sensor.master_bathroom_motion_occupancy
+                  door_entity: binary_sensor.master_bathroom_hygrostat
                   sensor_entity: sensor.master_bathroom_motion_temperature
                   light_entity: group.master_bathroom_lights
                   fan_entity: fan.master_bathroom_fan
@@ -654,6 +655,7 @@ cards:
                     name: Guest Bath
                     variables:
                       motion_entity: binary_sensor.guest_bathroom_motion_any
+                      door_entity: binary_sensor.guest_bathroom_hygrostat
                       sensor_entity: sensor.guest_bathroom_motion_temperature
                       light_entity: light.guest_bathroom_light
                       fan_entity: fan.guest_bathroom_fan

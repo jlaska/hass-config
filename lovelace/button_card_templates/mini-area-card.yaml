@@ -2,7 +2,8 @@ mini-area-card:
   variables:
     motion_entity: null
     door_entity: null
-    sensor_entity: null
+    alert_entity: null
+    temperature_entity: null
     light_entity: null
     fan_entity: null
   show_name: true
@@ -68,18 +69,18 @@ mini-area-card:
         type: custom:layout-card
         layout_type: custom:grid-layout
         layout:
-          grid-template-columns: 1fr 1fr
+          grid-template-columns: repeat(3, 1fr)
           grid-template-rows: auto
         cards:
           - type: custom:button-card
-            entity: '[[[ return variables.door_entity ]]]'
+            entity: '[[[ return variables.alert_entity ]]]'
             show_icon: true
             show_state: false
             show_name: false
             icon: |
               [[[
-                if (variables.door_entity !== null && 'current_activity' in states[variables.door_entity].attributes ) {
-                  var current_activity = states[variables.door_entity].attributes.current_activity;
+                if (variables.alert_entity !== null && 'current_activity' in states[variables.alert_entity].attributes ) {
+                  var current_activity = states[variables.alert_entity].attributes.current_activity;
                   console.log(current_activity);
                   if (current_activity == 'Watch TV') {
                     return states['switch.hubname_watch_tv'].attributes.icon;
@@ -107,11 +108,39 @@ mini-area-card:
                 - color: var(--text-accent-color, var(--text-primary-color))
                 - border-radius: 50%
             state:
+              - value: 'Off'
+                styles:
+                  card:
+                    - display: none
               - value: 'off'
                 styles:
                   card:
                     - display: none
               - value: docked
+                styles:
+                  card:
+                    - display: none
+          - type: custom:button-card
+            entity: '[[[ return variables.door_entity ]]]'
+            show_icon: true
+            show_state: false
+            show_name: false
+            styles:
+              card:
+                - box-shadow: none
+                - background: none
+                - width: var(--mdc-icon-button-size, 28px)
+                - height: var(--mdc-icon-button-size, 28px)
+                - padding: >-
+                    calc( (var(--mdc-icon-button-size, 28px) -
+                    var(--mdc-icon-size, 28px)) / 2 )
+              icon:
+                - width: 100%
+                - background: var(--accent-color)
+                - color: var(--text-accent-color, var(--text-primary-color))
+                - border-radius: 50%
+            state:
+              - value: 'off'
                 styles:
                   card:
                     - display: none
@@ -142,16 +171,36 @@ mini-area-card:
     sensors:
       card:
         type: custom:button-card
-        entity: '[[[ return variables.sensor_entity ]]]'
+        entity: '[[[ return variables.motion_entity ]]]'
         show_icon: false
         show_state: true
         show_name: false
         state_display: |
           [[[
-            if ('unit_of_measurement' in states[variables.sensor_entity].attributes )
-              return `${Math.round(Number(states[variables.sensor_entity].state)).toFixed(0)} ${states[variables.sensor_entity].attributes.unit_of_measurement}`;
-            else
-              return states[variables.sensor_entity].state;
+            var minute = 60,
+                hour = minute * 60,
+                day = hour * 24,
+                week = day * 7;
+            const now = new Date();
+            const then = new Date(states[variables.motion_entity].last_changed);
+            const delta = Math.round((now - then) / 1000);
+            var fuzzy = 'never';
+            if (delta < 30) {
+              fuzzy = 'just now';
+            } else if (delta < minute) {
+              fuzzy = delta + ' seconds ago';
+            } else if (delta < 2 * minute) {
+              fuzzy = 'a minute ago'
+            } else if (delta < hour) {
+              fuzzy = Math.floor(delta / minute) + ' minutes ago';
+            } else if (Math.floor(delta / hour) == 1) {
+              fuzzy = '1 hour ago'
+            } else if (delta < day) {
+              fuzzy = Math.floor(delta / hour) + ' hours ago';
+            } else if (delta < day * 2) {
+              fuzzy = 'yesterday';
+            }
+            return fuzzy;
           ]]]
         styles:
           grid:

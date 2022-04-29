@@ -487,7 +487,7 @@ cards:
                           variables:
                             motion_entity: binary_sensor.front_door_protect_motion
                             door_entity: binary_sensor.front_door_contact
-                            sensor_entity: sensor.front_door_temperature
+                            temperature_entity: sensor.front_door_temperature
                             fan_entity: light.front_door_light
                             light_entity: light.front_spot_light
                         'front_yard_protect_motion':
@@ -498,7 +498,7 @@ cards:
                           variables:
                             motion_entity: binary_sensor.front_yard_protect_motion
                             door_entity: binary_sensor.front_door_contact
-                            sensor_entity: sensor.cc_temperature
+                            temperature_entity: sensor.cc_temperature
                             fan_entity: light.front_door_light
                             light_entity: light.front_spot_light
                     - type: custom:state-switch
@@ -516,7 +516,7 @@ cards:
                           variables:
                             motion_entity: binary_sensor.back_deck_protect_motion
                             door_entity: binary_sensor.back_door_contact
-                            sensor_entity: sensor.cc_temperature
+                            temperature_entity: sensor.cc_temperature
                             fan_entity: light.back_door_light
                             light_entity: light.back_spot_light
                         'back_yard_protect_motion':
@@ -527,7 +527,7 @@ cards:
                           variables:
                             motion_entity: binary_sensor.back_yard_protect_motion
                             door_entity: binary_sensor.back_door_contact
-                            sensor_entity: sensor.cc_temperature
+                            temperature_entity: sensor.cc_temperature
                             fan_entity: light.back_door_light
                             light_entity: light.back_spot_light
           - type: custom:mini-climate
@@ -612,7 +612,7 @@ cards:
                 variables:
                   motion_entity: binary_sensor.master_bedroom_motion_occupancy
                   door_entity: calendar.work
-                  sensor_entity: sensor.master_bedroom_motion_temperature
+                  temperature_entity: sensor.master_bedroom_motion_temperature
                   light_entity: group.master_bedroom_lights
                   fan_entity: fan.master_bedroom_fan
                 triggers_update:
@@ -623,7 +623,7 @@ cards:
                 variables:
                   motion_entity: binary_sensor.master_bathroom_motion_occupancy
                   door_entity: binary_sensor.master_bathroom_hygrostat
-                  sensor_entity: sensor.master_bathroom_motion_temperature
+                  temperature_entity: sensor.master_bathroom_motion_temperature
                   light_entity: group.master_bathroom_lights
                   fan_entity: fan.master_bathroom_fan
                 triggers_update:
@@ -634,7 +634,7 @@ cards:
                 name: William
                 variables:
                   motion_entity: binary_sensor.williams_protect_motion
-                  sensor_entity: sensor.william_s_room_button_temperature
+                  temperature_entity: sensor.william_s_room_button_temperature
                   light_entity: group.william_s_room_lights
                   fan_entity: fan.williams_room_fan
                 triggers_update:
@@ -645,7 +645,7 @@ cards:
                 name: Henry
                 variables:
                   motion_entity: binary_sensor.henrys_protect_motion
-                  sensor_entity: sensor.henry_s_room_button_temperature
+                  temperature_entity: sensor.henry_s_room_button_temperature
                   light_entity: group.henry_s_room_lights
                   fan_entity: fan.henrys_room_fan
                 triggers_update:
@@ -656,7 +656,7 @@ cards:
                 name: Guest
                 variables:
                   motion_entity: binary_sensor.guest_room_motion_any
-                  sensor_entity: sensor.guest_room_motion_temperature
+                  temperature_entity: sensor.guest_room_motion_temperature
                   light_entity: group.guest_room_lights
                   fan_entity: fan.guest_room_fan
                 triggers_update:
@@ -676,7 +676,7 @@ cards:
                     variables:
                       motion_entity: binary_sensor.guest_bathroom_motion_occupancy
                       door_entity: binary_sensor.guest_bathroom_hygrostat
-                      sensor_entity: sensor.guest_bathroom_motion_temperature
+                      temperature_entity: sensor.guest_bathroom_motion_temperature
                       light_entity: light.guest_bathroom_light
                       fan_entity: fan.guest_bathroom_fan
                   'kids_bathroom_motion_occupancy':
@@ -698,7 +698,8 @@ cards:
                       alert_entity: sensor.ms963932g_laundry_machine_state
                       motion_entity: binary_sensor.laundry_room_motion_occupancy
                       door_entity: binary_sensor.laundry_room_leak_water_leak
-                      fan_entity: null
+                      temperature_entity: sensor.laundry_room_motion_temperature
+                      light_entity: light.laundry_room_light
           - type: custom:mini-climate
             entity: climate.entry
             card_mod:
@@ -800,7 +801,7 @@ cards:
                       name: Kitchen
                       variables:
                         motion_entity: binary_sensor.kitchen_motion_occupancy
-                        sensor_entity: sensor.kitchen_motion_temperature
+                        temperature_entity: sensor.kitchen_motion_temperature
                         light_entity: group.kitchen_lights
                       triggers_update:
                         - binary_sensor.kitchen_motion_occupancy
@@ -810,8 +811,8 @@ cards:
                       name: Living
                       variables:
                         motion_entity: binary_sensor.living_room_motion_any
-                        door_entity: remote.hubname
-                        sensor_entity: sensor.living_room_motion_temperature
+                        alert_entity: remote.hubname
+                        temperature_entity: sensor.living_room_motion_temperature
                         light_entity: group.living_room_lights
                         fan_entity: fan.living_room_fan
                       triggers_update:
@@ -822,8 +823,8 @@ cards:
                       name: Dining
                       variables:
                         motion_entity: binary_sensor.dining_room_motion_any
-                        door_entity: vacuum.roomba
-                        sensor_entity: sensor.dining_room_motion_temperature
+                        alert_entity: vacuum.roomba
+                        temperature_entity: sensor.dining_room_motion_temperature
                         light_entity: light.dining_room_light
                         fan_entity: null
                       triggers_update:
@@ -835,7 +836,7 @@ cards:
                       variables:
                         motion_entity: binary_sensor.sunroom_motion_any
                         door_entity: binary_sensor.sunroom_door_contact
-                        sensor_entity: sensor.sunroom_motion_temperature
+                        temperature_entity: sensor.sunroom_motion_temperature
                         light_entity: light.sunroom_fan_light
                         fan_entity: fan.sunroom_fan
                       triggers_update:
@@ -851,7 +852,7 @@ cards:
                           name: Mudroom
                           variables:
                             motion_entity: binary_sensor.mudroom_motion_occupancy
-                            sensor_entity: sensor.mudroom_motion_temperature
+                            temperature_entity: sensor.mudroom_motion_temperature
                             door_entity: binary_sensor.mudroom_door_contact
                             light_entity: light.mudroom_light
                             fan_entity: null
@@ -863,7 +864,7 @@ cards:
                           name: Powder
                           variables:
                             motion_entity: binary_sensor.powder_room_motion_occupancy
-                            sensor_entity: sensor.powder_room_motion_temperature
+                            temperature_entity: sensor.powder_room_motion_temperature
                             door_entity: null
                             light_entity: light.powder_room_light
                             fan_entity: fan.powder_room_fan
@@ -876,5 +877,7 @@ cards:
                       variables:
                         motion_entity: binary_sensor.garage_motion_any
                         door_entity: binary_sensor.garage_door_contact
-                        sensor_entity: sensor.garage_motion_temperature
+                        temperature_entity: sensor.garage_motion_temperature
                         light_entity: group.garage_lights
+                      triggers_update:
+                        - binary_sensor.garage_motion_any

@@ -473,10 +473,13 @@ cards:
                     grid-template-rows: auto
                   cards:
                     - type: custom:state-switch
-                      entity: binary_sensor.front_door_protect_motion
+                      entity: |
+                        {{ (expand(['binary_sensor.front_yard_protect_motion',
+                                    'binary_sensor.front_door_protect_motion'])
+                             | max(attribute='last_updated')).object_id }}
                       transition: slide-left
                       states:
-                        'on':
+                        'front_door_protect_motion':
                           type: custom:button-card
                           template: mini-area-card
                           entity: camera.front_door_protect_high
@@ -487,7 +490,7 @@ cards:
                             sensor_entity: sensor.front_door_temperature
                             fan_entity: light.front_door_light
                             light_entity: light.front_spot_light
-                        'off':
+                        'front_yard_protect_motion':
                           type: custom:button-card
                           template: mini-area-card
                           entity: camera.front_yard_protect_high
@@ -499,10 +502,13 @@ cards:
                             fan_entity: light.front_door_light
                             light_entity: light.front_spot_light
                     - type: custom:state-switch
-                      entity: binary_sensor.back_deck_protect_motion
+                      entity: |
+                        {{ (expand(['binary_sensor.back_yard_protect_motion',
+                                    'binary_sensor.back_deck_protect_motion'])
+                             | max(attribute='last_updated')).object_id }}
                       transition: slide-left
                       states:
-                        'on':
+                        'back_deck_protect_motion':
                           type: custom:button-card
                           template: mini-area-card
                           entity: camera.back_deck_protect_high
@@ -513,7 +519,7 @@ cards:
                             sensor_entity: sensor.cc_temperature
                             fan_entity: light.back_door_light
                             light_entity: light.back_spot_light
-                        'off':
+                        'back_yard_protect_motion':
                           type: custom:button-card
                           template: mini-area-card
                           entity: camera.back_yard_protect_high
@@ -609,6 +615,8 @@ cards:
                   sensor_entity: sensor.master_bedroom_motion_temperature
                   light_entity: group.master_bedroom_lights
                   fan_entity: fan.master_bedroom_fan
+                triggers_update:
+                  - binary_sensor.master_bedroom_motion_occupancy
               - type: custom:button-card
                 template: mini-area-card
                 name: M Bath
@@ -618,6 +626,8 @@ cards:
                   sensor_entity: sensor.master_bathroom_motion_temperature
                   light_entity: group.master_bathroom_lights
                   fan_entity: fan.master_bathroom_fan
+                triggers_update:
+                  - binary_sensor.master_bathroom_motion_occupancy
               - type: custom:button-card
                 template: mini-area-card
                 entity: camera.williams_protect_high
@@ -627,6 +637,8 @@ cards:
                   sensor_entity: sensor.william_s_room_button_temperature
                   light_entity: group.william_s_room_lights
                   fan_entity: fan.williams_room_fan
+                triggers_update:
+                  - binary_sensor.williams_protect_motion
               - type: custom:button-card
                 template: mini-area-card
                 entity: camera.henrys_protect_high
@@ -636,6 +648,8 @@ cards:
                   sensor_entity: sensor.henry_s_room_button_temperature
                   light_entity: group.henry_s_room_lights
                   fan_entity: fan.henrys_room_fan
+                triggers_update:
+                  - binary_sensor.henrys_protect_motion
               - type: custom:button-card
                 template: mini-area-card
                 entity: camera.guest_room_protect_high
@@ -645,28 +659,44 @@ cards:
                   sensor_entity: sensor.guest_room_motion_temperature
                   light_entity: group.guest_room_lights
                   fan_entity: fan.guest_room_fan
+                triggers_update:
+                  - binary_sensor.guest_room_motion_any
               - type: custom:state-switch
-                entity: binary_sensor.laundry_room_motion_occupancy
+                entity: |
+                  {{ (expand(['binary_sensor.laundry_room_motion_occupancy',
+                              'binary_sensor.guest_bathroom_motion_occupancy',
+                              'binary_sensor.kids_bathroom_motion_occupancy'])
+                       | max(attribute='last_updated')).object_id }}
                 transition: slide-left
                 states:
-                  'off':
+                  'guest_bathroom_motion_occupancy':
                     type: custom:button-card
                     template: mini-area-card
-                    name: Guest Bath
+                    name: G Bath
                     variables:
-                      motion_entity: binary_sensor.guest_bathroom_motion_any
+                      motion_entity: binary_sensor.guest_bathroom_motion_occupancy
                       door_entity: binary_sensor.guest_bathroom_hygrostat
                       sensor_entity: sensor.guest_bathroom_motion_temperature
                       light_entity: light.guest_bathroom_light
                       fan_entity: fan.guest_bathroom_fan
-                  'on':
+                  'kids_bathroom_motion_occupancy':
+                    type: custom:button-card
+                    template: mini-area-card
+                    name: K Bath
+                    variables:
+                      motion_entity: binary_sensor.kids_bathroom_motion_occupancy
+                      door_entity: binary_sensor.kids_bathroom_hygrostat
+                      temperature_entity: sensor.kids_bathroom_motion_temperature
+                      light_entity: light.kids_bathroom_light
+                      fan_entity: fan.kids_bathroom_fan
+                  'laundry_room_motion_occupancy':
                     type: custom:button-card
                     template: mini-area-card
                     name: Laundry
                     variables:
+                      __alert_entity_2: sensor.vs553419c_laundry_machine_state
+                      alert_entity: sensor.ms963932g_laundry_machine_state
                       motion_entity: binary_sensor.laundry_room_motion_occupancy
-                      sensor_entity: sensor.laundry_room_motion_temperature
-                      light_entity: light.laundry_room_light
                       door_entity: binary_sensor.laundry_room_leak_water_leak
                       fan_entity: null
           - type: custom:mini-climate
@@ -772,6 +802,8 @@ cards:
                         motion_entity: binary_sensor.kitchen_motion_occupancy
                         sensor_entity: sensor.kitchen_motion_temperature
                         light_entity: group.kitchen_lights
+                      triggers_update:
+                        - binary_sensor.kitchen_motion_occupancy
                     - type: custom:button-card
                       template: mini-area-card
                       entity: camera.living_room_protect_high
@@ -782,6 +814,8 @@ cards:
                         sensor_entity: sensor.living_room_motion_temperature
                         light_entity: group.living_room_lights
                         fan_entity: fan.living_room_fan
+                      triggers_update:
+                        - binary_sensor.living_room_motion_any
                     - type: custom:button-card
                       template: mini-area-card
                       entity: camera.dining_room_protect_high
@@ -792,6 +826,8 @@ cards:
                         sensor_entity: sensor.dining_room_motion_temperature
                         light_entity: light.dining_room_light
                         fan_entity: null
+                      triggers_update:
+                        - binary_sensor.dining_room_motion_any
                     - type: custom:button-card
                       template: mini-area-card
                       name: Sunroom
@@ -802,11 +838,14 @@ cards:
                         sensor_entity: sensor.sunroom_motion_temperature
                         light_entity: light.sunroom_fan_light
                         fan_entity: fan.sunroom_fan
+                      triggers_update:
+                        - binary_sensor.sunroom_motion_any
                     - type: custom:state-switch
-                      entity: binary_sensor.powder_room_motion_occupancy
+                      entity: |
+                        {{ states['binary_sensor.powder_room_motion_occupancy'].last_changed > states['binary_sensor.mudroom_motion_occupancy'].last_changed and 'powder_room' or 'mudroom' }}
                       transition: slide-left
                       states:
-                        'off':
+                        'mudroom':
                           type: custom:button-card
                           template: mini-area-card
                           name: Mudroom
@@ -816,7 +855,9 @@ cards:
                             door_entity: binary_sensor.mudroom_door_contact
                             light_entity: light.mudroom_light
                             fan_entity: null
-                        'on':
+                          triggers_update:
+                            - binary_sensor.mudroom_motion_occupancy
+                        'powder_room':
                           type: custom:button-card
                           template: mini-area-card
                           name: Powder
@@ -826,6 +867,8 @@ cards:
                             door_entity: null
                             light_entity: light.powder_room_light
                             fan_entity: fan.powder_room_fan
+                          triggers_update:
+                            - binary_sensor.powder_room_motion_occupancy
                     - type: custom:button-card
                       template: mini-area-card
                       entity: camera.garage_protect_high

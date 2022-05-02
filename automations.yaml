@@ -1026,33 +1026,51 @@
   mode: parallel
   max: 2
 - id: '1625752603984'
-  alias: Leak Detected
-  description: ''
+  alias: Water Leak Detected
+  description: Water leak detection
   trigger:
   - platform: state
-    entity_id: binary_sensor.laundry_room_washer_leak_water_leak
+    entity_id:
+    - binary_sensor.laundry_room_washer_leak_water_leak
+    - binary_sensor.laundry_room_dryer_leak_water_leak
     to: 'on'
   condition: []
   action:
-  - service: notify.mobile_app_james_iphone
+  - type: turn_off
+    device_id: b9bea195719b7e53a8ae66a04660c655
+    entity_id: switch.laundry_washer_plug_centralite_on_off
+    domain: switch
+  - service: script.notify
     data:
-      message: A leak was detected by {{ state_attr(trigger.to_state.entity_id, 'friendly_name')
-        }}
-      title: Leak Detected
+      title: Water Leak Detected
+      message: 'A water leak was detected by {{ state_attr(trigger.to_state.entity_id,
+        ''friendly_name'') }} at {{ as_timestamp(state_attr(this.entity_id,
+
+        ''last_triggered''))|timestamp_custom(''%I:%M %p'') }}'
       data:
+        group: water-leak
+        tag: water-leak
         push:
           sound:
             name: default
             critical: 1
             volume: 1
-  - type: turn_off
-    device_id: b9bea195719b7e53a8ae66a04660c655
-    entity_id: switch.laundry_washer_plug_centralite_on_off
-    domain: switch
-  - service: tts.google_translate_say
+  - service: script.announce
     data:
       entity_id: media_player.all_speakers
-      message: A leak was detected in the laundry room
+      message: A leak was detected in the {{ area_name(trigger.entity_id) }}
+  - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
+    timeout: '2:00:00'
+  - service: script.announce
+    data:
+      entity_id: media_player.all_speakers
+      message: The water leak has cleared
+  - service: script.notify
+    data:
+      title: ''
+      message: clear_notification
+      data:
+        tag: water-leak
   mode: single
 - id: '1629366808660'
   alias: Update Available Notification

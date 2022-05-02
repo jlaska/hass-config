@@ -1030,7 +1030,7 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.laundry_room_leak_water_leak
+    entity_id: binary_sensor.laundry_room_washer_leak_water_leak
     to: 'on'
   condition: []
   action:

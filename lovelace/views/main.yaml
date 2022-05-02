@@ -697,7 +697,7 @@ cards:
                       __alert_entity_2: sensor.vs553419c_laundry_machine_state
                       alert_entity: sensor.ms963932g_laundry_machine_state
                       motion_entity: binary_sensor.laundry_room_motion_occupancy
-                      door_entity: binary_sensor.laundry_room_leak_water_leak
+                      door_entity: binary_sensor.laundry_room_washer_leak_water_leak
                       temperature_entity: sensor.laundry_room_motion_temperature
                       light_entity: light.laundry_room_light
           - type: custom:mini-climate

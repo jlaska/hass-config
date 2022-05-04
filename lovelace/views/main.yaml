@@ -185,7 +185,7 @@ cards:
                 wind_speed: sensor.cc_wind_speed
                 forecast: true
               forecast:
-                meteogram: camera.weather_local_forecast
+                # meteogram: camera.weather_local_forecast
                 temperature_high:
                   day_1: sensor.cc_temperature_maximum_0d
                 temperature_low:
@@ -225,20 +225,14 @@ cards:
               - type: picture-entity
                 show_name: false
                 show_state: false
-                entity: camera.weather_noaa_us_continent
-                name: US Continent
-                aspect_ratio: '625:375'
-              - type: picture-entity
-                show_name: false
-                show_state: false
-                entity: camera.weather_noaa_us_east_coast
-                name: US Atlantic Coast
+                entity: camera.weather_local_forecast
+                name: Local Forecast
                 aspect_ratio: '625:375'
               - type: picture-entity
                 show_name: false
                 show_state: false
                 entity: camera.weather_local_doplar
-                name: Doplar Radar
+                name: Local Doplar Radar
                 aspect_ratio: '625:375'
           - type: custom:button-card
             entity: sensor.powerwall_charge
@@ -826,6 +820,10 @@ cards:
                         fan_entity: fan.living_room_fan
                       triggers_update:
                         - binary_sensor.living_room_motion_any
+                        - remote.hubname
+                        - switch.hubname_watch_apple_tv
+                        - switch.hubname_watch_nintendo
+                        - switch.hubname_watch_tv
                     - type: custom:button-card
                       template: mini-area-card
                       entity: camera.dining_room_protect_high

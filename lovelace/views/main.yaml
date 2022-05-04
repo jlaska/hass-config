@@ -608,10 +608,12 @@ cards:
             cards:
               - type: custom:button-card
                 template: mini-area-card
+                entity: null
                 name: Master
                 variables:
                   motion_entity: binary_sensor.master_bedroom_motion_occupancy
-                  door_entity: calendar.work
+                  door_entity: null
+                  alert_entity: calendar.work
                   temperature_entity: sensor.master_bedroom_motion_temperature
                   light_entity: group.master_bedroom_lights
                   fan_entity: fan.master_bedroom_fan
@@ -619,6 +621,7 @@ cards:
                   - binary_sensor.master_bedroom_motion_occupancy
               - type: custom:button-card
                 template: mini-area-card
+                entity: null
                 name: M Bath
                 variables:
                   motion_entity: binary_sensor.master_bathroom_motion_occupancy
@@ -679,6 +682,8 @@ cards:
                       temperature_entity: sensor.guest_bathroom_motion_temperature
                       light_entity: light.guest_bathroom_light
                       fan_entity: fan.guest_bathroom_fan
+                    triggers_update:
+                      - binary_sensor.guest_bathroom_motion_occupancy
                   'kids_bathroom_motion_occupancy':
                     type: custom:button-card
                     template: mini-area-card
@@ -689,6 +694,8 @@ cards:
                       temperature_entity: sensor.kids_bathroom_motion_temperature
                       light_entity: light.kids_bathroom_light
                       fan_entity: fan.kids_bathroom_fan
+                    triggers_update:
+                      - binary_sensor.kids_bathroom_motion_occupancy
                   'laundry_room_motion_occupancy':
                     type: custom:button-card
                     template: mini-area-card
@@ -700,6 +707,8 @@ cards:
                       door_entity: binary_sensor.laundry_room_washer_leak_water_leak
                       temperature_entity: sensor.laundry_room_motion_temperature
                       light_entity: light.laundry_room_light
+                    triggers_update:
+                      - binary_sensor.laundry_room_motion_occupancy
           - type: custom:mini-climate
             entity: climate.entry
             card_mod:

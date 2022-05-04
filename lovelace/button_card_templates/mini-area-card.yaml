@@ -38,19 +38,23 @@ mini-area-card:
         - align-self: start
         - padding-right: 0px
         - padding-top: 0px
+        - z-index: 1
       buttons:
         - justify-self: end
         - align-self: end
         - padding-right: 0px
         - padding-bottom: 0px
+        - z-index: 1
       sensors:
         - justify-self: start
         - align-self: end
         - padding-left: 10px
         - padding-bottom: 10px
+        - z-index: 1
       camera_image:
         - position: absolute
         - width: 100%
+        # FIXME: '-1' causes problems when outside a state-switch card ???
         - z-index: 0
   custom_fields:
     camera_image: |
@@ -69,7 +73,7 @@ mini-area-card:
         type: custom:layout-card
         layout_type: custom:grid-layout
         layout:
-          grid-template-columns: repeat(3, 1fr)
+          grid-template-columns: repeat(3, auto)
           grid-template-rows: auto
         cards:
           - type: custom:button-card
@@ -108,15 +112,13 @@ mini-area-card:
                 - color: var(--text-accent-color, var(--text-primary-color))
                 - border-radius: 50%
             state:
-              - value: 'Off'
-                styles:
-                  card:
-                    - display: none
-              - value: 'off'
-                styles:
-                  card:
-                    - display: none
-              - value: docked
+              - value: |
+                  [[[
+                    if (variables.alert_entity === null || ['off', 'docked'].includes(states[variables.alert_entity].state.toLowerCase()))
+                      return true;
+                    return false;
+                  ]]]
+                operator: template
                 styles:
                   card:
                     - display: none
@@ -140,7 +142,13 @@ mini-area-card:
                 - color: var(--text-accent-color, var(--text-primary-color))
                 - border-radius: 50%
             state:
-              - value: 'off'
+              - value: |
+                  [[[
+                    if (variables.door_entity === null || states[variables.door_entity].state == 'off')
+                      return true;
+                    return false;
+                  ]]]
+                operator: template
                 styles:
                   card:
                     - display: none
@@ -164,7 +172,13 @@ mini-area-card:
                 - color: var(--text-accent-color, var(--text-primary-color))
                 - border-radius: 50%
             state:
-              - value: 'off'
+              - value: |
+                  [[[
+                    if (variables.motion_entity === null || states[variables.motion_entity].state == 'off')
+                      return true;
+                    return false;
+                  ]]]
+                operator: template
                 styles:
                   card:
                     - display: none
@@ -229,7 +243,7 @@ mini-area-card:
         type: custom:layout-card
         layout_type: custom:grid-layout
         layout:
-          grid-template-columns: 1fr 1fr
+          grid-template-columns: auto auto
           grid-template-rows: auto
         cards:
           - type: custom:button-card
@@ -261,14 +275,14 @@ mini-area-card:
                   icon:
                     - color: var(--paper-item-icon-active-color)
                     - animation: |
-                        [[[ 
+                        [[[
                           if (variables.fan_entity === null)
                             return;
                           if (['motion'].includes(states[variables.fan_entity].attributes.device_class)) {
                             return 'wiggle 0.5s linear infinite alternate';
                           } else if (variables.fan_entity.startsWith('fan.')) {
                             return "rotating 1.5s reverse linear infinite";
-                          } 
+                          }
                         ]]]
           - type: custom:button-card
             entity: '[[[ return variables.light_entity ]]]'

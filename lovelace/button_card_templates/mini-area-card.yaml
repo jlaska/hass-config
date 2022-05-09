@@ -14,8 +14,13 @@ mini-area-card:
     card:
       - padding: 0px
       - aspect-ratio: 16 / 9
-      - background: linear-gradient(0deg, rgba(33, 33, 33, 0.9) 0%, rgba(33, 33, 33, 0) 45%)
-      - background-color: rgba(0,100,150,0.7)
+      - background: linear-gradient(0, rgba(33, 33, 33, 0.9) 0%, rgba(33, 33, 33, 0) 45%)
+      - background-color: |
+          [[[
+            if (typeof entity === 'undefined')
+              return `rgba(0,100,150,0.7)`;
+              return `var(--ha-card-background, var(--card-background-color, white))`;
+          ]]]
     grid:
       - grid-template-areas: |
           "n alerts"

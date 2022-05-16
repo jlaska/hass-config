@@ -1224,6 +1224,9 @@
         seconds: 5
         milliseconds: 0
     continue_on_timeout: false
+  - service: script.announce
+    data:
+      message: The piano sounded lovely. thank you
   - service: light.turn_off
     target:
       area_id:
@@ -1702,7 +1705,6 @@
   - platform: zone
     entity_id:
     - person.james
-    - person.shannon
     zone: zone.home
     event: enter
   condition:

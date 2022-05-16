@@ -1226,7 +1226,10 @@
     continue_on_timeout: false
   - service: script.announce
     data:
-      message: The piano sounded lovely. thank you
+      message: 'That was the best piano I''ve heard all {{ state_attr(''automation.piano_time'',
+        ''last_triggered'').strftime(''%A'') }}.  Thank you!
+
+        '
   - service: light.turn_off
     target:
       area_id:

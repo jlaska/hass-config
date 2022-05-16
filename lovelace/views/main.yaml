@@ -533,6 +533,7 @@ cards:
                     color: var(--paper-item-icon-color);
                   }
             group: false
+            hide_current_temperature: true
             toggle:
               hide: true
             secondary_info:
@@ -713,6 +714,7 @@ cards:
                   }
             name: Downstairs
             group: false
+            hide_current_temperature: true
             toggle:
               hide: true
             secondary_info:

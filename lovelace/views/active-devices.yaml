@@ -168,6 +168,8 @@ cards:
             type: custom:battery-state-entity
             tap_action: more-info
             secondary_info: last_changed
+      exclude:
+        - entity_id: sensor.powerwall_backup_reserve
     sort:
       method: state
       ignore_case: true
@@ -215,6 +217,8 @@ cards:
         - entity_id: '*summation*'
         - entity_id: '*rms_voltage'
         - entity_id: '*rms_current'
+        - attributes:
+            device_class: frequency
     sort:
       method: state
       reverse: true

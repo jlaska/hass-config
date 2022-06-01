@@ -1724,3 +1724,44 @@
     target:
       entity_id: cover.garage_door_opener
   mode: single
+- id: '1653526542536'
+  alias: Henrys Fan Light - Double Tap
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: 4c5eece593f50f19d28b840520ff2b00
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          color_temp: 330
+          brightness: 255
+        target:
+          entity_id: light.henrys_room_lamps_zha_group_0x0002
+      double_tap_off:
+      - service: light.turn_off
+        target:
+          entity_id:
+          - light.henrys_room_lamps_zha_group_0x0002
+        data:
+          transition: 1
+- id: '1653526677329'
+  alias: Williams Fan Light - Double Tap
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: 732d10456301be460b20349595756983
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          color_temp: 330
+          brightness: 255
+        target:
+          entity_id: light.williams_room_lamps_zha_group_0x0003
+      double_tap_off:
+      - service: light.turn_off
+        data:
+          transition: 1
+        target:
+          entity_id: light.williams_room_lamps_zha_group_0x0003

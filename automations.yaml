@@ -1647,7 +1647,7 @@
       base_image_url: https://homeassistant.jlaska.com
       lovelace_view: /lovelace-cameras/front-door-protect
       silence_timer: 15
-      objects: person
+      objects: person,package
 - id: '1642538127999'
   alias: Garage Door - Notify When Open
   description: ''

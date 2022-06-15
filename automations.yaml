@@ -431,8 +431,6 @@
   - service: switch.turn_off
     target:
       entity_id:
-      - switch.kitchen_plug_ge_on_off
-      - switch.williams_room_plug_ge_on_off
       - switch.holiday_light_switch
     data: {}
   mode: single

@@ -5,7 +5,6 @@ default_config:
 # Text to speech
 tts:
   - platform: google_translate
-    base_url: https://homeassistant.jlaska.com
 
 group: !include groups.yaml
 automation: !include automations.yaml
@@ -82,10 +81,10 @@ camera:
     name: Weather NOAA US Continent
     file_path: /config/www/camera.weather_noaa_us_continent
 
-google:
-  client_id: !secret google_calendar_client_id
-  client_secret: !secret google_calendar_client_secret
-  calendar_access: read_only
+# google:
+#   client_id: !secret google_calendar_client_id
+#   client_secret: !secret google_calendar_client_secret
+#   calendar_access: read_only
 
 downloader:
   download_dir: www

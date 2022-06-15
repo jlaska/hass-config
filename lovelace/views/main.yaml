@@ -467,7 +467,8 @@ cards:
                     grid-template-rows: auto
                   cards:
                     - type: custom:state-switch
-                      entity: |
+                      entity: template
+                      template: |
                         {{ (expand(['binary_sensor.front_yard_protect_motion',
                                     'binary_sensor.front_door_protect_motion'])
                              | max(attribute='last_updated')).object_id }}
@@ -496,7 +497,8 @@ cards:
                             fan_entity: light.front_door_light
                             light_entity: light.front_spot_light
                     - type: custom:state-switch
-                      entity: |
+                      entity: template
+                      template: |
                         {{ (expand(['binary_sensor.back_yard_protect_motion',
                                     'binary_sensor.back_deck_protect_motion'])
                              | max(attribute='last_updated')).object_id }}
@@ -660,7 +662,8 @@ cards:
                 triggers_update:
                   - binary_sensor.guest_room_motion_any
               - type: custom:state-switch
-                entity: |
+                entity: template
+                template: |
                   {{ (expand(['binary_sensor.laundry_room_motion_occupancy',
                               'binary_sensor.guest_bathroom_motion_occupancy',
                               'binary_sensor.kids_bathroom_motion_occupancy'])
@@ -851,11 +854,14 @@ cards:
                       triggers_update:
                         - binary_sensor.sunroom_motion_any
                     - type: custom:state-switch
-                      entity: |
-                        {{ states['binary_sensor.powder_room_motion_occupancy'].last_changed > states['binary_sensor.mudroom_motion_occupancy'].last_changed and 'powder_room' or 'mudroom' }}
+                      entity: template
+                      template: |
+                        {{ (expand(['binary_sensor.powder_room_motion_occupancy',
+                                    'binary_sensor.mudroom_motion_occupancy'])
+                             | max(attribute='last_updated')).object_id }}
                       transition: slide-left
                       states:
-                        'mudroom':
+                        mudroom_motion_occupancy:
                           type: custom:button-card
                           template: mini-area-card
                           name: Mudroom
@@ -867,7 +873,7 @@ cards:
                             fan_entity: null
                           triggers_update:
                             - binary_sensor.mudroom_motion_occupancy
-                        'powder_room':
+                        powder_room_motion_occupancy:
                           type: custom:button-card
                           template: mini-area-card
                           name: Powder

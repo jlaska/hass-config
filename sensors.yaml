@@ -88,9 +88,9 @@
 # Add moon phase sensor
 - platform: moon
 
-# CentraLite Plug Energy
-- platform: integration
-  source: sensor.master_bedroom_plug_centralite_electrical_measurement
-  name: master_bedroom_plug_centralite_energy_consumed
-  unit_prefix: k
-  round: 2
+## CentraLite Plug Energy
+#- platform: integration
+#  source: sensor.master_bedroom_plug_centralite_electrical_measurement
+#  name: master_bedroom_plug_centralite_energy_consumed_yaml
+#  unit_prefix: k
+#  round: 2

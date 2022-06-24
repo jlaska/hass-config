@@ -1216,13 +1216,13 @@
       for:
         hours: 0
         minutes: 0
-        seconds: 5
+        seconds: 3
         milliseconds: 0
     continue_on_timeout: false
   - service: script.announce
     data:
-      message: 'That was the best piano I''ve heard all {{ state_attr(''automation.piano_time'',
-        ''last_triggered'').strftime(''%A'') }}.  Thank you!
+      message: 'That was the best piano I''ve heard all {{ now().strftime(''%A'')
+        }}.  Thank you!
 
         '
   - service: light.turn_off
@@ -1234,7 +1234,7 @@
     data: {}
   mode: restart
 - id: '1631050114594'
-  alias: Bathroom Humidity Automation
+  alias: Bathroom Humidity
   description: Turn on/off bathroom fans based on humidity sensor state
   trigger:
   - platform: state
@@ -1304,6 +1304,18 @@
     - person.james
     - person.shannon
     zone: zone.xl_soccer
+    event: leave
+  - platform: zone
+    entity_id:
+    - person.james
+    - person.shannon
+    zone: zone.ncma
+    event: enter
+  - platform: zone
+    entity_id:
+    - person.james
+    - person.shannon
+    zone: zone.ncma
     event: leave
   condition: []
   action:

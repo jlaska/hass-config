@@ -1772,3 +1772,57 @@
           transition: 1
         target:
           entity_id: light.williams_room_lamps_zha_group_0x0003
+- id: '1655769646628'
+  alias: Back Deck - Activity
+  description: ''
+  use_blueprint:
+    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    input:
+      motion_sensor:
+      - binary_sensor.back_deck_protect_motion
+      - binary_sensor.back_door_contact
+      target_entity: light.deck_rail_light_cct
+      illuminance_sensor: sensor.kitchen_motion_illuminance_lux
+      illuminance_cutoff: input_number.illumination_low
+      no_motion_wait: input_number.inactivity_timeout_medium
+- id: '1655993369268'
+  alias: Notify If Any Power Plug Off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.garage_freezer_plug
+    - switch.garage_chest_freezer_plug_ge_on_off
+    - binary_sensor.grid_status
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 30
+  condition: []
+  action:
+  - service: script.notify
+    data:
+      title: The {{ state_attr(trigger.entity_id, 'friendly_name') }} is off
+      message: Please power on the {{ state_attr(trigger.entity_id, 'friendly_name')
+        }}
+      data:
+        group: notify-power-off
+        tag: notify-power-off-{{ trigger.entity_id }}
+  - service: script.announce
+    data:
+      message: The {{ state_attr(trigger.entity_id, 'friendly_name')|replace(' Contact','')
+        }} is off
+  - wait_template: '{{ is_state(trigger.entity_id, ''on'') }}'
+    timeout: 0:15:00
+  - service: script.notify
+    data:
+      title: ''
+      message: clear_notification
+      data:
+        tag: notify-power-off-{{ trigger.entity_id }}
+  - service: script.announce
+    data:
+      message: Thank you
+  mode: parallel
+  max: 6

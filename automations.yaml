@@ -1073,7 +1073,8 @@
   - platform: state
     from: 'off'
     to: 'on'
-    entity_id: binary_sensor.home_assistant_website_update_available
+    entity_id:
+    - binary_sensor.docker_hub_update_available
   - platform: state
     entity_id: sensor.hacs
     to:
@@ -1081,24 +1082,24 @@
     event: start
   condition:
   - condition: template
-    value_template: '{{ states(''sensor.hacs'')|int(0) > 0 or is_state(''binary_sensor.home_assistant_website_update_available'',
+    value_template: '{{ states(''sensor.hacs'')|int(0) > 0 or is_state(''binary_sensor.docker_hub_update_available'',
       ''on'') }}'
   action:
   - variables:
       update_name: "{% if trigger.entity_id == 'sensor.hacs' %}\n  {{ state_attr('sensor.hacs',\
-        \ 'repositories')[0]['display_name'] }}\n{% elif trigger.entity_id == 'binary_sensor.home_assistant_website_update_available'\
-        \ %}\n  Home Assistant\n{% else %}\n  {{ is_state('binary_sensor.home_assistant_website_update_available',\n\
-        \  'on') and 'Home Assistant' or state_attr('sensor.hacs',\n  'repositories')[0]['display_name']\
+        \ 'repositories')[-1]['display_name'] }}\n{% elif trigger.entity_id == 'binary_sensor.docker_hub_update_available'\
+        \ %}\n  Home Assistant\n{% else %}\n  {{ is_state('binary_sensor.docker_hub_update_available',\n\
+        \  'on') and 'Home Assistant' or state_attr('sensor.hacs',\n  'repositories')[-1]['display_name']\
         \ }}\n{% endif %}"
       update_version: "{% if trigger.entity_id == 'sensor.hacs' %}\n  {{ state_attr('sensor.hacs',\
-        \ 'repositories')[0]['available_version'] }}\n{% elif trigger.entity_id ==\
-        \ 'binary_sensor.home_assistant_website_update_available' %}\n  {{ states('sensor.home_assistant_website')\
-        \ }}\n{% else %}\n  {{ is_state('binary_sensor.home_assistant_website_update_available',\n\
-        \  'on') and states('sensor.home_assistant_website') or\n  state_attr('sensor.hacs',\
-        \ 'repositories')[0]['available_version'] }}\n{% endif %}"
+        \ 'repositories')[-1]['available_version'] }}\n{% elif trigger.entity_id ==\
+        \ 'binary_sensor.docker_hub_update_available' %}\n  {{ states('sensor.docker_hub')\
+        \ }}\n{% else %}\n  {{ is_state('binary_sensor.docker_hub_update_available',\n\
+        \  'on') and states('sensor.docker_hub') or\n  state_attr('sensor.hacs', 'repositories')[-1]['available_version']\
+        \ }}\n{% endif %}"
       update_url: "{% if trigger.entity_id == 'sensor.hacs' %}\n  /hacs\n{% elif trigger.entity_id\
-        \ == 'binary_sensor.home_assistant_website_update_available' %}\n  {{ state_attr('sensor.home_assistant_website','release_notes')\
-        \ }}\n{% else %}\n  {{ is_state('binary_sensor.home_assistant_website_update_available',\n\
+        \ == 'binary_sensor.docker_hub_update_available' %}\n  {{ state_attr('sensor.home_assistant_website','release_notes')\
+        \ }}\n{% else %}\n  {{ is_state('binary_sensor.docker_hub_update_available',\n\
         \  'on') and\n  state_attr('sensor.home_assistant_website','release_notes')\
         \ or\n  '/hacs'}}\n{% endif %}"
   - service: notify.mobile_app_james_iphone

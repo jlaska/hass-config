@@ -513,7 +513,7 @@ cards:
                             motion_entity: binary_sensor.back_deck_protect_motion
                             door_entity: binary_sensor.back_door_contact
                             temperature_entity: sensor.cc_temperature
-                            fan_entity: light.back_door_light
+                            fan_entity: group.back_deck_lights
                             light_entity: light.back_spot_light
                         'back_yard_protect_motion':
                           type: custom:button-card
@@ -524,7 +524,7 @@ cards:
                             motion_entity: binary_sensor.back_yard_protect_motion
                             door_entity: binary_sensor.back_door_contact
                             temperature_entity: sensor.cc_temperature
-                            fan_entity: light.back_door_light
+                            fan_entity: group.back_deck_lights
                             light_entity: light.back_spot_light
           - type: custom:mini-climate
             entity: climate.upstairs

@@ -46,9 +46,6 @@
   name: "Henry's Room Fan Light"
   entity_id: switch.henrys_room_fan_light_switch
 - platform: switch
-  name: Holiday Lights
-  entity_id: switch.holiday_light_switch
-- platform: switch
   name: Kids Bathroom Light
   entity_id: switch.kids_bathroom_light_switch
 - platform: switch

@@ -363,13 +363,14 @@
   - service: light.turn_off
     target:
       entity_id: "{% set exclude_light = [\n    'light.back_door_light',\n    'light.front_door_light',\n\
-        \    'light.garage_exterior_light',\n    'light.holiday_lights',\n    'light.back_spot_light',\n\
-        \    'light.front_spot_light'\n   ] %}\n{%- for device in states.light|selectattr('state','in','on')|rejectattr('entity_id','in',exclude_light)\
+        \    'light.garage_exterior_light',\n    'light.back_spot_light',\n    'light.front_spot_light'\n\
+        \   ] %}\n{%- for device in states.light|selectattr('state','in','on')|rejectattr('entity_id','in',exclude_light)\
         \ -%}\n  {{device.entity_id }}\n  {%- if not loop.last %},{% endif %}\n{%-\
         \ endfor  %}\n"
   - service: fan.turn_off
     target:
       entity_id: all
+    data: {}
   mode: single
 - id: '1618088888089'
   alias: Good Night
@@ -427,11 +428,6 @@
       area_id:
       - living_room
       - sunroom
-    data: {}
-  - service: switch.turn_off
-    target:
-      entity_id:
-      - switch.holiday_light_switch
     data: {}
   mode: single
 - id: '1618103078420'

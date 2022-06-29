@@ -668,6 +668,7 @@
       no_motion_wait: input_number.inactivity_timeout_short
       motion_sensor:
       - binary_sensor.front_door_contact
+      - binary_sensor.front_door_protect_person
       - binary_sensor.front_door_protect_doorbell
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
 - id: '1619447091981'

@@ -213,9 +213,9 @@
       entity_id: light.garage_light
   - delay:
       minutes: '{{ states(''input_number.inactivity_timeout_short'')|int(0) }}'
-  - wait_template: "{{ is_state('binary_sensor.garage_motion_any', 'off')\n   and\
-      \ is_state('binary_sensor.garage_door_contact', 'off')\n   and is_state('binary_sensor.mudroom_door_contact',\
-      \ 'off') \n}} "
+  - wait_template: "{{ is_state('binary_sensor.garage_motion_any', 'off')\n   and
+      is_state('binary_sensor.garage_door_contact', 'off')\n   and is_state('binary_sensor.mudroom_door_contact',
+      'off') \n}} "
     continue_on_timeout: false
   - service: light.turn_off
     target:
@@ -316,9 +316,9 @@
       - light.front_spot_light
     data: {}
   - alias: Wait until all exterior doors are closed
-    wait_template: "{{ not expand(['binary_sensor.back_door_contact', 'binary_sensor.front_door_contact',\
-      \ 'binary_sensor.garage_door_contact', 'cover.garage_door_opener'])\n  | rejectattr('state',\
-      \ 'in', ['off', 'closed'])\n  | map(attribute='name') | list }}\n"
+    wait_template: "{{ not expand(['binary_sensor.back_door_contact', 'binary_sensor.front_door_contact',
+      'binary_sensor.garage_door_contact', 'cover.garage_door_opener'])\n  | rejectattr('state',
+      'in', ['off', 'closed'])\n  | map(attribute='name') | list }}\n"
   - delay:
       hours: 0
       minutes: 5
@@ -362,11 +362,11 @@
     domain: remote
   - service: light.turn_off
     target:
-      entity_id: "{% set exclude_light = [\n    'light.back_door_light',\n    'light.front_door_light',\n\
-        \    'light.garage_exterior_light',\n    'light.back_spot_light',\n    'light.front_spot_light'\n\
-        \   ] %}\n{%- for device in states.light|selectattr('state','in','on')|rejectattr('entity_id','in',exclude_light)\
-        \ -%}\n  {{device.entity_id }}\n  {%- if not loop.last %},{% endif %}\n{%-\
-        \ endfor  %}\n"
+      entity_id: "{% set exclude_light = [\n    'light.back_door_light',\n    'light.front_door_light',\n
+        \   'light.garage_exterior_light',\n    'light.back_spot_light',\n    'light.front_spot_light'\n
+        \  ] %}\n{%- for device in states.light|selectattr('state','in','on')|rejectattr('entity_id','in',exclude_light)
+        -%}\n  {{device.entity_id }}\n  {%- if not loop.last %},{% endif %}\n{%- endfor
+        \ %}\n"
   - service: fan.turn_off
     target:
       entity_id: all
@@ -478,18 +478,18 @@
     before: input_datetime.time_of_day_automation_stop
   - alias: Assert automation.sunset did not run
     condition: template
-    value_template: "{{\n  as_timestamp(utcnow())|timestamp_custom('%-d') != as_timestamp(state_attr('automation.sunset',\
-      \ 'last_triggered'))|timestamp_custom('%-d')\n}}\n"
+    value_template: "{{\n  as_timestamp(utcnow())|timestamp_custom('%-d') != as_timestamp(state_attr('automation.sunset',
+      'last_triggered'))|timestamp_custom('%-d')\n}}\n"
   - alias: Assert a fan or light is on
     condition: template
-    value_template: "{{ expand(area_entities(area_id('binary_sensor.williams_protect_motion')))\n\
-      \  |selectattr('domain', 'in', ['light','fan'])\n  |selectattr('state', 'eq',\
-      \ 'on')\n  |list|length > 0}}\n"
+    value_template: "{{ expand(area_entities(area_id('binary_sensor.williams_protect_motion')))\n
+      \ |selectattr('domain', 'in', ['light','fan'])\n  |selectattr('state', 'eq',
+      'on')\n  |list|length > 0}}\n"
   - alias: Assert no recent motion
     condition: template
-    value_template: "{{ \n  states.binary_sensor.williams_protect_motion.last_updated\
-      \ + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)\
-      \ <= utcnow()\n}}\n"
+    value_template: "{{ \n  states.binary_sensor.williams_protect_motion.last_updated
+      + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)
+      <= utcnow()\n}}\n"
   action:
   - service: light.turn_off
     data: {}
@@ -529,18 +529,18 @@
     before: input_datetime.time_of_day_automation_stop
   - alias: Assert automation.sunset did not run
     condition: template
-    value_template: "{{\n  as_timestamp(utcnow())|timestamp_custom('%-d') != as_timestamp(state_attr('automation.sunset',\
-      \ 'last_triggered'))|timestamp_custom('%-d')\n}}"
+    value_template: "{{\n  as_timestamp(utcnow())|timestamp_custom('%-d') != as_timestamp(state_attr('automation.sunset',
+      'last_triggered'))|timestamp_custom('%-d')\n}}"
   - alias: Assert a fan or light is on
     condition: template
-    value_template: "{{\n  expand(area_entities(area_id('binary_sensor.henrys_protect_motion')))\n\
-      \    |selectattr('domain', 'in', ['light','fan'])\n    |selectattr('state',\
-      \ 'eq', 'on')\n    |list|length > 0\n}}"
+    value_template: "{{\n  expand(area_entities(area_id('binary_sensor.henrys_protect_motion')))\n
+      \   |selectattr('domain', 'in', ['light','fan'])\n    |selectattr('state', 'eq',
+      'on')\n    |list|length > 0\n}}"
   - alias: Assert no recent motion
     condition: template
-    value_template: "{{ \n  states.binary_sensor.henrys_protect_motion.last_updated\
-      \ + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)\
-      \ <= utcnow()\n}}"
+    value_template: "{{ \n  states.binary_sensor.henrys_protect_motion.last_updated
+      + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)
+      <= utcnow()\n}}"
   action:
   - service: light.turn_off
     target:
@@ -854,18 +854,18 @@
     before: input_datetime.time_of_day_automation_stop
   - alias: Assert automation.sunset did not run
     condition: template
-    value_template: "{{\n  as_timestamp(utcnow())|timestamp_custom('%-d') != as_timestamp(state_attr('automation.sunset',\
-      \ 'last_triggered'))|timestamp_custom('%-d')\n}}"
+    value_template: "{{\n  as_timestamp(utcnow())|timestamp_custom('%-d') != as_timestamp(state_attr('automation.sunset',
+      'last_triggered'))|timestamp_custom('%-d')\n}}"
   - alias: Assert a fan or light is on
     condition: template
-    value_template: "{{\n  expand(area_entities(area_id('binary_sensor.master_bedroom_motion_occupancy')))\n\
-      \    |selectattr('domain', 'in', ['light','fan'])\n    |selectattr('state',\
-      \ 'eq', 'on')\n    |list|length > 0\n}}"
+    value_template: "{{\n  expand(area_entities(area_id('binary_sensor.master_bedroom_motion_occupancy')))\n
+      \   |selectattr('domain', 'in', ['light','fan'])\n    |selectattr('state', 'eq',
+      'on')\n    |list|length > 0\n}}"
   - alias: Assert no recent motion
     condition: template
-    value_template: "{{ \n  states.binary_sensor.master_bedroom_motion_occupancy.last_updated\
-      \ + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)\
-      \ <= utcnow()\n}}"
+    value_template: "{{ \n  states.binary_sensor.master_bedroom_motion_occupancy.last_updated
+      + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)
+      <= utcnow()\n}}"
   - alias: Assert not currently in a meeting
     condition: state
     entity_id: calendar.work
@@ -905,18 +905,18 @@
     before: input_datetime.time_of_day_automation_stop
   - alias: Assert automation.sunset did not run
     condition: template
-    value_template: "{{\n  as_timestamp(utcnow())|timestamp_custom('%-d') != as_timestamp(state_attr('automation.sunset',\
-      \ 'last_triggered'))|timestamp_custom('%-d')\n}}\n"
+    value_template: "{{\n  as_timestamp(utcnow())|timestamp_custom('%-d') != as_timestamp(state_attr('automation.sunset',
+      'last_triggered'))|timestamp_custom('%-d')\n}}\n"
   - alias: Assert a fan or light is on
     condition: template
-    value_template: "{{ expand(area_entities(area_id('binary_sensor.guest_room_motion_any')))\n\
-      \  |selectattr('domain', 'in', ['light','fan'])\n  |selectattr('state', 'eq',\
-      \ 'on')\n  |list|length > 0}}\n"
+    value_template: "{{ expand(area_entities(area_id('binary_sensor.guest_room_motion_any')))\n
+      \ |selectattr('domain', 'in', ['light','fan'])\n  |selectattr('state', 'eq',
+      'on')\n  |list|length > 0}}\n"
   - alias: Assert no recent motion
     condition: template
-    value_template: "{{ \n  states.binary_sensor.guest_room_motion_any.last_updated\
-      \ + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)\
-      \ <= utcnow()\n}}\n"
+    value_template: "{{ \n  states.binary_sensor.guest_room_motion_any.last_updated
+      + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)
+      <= utcnow()\n}}\n"
   action:
   - service: light.turn_off
     data: {}
@@ -1087,22 +1087,22 @@
       ''on'') }}'
   action:
   - variables:
-      update_name: "{% if trigger.entity_id == 'sensor.hacs' %}\n  {{ state_attr('sensor.hacs',\
-        \ 'repositories')[-1]['display_name'] }}\n{% elif trigger.entity_id == 'binary_sensor.docker_hub_update_available'\
-        \ %}\n  Home Assistant\n{% else %}\n  {{ is_state('binary_sensor.docker_hub_update_available',\n\
-        \  'on') and 'Home Assistant' or state_attr('sensor.hacs',\n  'repositories')[-1]['display_name']\
-        \ }}\n{% endif %}"
-      update_version: "{% if trigger.entity_id == 'sensor.hacs' %}\n  {{ state_attr('sensor.hacs',\
-        \ 'repositories')[-1]['available_version'] }}\n{% elif trigger.entity_id ==\
-        \ 'binary_sensor.docker_hub_update_available' %}\n  {{ states('sensor.docker_hub')\
-        \ }}\n{% else %}\n  {{ is_state('binary_sensor.docker_hub_update_available',\n\
-        \  'on') and states('sensor.docker_hub') or\n  state_attr('sensor.hacs', 'repositories')[-1]['available_version']\
-        \ }}\n{% endif %}"
-      update_url: "{% if trigger.entity_id == 'sensor.hacs' %}\n  /hacs\n{% elif trigger.entity_id\
-        \ == 'binary_sensor.docker_hub_update_available' %}\n  {{ state_attr('sensor.home_assistant_website','release_notes')\
-        \ }}\n{% else %}\n  {{ is_state('binary_sensor.docker_hub_update_available',\n\
-        \  'on') and\n  state_attr('sensor.home_assistant_website','release_notes')\
-        \ or\n  '/hacs'}}\n{% endif %}"
+      update_name: "{% if trigger.entity_id == 'sensor.hacs' %}\n  {{ state_attr('sensor.hacs',
+        'repositories')[-1]['display_name'] }}\n{% elif trigger.entity_id == 'binary_sensor.docker_hub_update_available'
+        %}\n  Home Assistant\n{% else %}\n  {{ is_state('binary_sensor.docker_hub_update_available',\n
+        \ 'on') and 'Home Assistant' or state_attr('sensor.hacs',\n  'repositories')[-1]['display_name']
+        }}\n{% endif %}"
+      update_version: "{% if trigger.entity_id == 'sensor.hacs' %}\n  {{ state_attr('sensor.hacs',
+        'repositories')[-1]['available_version'] }}\n{% elif trigger.entity_id ==
+        'binary_sensor.docker_hub_update_available' %}\n  {{ states('sensor.docker_hub')
+        }}\n{% else %}\n  {{ is_state('binary_sensor.docker_hub_update_available',\n
+        \ 'on') and states('sensor.docker_hub') or\n  state_attr('sensor.hacs', 'repositories')[-1]['available_version']
+        }}\n{% endif %}"
+      update_url: "{% if trigger.entity_id == 'sensor.hacs' %}\n  /hacs\n{% elif trigger.entity_id
+        == 'binary_sensor.docker_hub_update_available' %}\n  {{ state_attr('sensor.home_assistant_website','release_notes')
+        }}\n{% else %}\n  {{ is_state('binary_sensor.docker_hub_update_available',\n
+        \ 'on') and\n  state_attr('sensor.home_assistant_website','release_notes')
+        or\n  '/hacs'}}\n{% endif %}"
   - service: notify.mobile_app_james_iphone
     data:
       title: Update Available
@@ -1655,7 +1655,7 @@
       base_image_url: https://homeassistant.jlaska.com
       lovelace_view: /lovelace-cameras/front-door-protect
       silence_timer: 15
-      objects: package
+      objects: package, person
 - id: '1642538127999'
   alias: Garage Door - Notify When Open
   description: ''
@@ -1671,9 +1671,9 @@
   - service: script.notify
     data:
       title: Garage Door Open
-      message: "The {{ state_attr(trigger.entity_id, 'friendly_name') }} opened \n\
-        at {{ as_timestamp(state_attr(this.entity_id,\n'last_triggered'))|timestamp_custom('%I:%M\
-        \ %p') }}\n"
+      message: "The {{ state_attr(trigger.entity_id, 'friendly_name') }} opened \nat
+        {{ as_timestamp(state_attr(this.entity_id,\n'last_triggered'))|timestamp_custom('%I:%M
+        %p') }}\n"
       data:
         entity_id: camera.garage_protect_high
         group: garage-door
@@ -1720,9 +1720,9 @@
     event: enter
   condition:
   - condition: template
-    value_template: "{{ (trigger.entity_id == 'person.james' and is_state('sensor.james_iphone_activity',\
-      \ 'Automotive')) or\n   (trigger.entity_id == 'person.shannon' and is_state('sensor.shannons_iphone_activity',\
-      \ 'Automotive')) }}\n"
+    value_template: "{{ (trigger.entity_id == 'person.james' and is_state('sensor.james_iphone_activity',
+      'Automotive')) or\n   (trigger.entity_id == 'person.shannon' and is_state('sensor.shannons_iphone_activity',
+      'Automotive')) }}\n"
   - condition: state
     entity_id: cover.garage_door_opener
     state: closed
@@ -1826,6 +1826,35 @@
         tag: notify-power-off-{{ trigger.entity_id }}
   - service: script.announce
     data:
-      message: Thank you
+      message: The {{ state_attr(trigger.entity_id, 'friendly_name')|replace(' Contact','')
+        }} has been restored
   mode: parallel
   max: 6
+- id: '1656538179014'
+  alias: Front Door - Person Announce
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.front_door_protect_person
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.front_door_contact
+    state: 'Off'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 10
+  - condition: state
+    entity_id: binary_sensor.front_door_protect_doorbell
+    state: 'off'
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  action:
+  - service: script.announce
+    data:
+      message: someone is at the front door
+  mode: single

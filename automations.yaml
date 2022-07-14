@@ -1261,7 +1261,7 @@
   - alias: Turn on/off any fan found in the same area_id
     service: fan.turn_{{ states(trigger.to_state.entity_id) }}
     target:
-      entity_id: '{{ ''fan.%s_fan'' % area_id(trigger.entity_id) }}
+      area_id: '{{ area_id(trigger.entity_id) }}
 
         '
   mode: parallel

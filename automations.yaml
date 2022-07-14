@@ -1877,7 +1877,7 @@
   condition:
   - condition: state
     entity_id: binary_sensor.front_door_contact
-    state: 'Off'
+    state: 'off'
     for:
       hours: 0
       minutes: 0

@@ -1876,15 +1876,18 @@
     to: 'on'
   condition:
   - condition: state
-    entity_id: binary_sensor.front_door_contact
+    entity_id:
+    - binary_sensor.front_door_contact
+    - binary_sensor.front_door_protect_doorbell
+    - binary_sensor.garage_door_contact
     state: 'off'
     for:
       hours: 0
-      minutes: 0
-      seconds: 10
+      minutes: 1
+      seconds: 0
   - condition: state
-    entity_id: binary_sensor.front_door_protect_doorbell
-    state: 'off'
+    entity_id: cover.garage_door_opener
+    state: closed
     for:
       hours: 0
       minutes: 1
@@ -1892,5 +1895,5 @@
   action:
   - service: script.announce
     data:
-      message: someone is at the front door
+      message: Someone is at the front door
   mode: single

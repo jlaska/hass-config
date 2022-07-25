@@ -1489,7 +1489,7 @@
   use_blueprint:
     path: jlaska/generic_button.yaml
     input:
-      mqtt_sensor: sensor.master_bedroom_button_action
+      mqtt_sensor: sensor.master_bedroom_left_button_action
       zha_sensor:
       single_action:
       - service: light.toggle

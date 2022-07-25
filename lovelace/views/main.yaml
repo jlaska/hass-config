@@ -218,8 +218,8 @@ cards:
           - type: custom:swipe-card
             parameters:
               autoplay:
-                delay: 6000
-              speed: 600
+                delay: 8000
+              speed: 400
               preloadImages: true
             cards:
               - type: picture-entity
@@ -809,10 +809,13 @@ cards:
                       name: Kitchen
                       variables:
                         motion_entity: binary_sensor.kitchen_motion_occupancy
+                        alert_entity: binary_sensor.kitchen_refrigerator_door_contact
                         temperature_entity: sensor.kitchen_motion_temperature
                         light_entity: group.kitchen_lights
                       triggers_update:
                         - binary_sensor.kitchen_motion_occupancy
+                        - binary_sensor.kitchen_refrigerator_door_contact
+                        - group.kitchen_lights
                     - type: custom:button-card
                       template: mini-area-card
                       entity: camera.living_room_protect_high
@@ -829,6 +832,8 @@ cards:
                         - switch.hubname_watch_apple_tv
                         - switch.hubname_watch_nintendo
                         - switch.hubname_watch_tv
+                        - group.living_room_lights
+                        - fan.living_room_fan
                     - type: custom:button-card
                       template: mini-area-card
                       entity: camera.dining_room_protect_high
@@ -853,6 +858,10 @@ cards:
                         fan_entity: fan.sunroom_fan
                       triggers_update:
                         - binary_sensor.sunroom_motion_any
+                        - binary_sensor.sunroom_door_contact
+                        - sensor.sunroom_motion_temperature
+                        - light.sunroom_fan_light
+                        - fan.sunroom_fan
                     - type: custom:state-switch
                       entity: template
                       template: |
@@ -891,8 +900,12 @@ cards:
                       name: Garage
                       variables:
                         motion_entity: binary_sensor.garage_motion_any
+                        alert_entity: binary_sensor.garage_freezer_door_contact
                         door_entity: binary_sensor.garage_door_contact
                         temperature_entity: sensor.garage_motion_temperature
                         light_entity: group.garage_lights
                       triggers_update:
                         - binary_sensor.garage_motion_any
+                        - binary_sensor.garage_freezer_door_contact
+                        - binary_sensor.garage_door_contact
+                        - group.garage_lights

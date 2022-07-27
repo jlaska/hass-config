@@ -1831,6 +1831,7 @@
     - switch.garage_freezer_plug
     - switch.garage_chest_freezer_plug_ge_on_off
     - binary_sensor.grid_status
+    - switch.garage_chest_freezer_plug
     to:
     - 'off'
     - unknown

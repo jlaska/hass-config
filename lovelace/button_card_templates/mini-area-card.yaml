@@ -295,7 +295,7 @@ mini-area-card:
             show_state: false
             show_name: false
             tap_action:
-              action: toggle
+              action: '[[[ return variables.light_entity.startsWith("group.") && "more-info" || "toggle" ]]]'
             hold_action:
               action: more-info
             state:
@@ -304,14 +304,14 @@ mini-area-card:
                   icon:
                     - color: var(--paper-item-icon-active-color)
                     - animation: |
-                        [[[ 
+                        [[[
                           if (variables.light_entity === null)
                             return;
                           if (['motion'].includes(states[variables.light_entity].attributes.device_class)) {
                             return 'wiggle 0.5s linear infinite alternate';
                           } else if (variables.light_entity.startsWith('fan.')) {
                             return "rotating 1.5s reverse linear infinite";
-                          } 
+                          }
                         ]]]
             styles:
               card:

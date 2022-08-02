@@ -1328,6 +1328,18 @@
     - person.shannon
     zone: zone.ncma
     event: leave
+  - platform: zone
+    entity_id:
+    - person.james
+    - person.shannon
+    zone: zone.trc
+    event: enter
+  - platform: zone
+    entity_id:
+    - person.james
+    - person.shannon
+    zone: zone.trc
+    event: leave
   condition: []
   action:
   - service: script.turn_on

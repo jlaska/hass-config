@@ -56,13 +56,6 @@ template: !include templates.yaml
 zha: !include zha.yaml
 homekit: !include homekit.yaml
 
-# Google Nest Integration
-nest:
-  client_id: !secret google_nest_client_id
-  client_secret: !secret google_nest_client_secret
-  project_id: !secret google_nest_project_id
-  subscriber_id: !secret google_nest_subscriber_id
-
 # Use camera plugin for forcast/doplar images
 camera:
   - platform: local_file
@@ -80,11 +73,6 @@ camera:
   - platform: local_file
     name: Weather NOAA US Continent
     file_path: /config/www/camera.weather_noaa_us_continent
-
-# google:
-#   client_id: !secret google_calendar_client_id
-#   client_secret: !secret google_calendar_client_secret
-#   calendar_access: read_only
 
 downloader:
   download_dir: www

@@ -21,6 +21,8 @@ ge_switch_led_light:
     - switch.williams_closet_light_switch
     - switch.james_closet_light_switch
     - switch.guest_room_closet_light_switch
+    - switch.master_bedroom_nightstand_switch
+    - switch.master_bedroom_fan_switch
     node_ids:
     - 2
     - 3
@@ -344,24 +346,25 @@ announce:
       announce: false
       volume: true
     - entity_id: media_player.master_bedroom
-      normal: 0.3
+      normal: 0.7
       quiet: 0.3
       announce: true
-      volume: false
+      volume: true
     - entity_id: media_player.living_room_homepod_left
-      normal: 0.3
+      normal: 0.7
       quiet: 0.3
       announce: false
       volume: false
     - entity_id: media_player.living_room_homepod_right
-      normal: 0.3
+      normal: 0.7
       quiet: 0.3
       announce: false
       volume: false
   sequence:
   - variables:
-      volume_mode: '{% set current_time = now().strftime("%H:%M:%S") -%} {{ current_time
-        < states(''input_datetime.lights_out_kids'') and ''normal'' or ''quiet'' }}
+      volume_mode: '{% set current_time = now().strftime("%H:%M:%S") -%} {{ (current_time
+        < states(''input_datetime.lights_out_kids'') and is_state(''calendar.work'',
+        ''off'')) and ''normal'' or ''quiet'' }}
 
         '
   - alias: Set volume

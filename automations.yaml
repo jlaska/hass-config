@@ -1738,7 +1738,7 @@
       motion_sensor:
       - binary_sensor.back_deck_protect_motion
       - binary_sensor.back_door_contact
-      target_entity: light.deck_rail_light_cct
+      target_entity: group.back_deck_lights
       illuminance_sensor: sensor.kitchen_motion_illuminance_lux
       illuminance_cutoff: input_number.illumination_low
       no_motion_wait: input_number.inactivity_timeout_medium

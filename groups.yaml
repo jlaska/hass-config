@@ -1,0 +1,163 @@
+motion:
+  name: 'Downstairs Motion Group'
+  icon: mdi:motion-sensor
+  entities:
+    - binary_sensor.dining_room_motion_any
+    - binary_sensor.dining_room_motion_ias_zone
+    - binary_sensor.living_room_motion_any
+    - binary_sensor.living_room_motion_ias_zone
+    - binary_sensor.lumi_lumi_sensor_motion_kitchen_ias_zone
+    - binary_sensor.lumi_lumi_sensor_motion_kitchen_occupancy
+    - binary_sensor.motion_dining_room_protect
+    - binary_sensor.motion_living_room_protect
+    - binary_sensor.motion_sunroom_protect
+    - binary_sensor.mudroom_motion_ias_zone
+    - binary_sensor.sunroom_motion_any
+
+outside_lights:
+  name: 'Outside Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.back_door_light
+    - light.back_spot_light
+    - light.front_door_light
+    - light.front_spot_light
+    - light.garage_exterior_light
+
+downstairs_lights:
+  name: 'Downstairs Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.dining_room_light
+    - light.entryway_door_light
+    - light.entryway_hall_light
+    - light.garage_light
+    - light.garage_work_light
+    - light.kitchen_cabinet_light
+    - light.kitchen_end_table_light_zha_group_0x0004
+    - light.kitchen_island_light
+    - light.kitchen_light
+    - light.kitchen_table_light
+    - light.living_room_bookshelf
+    - light.living_room_fan_light
+    - light.living_room_light
+    - light.living_room_table_lamp
+    - light.mudroom_light
+    - light.sunroom_fan_light
+
+upstairs_lights:
+  name: 'Upstairs Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.guest_bathroom_light
+    - light.guest_room_fan_light
+    - light.guest_room_nightstand
+    - light.henrys_room_fan_light
+    - light.henrys_room_lamps_zha_group_0x0002
+    - light.henrys_room_light
+    - light.laundry_room_light
+    - light.master_bathroom_light
+    - light.master_bathroom_shower_light
+    - light.master_bathroom_toilet_light
+    - light.master_bedroom_fan_light
+    - light.master_bedroom_light
+    - light.master_bedroom_nightstand
+    - light.williams_room_fan_light
+    - light.williams_room_lamps_zha_group_0x0003
+    - light.williams_room_light
+
+kitchen_lights:
+  name: 'Kitchen Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.kitchen_cabinet_light
+    - light.kitchen_end_table_light_zha_group_0x0004
+    - light.kitchen_island_light
+    - light.kitchen_light
+    - light.kitchen_table_light
+
+living_room_lights:
+  name: 'Living Room Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.living_room_bookshelf
+    - light.living_room_fan_light
+    - light.living_room_light
+    - light.living_room_table_lamp
+
+dining_room_lights:
+  name: 'Dining Room Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.dining_room_light
+    - light.entryway_door_light
+    - light.entryway_hall_light
+
+entryway_lights:
+  name: 'Entryway Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.entryway_door_light
+    - light.entryway_hall_light
+    - light.stairway_light
+
+garage_lights:
+  name: 'Garage Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.garage_light
+    - light.garage_work_light
+
+master_bedroom_lights:
+  name: 'Master Bedroom Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.master_bedroom_fan_light
+    - light.master_bedroom_light
+    - light.master_bedroom_nightstand
+
+master_bathroom_lights:
+  name: 'Master Bathroom Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.master_bathroom_light
+    - light.master_bathroom_shower_light
+    - light.master_bathroom_toilet_light
+
+henry_s_room_lights:
+  name: "Henry's Room Lights"
+  icon: mdi:lightbulb-group
+  entities:
+    - light.henry_s_room_fan_light
+    - light.henrys_room_floor_lamp
+    - light.henrys_room_lamps_zha_group_0x0002
+    - light.henrys_room_light
+    - light.henrys_room_table_lamp
+
+william_s_room_lights:
+  name: "William's Room Lights"
+  icon: mdi:lightbulb-group
+  entities:
+    - light.william_s_closet_light
+    - light.william_s_room_fan_light
+    - light.williams_room_floor_lamp
+    - light.williams_room_lamps_zha_group_0x0003
+    - light.williams_room_light
+    - light.williams_room_table_lamp
+
+guest_room_lights:
+  name: 'Guest Room Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.guest_room_closet_light
+    - light.guest_room_fan_light
+    - light.guest_room_nightstand
+
+back_deck_lights:
+  name: 'Back Deck Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.back_door_light
+    - light.deck_rail_light_cct
+    - light.deck_rail_light_rgb
+    - light.deck_step_light

@@ -257,7 +257,14 @@ mini-area-card:
             show_state: false
             show_name: false
             tap_action:
-              action: toggle
+              action: |
+                [[[
+                  if (typeof variables.fan_entity === 'string' || variables.fan_entity instanceof String) {
+                    return variables.fan_entity.startsWith("group.") && "more-info" || "toggle";
+                  } else {
+                    return 'more-info';
+                  }
+                ]]]
             hold_action:
               action: more-info
             styles:
@@ -295,7 +302,14 @@ mini-area-card:
             show_state: false
             show_name: false
             tap_action:
-              action: '[[[ return variables.light_entity.startsWith("group.") && "more-info" || "toggle" ]]]'
+              action: |
+                [[[
+                  if (typeof variables.light_entity === 'string' || variables.fan_entity instanceof String) {
+                    return variables.light_entity.startsWith("group.") && "more-info" || "toggle";
+                  } else {
+                    return 'more-info';
+                  }
+                ]]]
             hold_action:
               action: more-info
             state:

@@ -10,6 +10,50 @@
       icon_template: mdi:calendar
       value_template: "{{ as_timestamp(states('sensor.date_time_iso')) | timestamp_custom('%A, %B %d') }}"
 
+    # Period of day sensor
+    period_of_day:
+      friendly_name: Period of the day
+      value_template: |
+        {%- if is_state('sun.sun','above_horizon') %}
+          day
+        {%- elif is_state('sun.sun','below_horizon') %}
+          {%- if state_attr('sun.sun', 'rising') %}
+            {%- if state_attr('sun.sun', 'elevation') < -18.0 %}
+              night
+            {%- elif state_attr('sun.sun', 'elevation') < -12.0 %}
+            astronomical_dawn
+            {%- elif state_attr('sun.sun', 'elevation') < -6.0 %}
+            nautical_dawn
+            {%- elif state_attr('sun.sun', 'elevation') < 0.0 %}
+            civil_dawn
+            {%- else %}
+              unknown
+            {%- endif %}
+          {%- else %}
+            {%- if state_attr('sun.sun', 'elevation') < -18.0 %}
+              night
+            {%- elif state_attr('sun.sun', 'elevation') < -12.0 %}
+            astronomical_twilight
+            {%- elif state_attr('sun.sun', 'elevation') < -6.0 %}
+            nautical_twilight
+            {%- elif state_attr('sun.sun', 'elevation') < 0.0 %}
+            civil_twilight
+            {%- else %}
+              unknown
+            {%- endif %}
+          {%- endif %}
+        {%- endif %}
+      icon_template: |
+        {%- if (as_timestamp(state_attr('sun.sun','next_dusk'))) - (as_timestamp(state_attr('sun.sun','next_setting'))) < 0 %}
+          mdi:weather-sunset-down
+        {%- elif (as_timestamp(state_attr('sun.sun','next_rising'))) - (as_timestamp(state_attr('sun.sun','next_dawn'))) < 0 %}
+          mdi:weather-sunset-up
+        {%- elif is_state('sun.sun','above_horizon') %}
+          mdi:weather-sunny
+        {%- else %}
+          mdi:weather-night
+        {%- endif %}
+
     # Climacel Sensors, see also:
     #   - templates.yaml
     #   - https://community.home-assistant.io/t/ha-card-weather-conditions-setup-with-climacell-tomorrow-io-integration/314398)

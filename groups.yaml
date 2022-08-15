@@ -157,7 +157,6 @@ back_deck_lights:
   name: 'Back Deck Lights'
   icon: mdi:lightbulb-group
   entities:
-    - light.back_door_light
     - light.deck_rail_light_cct
     - light.deck_rail_light_rgb
     - light.deck_step_light

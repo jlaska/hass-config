@@ -153,10 +153,17 @@ guest_room_lights:
     - light.guest_room_fan_light
     - light.guest_room_nightstand
 
+back_lights:
+  name: 'Back Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.back_door_light
+    - light.deck_rail_light
+    - light.deck_step_light
+
 back_deck_lights:
   name: 'Back Deck Lights'
   icon: mdi:lightbulb-group
   entities:
-    - light.deck_rail_light_cct
-    - light.deck_rail_light_rgb
+    - light.deck_rail_light
     - light.deck_step_light

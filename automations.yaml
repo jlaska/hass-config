@@ -25,20 +25,23 @@
   - platform: numeric_state
     entity_id: sun.sun
     attribute: elevation
-    above: '-35.0'
-  - platform: numeric_state
-    entity_id: sun.sun
-    attribute: elevation
     above: '-18.0'
-  - platform: template
-    value_template: '{{ utcnow() >= state_attr(''sun.sun'', ''next_dawn'')|as_datetime
-      }}'
+  - platform: state
+    entity_id:
+    - sun.sun
+    attribute: next_dawn
   - platform: state
     entity_id:
     - sun.sun
     to: above_horizon
   condition:
-  - alias: Last triggered more than 6 hours ago
+  - alias: Run once per day
+    condition: template
+    value_template: '{{ now().day != (state_attr(this.entity_id, ''last_triggered'')|as_local).day
+      }}
+
+      '
+  - alias: Last trigger more than 6 hours ago
     condition: template
     value_template: '{{ utcnow() - state_attr(this.entity_id, ''last_triggered'')
       >
@@ -47,9 +50,14 @@
 
       '
   action:
-  - alias: Random delay
-    delay:
-      seconds: '{{ range(0,5400)|random|int }}'
+  - alias: If triggered by time, introduce a random delay for variability
+    if:
+    - condition: template
+      value_template: '{{ trigger.platform == ''time'' }}'
+    then:
+    - alias: Random delay
+      delay:
+        seconds: '{{ range(0,5400)|random|int }}'
   - scene: scene.dawn
   mode: single
 - id: '1617754756338'

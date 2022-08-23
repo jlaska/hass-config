@@ -858,6 +858,18 @@
     entity_id: sun.sun
     attribute: elevation
     below: '-2.5'
+  - platform: state
+    entity_id:
+    - sun.sun
+    attribute: next_dusk
+  - platform: state
+    entity_id:
+    - sensor.period_of_day
+    to: nautical_twilight
+  - platform: state
+    entity_id:
+    - sun.sun
+    to: below_horizon
   condition: []
   action:
   - scene: scene.dusk

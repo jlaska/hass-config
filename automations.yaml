@@ -1860,3 +1860,20 @@
     data:
       message: Someone is at the front door
   mode: single
+- id: '1662509874218'
+  alias: Master Bedroom Light - Double Tap
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: d7c9ce7e99d9ebc5bcdd364acfeb0535
+      double_tap_on:
+      - service: light.turn_on
+        data: {}
+        target:
+          area_id: master_bedroom
+      double_tap_off:
+      - service: light.turn_off
+        data: {}
+        target:
+          area_id: master_bedroom

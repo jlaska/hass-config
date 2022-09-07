@@ -403,19 +403,24 @@
   - platform: state
     entity_id: binary_sensor.downstairs_motion_any
     to: 'off'
-    for: 0:45:00
+    for: 0:30:00
   - platform: time
     at:
-    - '23:30:00'
-    - 00:00:00
-    - 00:30:00
-    - 01:00:00
-    - 01:30:00
+    - input_datetime.goodnight_start_time
+    - input_datetime.goodnight_stop_time
   condition:
-  - condition: state
+  - alias: Assert TV off
+    condition: state
+    state: 'off'
+    for:
+      minutes: 30
+    entity_id: remote.hubname
+  - alias: Assert evening
+    condition: state
     entity_id: sun.sun
     state: below_horizon
-  - condition: time
+  - alias: Assert between time window
+    condition: time
     after: input_datetime.goodnight_start_time
     before: input_datetime.goodnight_stop_time
   - alias: Assert no recent motion
@@ -1712,9 +1717,10 @@
     event: enter
   condition:
   - condition: template
-    value_template: "{{ (trigger.entity_id == 'person.james' and is_state('sensor.james_iphone_activity',
-      'Automotive')) or\n   (trigger.entity_id == 'person.shannon' and is_state('sensor.shannons_iphone_activity',
-      'Automotive')) }}\n"
+    value_template: '{{ (trigger.entity_id == ''person.james'' and is_state(''sensor.james_iphone_activity'',
+      ''Automotive'')) }}
+
+      '
   - condition: state
     entity_id: cover.garage_door_opener
     state: closed

@@ -90,6 +90,7 @@ dining_room_lights:
   icon: mdi:lightbulb-group
   entities:
     - light.dining_room_light
+    - light.dining_room_floor_lamp
     - light.entryway_door_light
     - light.entryway_hall_light
 

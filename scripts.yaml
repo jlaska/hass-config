@@ -178,6 +178,7 @@ zone_geofence_light_pulse:
     - light.living_room_bookshelf_left
     - light.living_room_bookshelf_right
     - light.living_room_table_lamp
+    - light.dining_room_floor_lamp
     sengled_entities:
     - light.kitchen_end_table_light_1_level_light_color_on_off
     - light.kitchen_end_table_light_2_level_light_color_on_off

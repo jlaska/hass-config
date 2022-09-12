@@ -32,9 +32,12 @@
       state: 'on'
       brightness: 255
       color_temp: 330
-    light.dining_room_light:
-      brightness: 255
+    light.dining_room_floor_lamp:
       state: 'on'
+      min_mireds: 111
+      max_mireds: 400
+      brightness: 255
+      color_temp: 300
 - id: '1617753584822'
   name: Dawn
   icon: mdi:weather-sunset-up
@@ -111,6 +114,8 @@
   name: Roomba Start
   icon: mdi:robot-vacuum
   entities:
+    light.entryway_door_light:
+      state: 'on'
     light.dining_room_light:
       brightness: 255
       state: 'on'
@@ -129,10 +134,20 @@
     light.dining_room_light:
       brightness: 255
       state: 'on'
-    light.entryway_door_light: true
-    light.entryway_hall_light: true
-    light.stairway_light: true
+    light.entryway_door_light:
+      state: 'on'
+    light.entryway_hall_light:
+      state: 'on'
+    light.stairway_light:
+      state: 'on'
+    light.dining_room_floor_lamp:
+      min_mireds: 111
+      max_mireds: 666
+      color_temp: 471
+      brightness: 255
+      state: 'on'
   icon: mdi:piano
+  metadata: {}
 - id: '1622419078893'
   name: Dusk
   icon: mdi:weather-sunset-down

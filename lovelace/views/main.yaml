@@ -842,7 +842,7 @@ cards:
                         motion_entity: binary_sensor.dining_room_motion_any
                         alert_entity: vacuum.roomba
                         temperature_entity: sensor.dining_room_motion_temperature
-                        light_entity: light.dining_room_light
+                        light_entity: group.dining_room_lights
                         fan_entity: null
                       triggers_update:
                         - binary_sensor.dining_room_motion_any

@@ -401,13 +401,14 @@
   description: Lights out when quiet at night
   trigger:
   - platform: state
-    entity_id: binary_sensor.downstairs_motion_any
+    entity_id:
+    - binary_sensor.downstairs_motion_any
     to: 'off'
-    for: 0:30:00
-  - platform: time
-    at:
-    - input_datetime.goodnight_start_time
-    - input_datetime.goodnight_stop_time
+    for:
+      minutes: '{{states(''input_number.inactivity_timeout_long'')|int }}'
+  - platform: state
+    entity_id:
+    - schedule.goodnight_schedule
   condition:
   - alias: Assert TV off
     condition: state
@@ -419,19 +420,19 @@
     condition: state
     entity_id: sun.sun
     state: below_horizon
-  - alias: Assert between time window
-    condition: time
-    after: input_datetime.goodnight_start_time
-    before: input_datetime.goodnight_stop_time
   - alias: Assert no recent motion
     condition: state
     entity_id: binary_sensor.downstairs_motion_any
     state: 'off'
-    for: 00:45:00
+    for:
+      minutes: 30
   - alias: Assert last_triggered was greater than 8 hours ago
     condition: template
     value_template: '{{ utcnow() - state_attr(this.entity_id, ''last_triggered'')
       > timedelta(hours=8) }}'
+  - condition: state
+    entity_id: schedule.goodnight_schedule
+    state: 'on'
   action:
   - service: light.turn_off
     data: {}

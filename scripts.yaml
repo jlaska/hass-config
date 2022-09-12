@@ -347,7 +347,7 @@ announce:
       announce: false
       volume: true
     - entity_id: media_player.master_bedroom
-      normal: 0.7
+      normal: 0.6
       quiet: 0.3
       announce: true
       volume: true

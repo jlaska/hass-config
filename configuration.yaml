@@ -39,13 +39,6 @@ http:
   use_x_forwarded_for: true
   trusted_proxies: !secret trusted_proxies
 
-# LFX UDP broadcast isn't working on my network
-lifx:
-  light:
-    - broadcast: !secret lifx_mini_ip
-    - broadcast: !secret lifx_z_1_ip
-    - broadcast: !secret lifx_z_2_ip
-
 sensor: !include sensors.yaml
 binary_sensor: !include binary_sensors.yaml
 device_tracker: !include device_trackers.yaml

@@ -158,7 +158,7 @@ cards:
     filter:
       include:
         - domain: sensor
-          state: < 30
+          state: < 20
           attributes:
             device_class: battery
           options:

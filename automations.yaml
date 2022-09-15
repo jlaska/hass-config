@@ -586,9 +586,15 @@
   description: A full cycle of the roomba vacuum
   trigger:
   - platform: state
-    entity_id: vacuum.roomba
+    entity_id:
+    - vacuum.roomba
     to: cleaning
-    for: 0:00:03
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 3
+  - platform: homeassistant
+    event: start
   condition:
   - alias: Is it dark in the area?
     condition: or
@@ -602,6 +608,13 @@
     - condition: state
       entity_id: sun.sun
       state: below_horizon
+  - condition: state
+    entity_id: vacuum.roomba
+    state: cleaning
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
   action:
   - scene: scene.robot_start
   - condition: numeric_state
@@ -618,7 +631,8 @@
       brightness_pct: 100
   - wait_for_trigger:
     - platform: state
-      entity_id: vacuum.roomba
+      entity_id:
+      - vacuum.roomba
       to: docked
       for:
         seconds: 30

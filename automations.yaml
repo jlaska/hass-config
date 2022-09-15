@@ -426,10 +426,10 @@
     state: 'off'
     for:
       minutes: 30
-  - alias: Assert last_triggered was greater than 8 hours ago
+  - alias: Assert last_triggered was more than 8 hours ago
     condition: template
-    value_template: '{{ utcnow() - state_attr(this.entity_id, ''last_triggered'')
-      > timedelta(hours=8) }}'
+    value_template: '{{ state_attr(this.entity_id, ''last_triggered'')|default(utcnow()
+      - timedelta(weeks=1), true) < utcnow() - timedelta(hours=8) }}'
   - condition: state
     entity_id: schedule.goodnight_schedule
     state: 'on'

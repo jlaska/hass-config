@@ -761,7 +761,7 @@
       motion_sensor: binary_sensor.kids_bathroom_motion_occupancy
       illuminance_sensor: sensor.kids_bathroom_motion_illuminance_lux
       turn_off_blocker_entity: binary_sensor.kids_bathroom_hygrostat
-      turn_off_blocker_wait: input_number.inactivity_timeout_long
+      turn_off_blocker_wait: input_number.inactivity_timeout_extralong
 - id: '1620651897512'
   alias: Notify If Any Door Left Open
   description: ''

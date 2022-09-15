@@ -34,10 +34,8 @@
       color_temp: 330
     light.dining_room_floor_lamp:
       state: 'on'
-      min_mireds: 111
-      max_mireds: 400
       brightness: 255
-      color_temp: 300
+      color_temp: 285
 - id: '1617753584822'
   name: Dawn
   icon: mdi:weather-sunset-up
@@ -141,11 +139,9 @@
     light.stairway_light:
       state: 'on'
     light.dining_room_floor_lamp:
-      min_mireds: 111
-      max_mireds: 666
-      color_temp: 471
-      brightness: 255
       state: 'on'
+      brightness: 255
+      color_temp: 285
   icon: mdi:piano
   metadata: {}
 - id: '1622419078893'
@@ -166,3 +162,19 @@
     light.henrys_room_floor_lamp: false
     light.henrys_room_table_lamp: false
     light.henrys_room_light: false
+- id: '1663082820871'
+  name: Dining Room Activity
+  entities:
+    light.dining_room_floor_lamp:
+      state: 'on'
+      brightness: 255
+      color_temp: 285
+  icon: mdi:motion-sensor
+  metadata: {}
+- id: '1663083065132'
+  name: Dining Room Inactivity
+  entities:
+    light.dining_room_floor_lamp: false
+    light.dining_room_light: false
+  icon: mdi:motion-sensor-off
+  metadata: {}

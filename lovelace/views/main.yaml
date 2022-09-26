@@ -469,9 +469,11 @@ cards:
                     - type: custom:state-switch
                       entity: template
                       template: |
-                        {{ (expand(['binary_sensor.front_yard_protect_motion',
-                                    'binary_sensor.front_door_protect_motion'])
-                             | max(attribute='last_updated')).object_id }}
+                        {% set entities = expand(['binary_sensor.front_yard_protect_motion',
+                          'binary_sensor.front_door_protect_motion']) %}
+                        {% if (entities|count > 0) %}
+                        {{ (entities|max(attribute='last_updated')).object_id }}
+                        {% endif %}
                       transition: slide-left
                       states:
                         'front_door_protect_motion':
@@ -499,9 +501,11 @@ cards:
                     - type: custom:state-switch
                       entity: template
                       template: |
-                        {{ (expand(['binary_sensor.back_yard_protect_motion',
-                                    'binary_sensor.back_deck_protect_motion'])
-                             | max(attribute='last_updated')).object_id }}
+                        {% set entities = expand(['binary_sensor.back_yard_protect_motion',
+                          'binary_sensor.back_deck_protect_motion']) %}
+                        {% if (entities|count > 0) %}
+                        {{ (entities|max(attribute='last_updated')).object_id }}
+                        {% endif %}
                       transition: slide-left
                       states:
                         'back_deck_protect_motion':
@@ -664,10 +668,12 @@ cards:
               - type: custom:state-switch
                 entity: template
                 template: |
-                  {{ (expand(['binary_sensor.laundry_room_motion_occupancy',
-                              'binary_sensor.guest_bathroom_motion_occupancy',
-                              'binary_sensor.kids_bathroom_motion_occupancy'])
-                       | max(attribute='last_updated')).object_id }}
+                  {% set entities = expand(['binary_sensor.laundry_room_motion_occupancy',
+                    'binary_sensor.guest_bathroom_motion_occupancy',
+                    'binary_sensor.kids_bathroom_motion_occupancy']) %}
+                  {% if (entities|count > 0) %}
+                  {{ (entities|max(attribute='last_updated')).object_id }}
+                  {% endif %}
                 transition: slide-left
                 states:
                   'guest_bathroom_motion_occupancy':
@@ -865,9 +871,11 @@ cards:
                     - type: custom:state-switch
                       entity: template
                       template: |
-                        {{ (expand(['binary_sensor.powder_room_motion_occupancy',
-                                    'binary_sensor.mudroom_motion_occupancy'])
-                             | max(attribute='last_updated')).object_id }}
+                        {% set entities = expand(['binary_sensor.powder_room_motion_occupancy',
+                          'binary_sensor.mudroom_motion_occupancy']) %}
+                        {% if (entities|count > 0) %}
+                        {{ (entities|max(attribute='last_updated')).object_id }}
+                        {% endif %}
                       transition: slide-left
                       states:
                         mudroom_motion_occupancy:

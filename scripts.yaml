@@ -446,7 +446,7 @@ notify:
         title: '{{ title }}'
         message: '{{ message }}'
         data: '{{ data }}'
-  - condition: '{{ is_persistent }}'
+  - condition: '{{ is_persistent|default(False) }}'
   - service: notify.persistent_notification
     data:
       title: '{{ title }}'

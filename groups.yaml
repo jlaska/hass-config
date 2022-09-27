@@ -130,10 +130,10 @@ henry_s_room_lights:
   icon: mdi:lightbulb-group
   entities:
     - light.henry_s_room_fan_light
-    - light.henrys_room_floor_lamp
-    - light.henrys_room_lamps_zha_group_0x0002
     - light.henrys_room_light
-    - light.henrys_room_table_lamp
+    # - light.henrys_room_table_lamp
+    # - light.henrys_room_floor_lamp
+    - light.henrys_room_lamps_zha_group_0x0002
 
 william_s_room_lights:
   name: "William's Room Lights"
@@ -141,10 +141,10 @@ william_s_room_lights:
   entities:
     - light.william_s_closet_light
     - light.william_s_room_fan_light
-    - light.williams_room_floor_lamp
-    - light.williams_room_lamps_zha_group_0x0003
     - light.williams_room_light
-    - light.williams_room_table_lamp
+    # - light.williams_room_table_lamp
+    # - light.williams_room_floor_lamp
+    - light.williams_room_lamps_zha_group_0x0003
 
 guest_room_lights:
   name: 'Guest Room Lights'

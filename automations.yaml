@@ -727,7 +727,7 @@
       motion_sensor: binary_sensor.dining_room_motion_occupancy
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
       no_motion_wait: input_number.inactivity_timeout_medium
-      target_off_entity: scene.dining_room_inactivity
+      target_off_entity: group.dining_room_lights
 - id: '1619530751693'
   alias: Sunrise
   description: ''

@@ -168,7 +168,7 @@
     light.dining_room_floor_lamp:
       state: 'on'
       brightness: 255
-      color_temp: 285
+      color_temp: 333
   icon: mdi:motion-sensor
   metadata: {}
 - id: '1663083065132'

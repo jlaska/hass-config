@@ -1791,9 +1791,7 @@
   use_blueprint:
     path: jlaska/on_off_with_motion_illuminance_timeout.yaml
     input:
-      motion_sensor:
-      - binary_sensor.back_deck_protect_motion
-      - binary_sensor.back_door_contact
+      motion_sensor: binary_sensor.back_deck_protect_motion,binary_sensor.back_door_contact
       target_entity: group.back_deck_lights
       illuminance_sensor: sensor.kitchen_motion_illuminance_lux
       illuminance_cutoff: input_number.illumination_low
@@ -1854,21 +1852,32 @@
     to: 'on'
   condition:
   - condition: state
-    entity_id:
-    - binary_sensor.front_door_contact
-    - binary_sensor.front_door_protect_doorbell
-    - binary_sensor.garage_door_contact
+    entity_id: binary_sensor.front_door_contact
     state: 'off'
     for:
       hours: 0
-      minutes: 1
+      minutes: 10
       seconds: 0
   - condition: state
     entity_id: cover.garage_door_opener
     state: closed
     for:
       hours: 0
-      minutes: 1
+      minutes: 10
+      seconds: 0
+  - condition: state
+    entity_id: binary_sensor.front_door_protect_doorbell
+    state: 'off'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  - condition: state
+    entity_id: binary_sensor.garage_door_contact
+    state: 'off'
+    for:
+      hours: 0
+      minutes: 10
       seconds: 0
   action:
   - service: script.announce

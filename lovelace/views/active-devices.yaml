@@ -48,11 +48,6 @@ cards:
       include:
         - domain: switch
           attributes:
-            icon: mdi:power-socket-us
-          options:
-            secondary_info: last-changed
-        - domain: switch
-          attributes:
             device_class: outlet
           options:
             secondary_info: last-changed

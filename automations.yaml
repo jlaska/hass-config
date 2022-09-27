@@ -1100,7 +1100,7 @@
   action:
   - type: turn_off
     device_id: b9bea195719b7e53a8ae66a04660c655
-    entity_id: switch.laundry_washer_plug_centralite_on_off
+    entity_id: switch.laundry_room_washer_plug_centralite_switch
     domain: switch
   - service: script.notify
     data:
@@ -1262,15 +1262,13 @@
   - type: power
     platform: device
     device_id: 3a590d149622d6333f61fcff22283d9f
-    entity_id: sensor.dining_room_plug_samjin_electrical_measurement
+    entity_id: sensor.dining_room_plug_samjin_electricalmeasurement
     domain: sensor
     above: 0.5
     for:
       hours: 0
       minutes: 0
       seconds: 1
-      milliseconds: 0
-    id: piano_on
   condition: []
   action:
   - scene: scene.piano_time
@@ -1278,7 +1276,7 @@
     - type: power
       platform: device
       device_id: 3a590d149622d6333f61fcff22283d9f
-      entity_id: sensor.dining_room_plug_samjin_electrical_measurement
+      entity_id: sensor.dining_room_plug_samjin_electricalmeasurement
       domain: sensor
       below: 0.5
       for:
@@ -1807,9 +1805,10 @@
   - platform: state
     entity_id:
     - switch.garage_freezer_plug
-    - switch.garage_chest_freezer_plug_ge_on_off
-    - binary_sensor.grid_status
     - switch.garage_chest_freezer_plug
+    - switch.garage_chest_freezer_fan_plug_ge_switch
+    - switch.laundry_room_washer_plug_centralite_switch
+    - binary_sensor.grid_status
     to:
     - 'off'
     - unknown

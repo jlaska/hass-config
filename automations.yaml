@@ -264,8 +264,25 @@
   - condition: time
     after: input_datetime.time_of_day_automation_start
     before: '15:00:00'
+  - condition: sun
+    before: sunset
+    after: sunrise
+  - condition: state
+    entity_id: sun.sun
+    state: above_horizon
+  - condition: state
+    entity_id: sensor.period_of_day
+    state: day
   action:
-  - scene: scene.downstairs_inactivity
+  - service: light.turn_off
+    data: {}
+    target:
+      area_id: living_room
+      entity_id:
+      - light.kitchen_end_table_light_zha_group_0x0004
+      - light.kitchen_island_light
+      - light.kitchen_cabinet_light
+      - light.kitchen_table_light
   mode: restart
 - id: '1618002489309'
   alias: Master Bathroom Button

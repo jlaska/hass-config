@@ -127,7 +127,7 @@
       - condition: not
         conditions:
         - condition: state
-          entity_id: media_player.family_room_apple_tv
+          entity_id: media_player.family_room_appletv
           state: playing
   action:
   - scene: scene.downstairs_motion

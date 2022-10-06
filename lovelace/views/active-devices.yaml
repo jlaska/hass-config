@@ -205,21 +205,18 @@ cards:
   - type: custom:auto-entities
     card:
       type: entities
-      title: Plug Power
+      title: Watts On
     filter:
       include:
         - domain: sensor
-          entity_id: /.*(electrical|smartenergy).*/
           state: '> 0.0'
+          attributes:
+              unit_of_measurement: W
           options:
             secondary_info: last-changed
       exclude:
-        - entity_id: '*summation*'
-        - entity_id: '*rms_voltage'
-        - entity_id: '*rms_current'
-        - attributes:
-            device_class: frequency
+        - entity_id: sensor.solaredge_modbus_*
     sort:
       method: state
       reverse: true
-      ignore_case: true
+      numeric: true

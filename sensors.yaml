@@ -129,9 +129,6 @@
     - 'date_time_iso'
     - 'time_date'
 
-# Add moon phase sensor
-- platform: moon
-
 ## CentraLite Plug Energy
 #- platform: integration
 #  source: sensor.master_bedroom_plug_centralite_electrical_measurement

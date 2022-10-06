@@ -649,6 +649,7 @@ cards:
                 name: Henry
                 variables:
                   motion_entity: binary_sensor.henrys_protect_motion
+                  door_entity: binary_sensor.henrys_room_closet_door_contact
                   temperature_entity: sensor.henry_s_room_button_temperature
                   light_entity: group.henry_s_room_lights
                   fan_entity: fan.henrys_room_fan

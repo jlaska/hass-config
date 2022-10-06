@@ -1918,3 +1918,45 @@
         data: {}
         target:
           area_id: master_bedroom
+- id: '1664630103324'
+  alias: Homekit Harmony Handler
+  description: Handle homekit remote event data
+  trigger:
+  - platform: event
+    event_type: 'homekit_tv_remote_key_pressed '
+    event_data: {}
+  condition: []
+  action:
+  - service: notify.mobile_app_james_iphone
+    data:
+      title: Harmony Event
+      message: Things are happening!
+  mode: single
+- id: '1664929317664'
+  alias: Henry’s Room Closet Activity
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.henrys_room_closet_door_contact
+    to: 'on'
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      transition: 0
+      color_temp: 500
+      brightness: 255
+    target:
+      entity_id:
+      - group.henry_s_room_closet_light
+  - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
+    timeout:
+      minutes: '{{states(''input_number.inactivity_timeout_medium'')|int }}'
+    continue_on_timeout: true
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id:
+      - group.henry_s_room_closet_light
+  mode: restart

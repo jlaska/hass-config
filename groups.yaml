@@ -134,6 +134,15 @@ henry_s_room_lights:
     # - light.henrys_room_table_lamp
     # - light.henrys_room_floor_lamp
     - light.henrys_room_lamps_zha_group_0x0002
+    - light.henrys_room_closet_light_cct
+    - light.henrys_room_closet_light_rgb
+
+henry_s_room_closet_light:
+  name: "Henry's Room Closet Light"
+  icon: mdi:led-strip-variant
+  entities:
+    - light.henrys_room_closet_light_cct
+    - light.henrys_room_closet_light_rgb
 
 william_s_room_lights:
   name: "William's Room Lights"

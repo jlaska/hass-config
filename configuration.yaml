@@ -32,8 +32,7 @@ lovelace:
 
 logger:
   default: warning
-  logs:
-    homeassistant.components.http.ban: debug
+  logs: {}
 
 http:
   use_x_forwarded_for: true

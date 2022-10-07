@@ -215,7 +215,8 @@ cards:
           options:
             secondary_info: last-changed
       exclude:
-        - entity_id: sensor.solaredge_modbus_*
+        - entity_id: sensor.solaredge_*
+        - entity_id: sensor.power_production_now
     sort:
       method: state
       reverse: true

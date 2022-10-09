@@ -1,14 +1,48 @@
-- filter:
+- name: Control Bridge
+  port: 21063
+  filter:
     include_domains:
       - light
       - fan
+      - cover
+      - climate
     include_entity_globs:
       - switch.*_on_off
-      - binary_sensor.*_ias_zone
-      - binary_sensor.*_on_off
+      - switch.*_plug*
+      - switch.hubname_watch_*
     # Exclude LIFX bulbs since they have native homekit
     exclude_entity_globs:
       - light.living_room_bookshelf_*
       - light.kitchen_end_table_light_*_level_light_color_on_off
-    exclude_entities:
-      - light.dining_room_floor_lamp
+      - light.dining_room_floor_lamp*
+
+- name: Sensor Bridge
+  port: 21064
+  filter:
+    include_entity_globs:
+      - binary_sensor.*_motion_occupancy
+      - binary_sensor.*_protect_motion
+      - binary_sensor.*_door_contact
+      # - binary_sensor.*_laundry_door
+      - binary_sensor.nest_protect_*_co_status
+      - binary_sensor.nest_protect_*_occupancy
+      - binary_sensor.nest_protect_*_smoke_status
+      # - sensor.*_temperature
+      # - sensor.*_humidity
+    exclude_entity_globs:
+      # - sensor.cc_*
+      # - sensor.keener_*
+
+- name: Harmony
+  port: 21065
+  mode: accessory
+  filter:
+    include_entities:
+      - remote.hubname
+
+- name: Samsung TV
+  port: 21066
+  mode: accessory
+  filter:
+    include_entities:
+      - media_player.samsung_un55h7100

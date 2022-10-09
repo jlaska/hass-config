@@ -1507,7 +1507,7 @@
   alias: Master Bathroom Light - Double Tap
   description: ''
   use_blueprint:
-    path: kpine/ge_double.yaml
+    path: jlaska/ge_double.yaml
     input:
       device: 98c706574bccaab03950f857a02451d9
       double_tap_on:
@@ -1528,7 +1528,7 @@
   alias: Williams Room Light - Double Tap
   description: ''
   use_blueprint:
-    path: kpine/ge_double.yaml
+    path: jlaska/ge_double.yaml
     input:
       device: e886cf686b24935ac3ba4ef19ce35dd9
       double_tap_on:
@@ -1547,7 +1547,7 @@
   alias: Henrys Room Light - Double Tap
   description: ''
   use_blueprint:
-    path: kpine/ge_double.yaml
+    path: jlaska/ge_double.yaml
     input:
       device: c1607f9a9b672e2ea111d8c56fb3901e
       double_tap_on:
@@ -1608,7 +1608,7 @@
   alias: Entryway Hall Light - Double Tap
   description: ''
   use_blueprint:
-    path: kpine/ge_double.yaml
+    path: jlaska/ge_double.yaml
     input:
       device: 2ac64cb1a200b66dbf268c0d475ed532
       double_tap_on:
@@ -1765,7 +1765,7 @@
   alias: Henrys Fan Light - Double Tap
   description: ''
   use_blueprint:
-    path: kpine/ge_double.yaml
+    path: jlaska/ge_double.yaml
     input:
       device: 4c5eece593f50f19d28b840520ff2b00
       double_tap_on:
@@ -1786,7 +1786,7 @@
   alias: Williams Fan Light - Double Tap
   description: ''
   use_blueprint:
-    path: kpine/ge_double.yaml
+    path: jlaska/ge_double.yaml
     input:
       device: 732d10456301be460b20349595756983
       double_tap_on:
@@ -1905,7 +1905,7 @@
   alias: Master Bedroom Light - Double Tap
   description: ''
   use_blueprint:
-    path: kpine/ge_double.yaml
+    path: jlaska/ge_double.yaml
     input:
       device: d7c9ce7e99d9ebc5bcdd364acfeb0535
       double_tap_on:
@@ -1960,3 +1960,24 @@
       entity_id:
       - group.henry_s_room_closet_light
   mode: restart
+- id: '1665078195857'
+  alias: Master Bathroom Shower Light - Double Tap
+  description: ''
+  use_blueprint:
+    path: jlaska/ge_double.yaml
+    input:
+      device: 5ad5e7c5ca690d511daa6dcddd5a92af
+      double_tap_on:
+      - service: light.turn_on
+        data: {}
+        target:
+          entity_id:
+          - light.master_bathroom_light
+          - light.master_bathroom_shower_light
+      double_tap_off:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id:
+          - light.master_bathroom_shower_light
+          - light.master_bathroom_light

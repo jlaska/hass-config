@@ -306,17 +306,17 @@ announce:
     all_speakers:
     - entity_id: media_player.all_speakers
       normal: 0.7
-      quiet: 0.3
+      quiet: 0.7
       announce: true
       volume: true
     - entity_id: media_player.dining_room_speaker
       normal: 0.7
-      quiet: 0.3
+      quiet: 0.7
       announce: false
       volume: true
     - entity_id: media_player.living_room_display
       normal: 0.7
-      quiet: 0.3
+      quiet: 0.7
       announce: false
       volume: true
     - entity_id: media_player.master_bedroom
@@ -326,12 +326,12 @@ announce:
       volume: true
     - entity_id: media_player.living_room_homepod_left
       normal: 0.7
-      quiet: 0.3
+      quiet: 0.7
       announce: false
       volume: false
     - entity_id: media_player.living_room_homepod_right
       normal: 0.7
-      quiet: 0.3
+      quiet: 0.7
       announce: false
       volume: false
   sequence:

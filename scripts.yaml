@@ -9,6 +9,7 @@ ge_switch_led_light:
     - switch.guest_bathroom_light_switch
     - light.henrys_room_light
     - switch.henrys_room_fan_switch
+    - switch.henrys_room_fan_light_switch
     - switch.kids_bathroom_fan_switch
     - switch.kids_bathroom_light_switch
     - switch.master_bathroom_fan_switch

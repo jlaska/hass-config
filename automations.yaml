@@ -168,7 +168,7 @@
   alias: Laundry Room Light - Activity
   description: ''
   use_blueprint:
-    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       target_entity: light.laundry_room_light
       illuminance_cutoff: input_number.illumination_high
@@ -181,7 +181,7 @@
   alias: Master Bathroom Light - Activity
   description: ''
   use_blueprint:
-    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       target_entity: light.master_bathroom_light
       illuminance_cutoff: input_number.illumination_medium
@@ -288,7 +288,7 @@
   alias: Master Bathroom Button
   description: Toggle lights based on button presses
   use_blueprint:
-    path: jlaska/generic_button.yaml
+    path: jlaska/zigbee_button_handler.yaml
     input:
       mqtt_sensor: sensor.master_bathroom_button_action
       zha_sensor:
@@ -308,7 +308,7 @@
   alias: William's Room Button
   description: ''
   use_blueprint:
-    path: jlaska/generic_button.yaml
+    path: jlaska/zigbee_button_handler.yaml
     input:
       mqtt_sensor: sensor.william_s_room_button_action
       single_action:
@@ -711,7 +711,7 @@
   alias: Back Door - Activity
   description: ''
   use_blueprint:
-    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       illuminance_cutoff: input_number.illumination_low
       no_motion_wait: input_number.inactivity_timeout_short
@@ -722,7 +722,7 @@
   alias: Front Door - Activity
   description: ''
   use_blueprint:
-    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       target_entity: light.entryway_door_light
       illuminance_cutoff: input_number.illumination_very_low
@@ -736,7 +736,7 @@
   alias: Dining Room - Activity
   description: ''
   use_blueprint:
-    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       turn_off_blocker_entity: light.entryway_hall_light
       illuminance_cutoff: input_number.illumination_very_low
@@ -768,7 +768,7 @@
   alias: Kids Bathroom Light - Activity
   description: ''
   use_blueprint:
-    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       target_entity: light.kids_bathroom_light
       illuminance_cutoff: input_number.illumination_medium
@@ -836,7 +836,7 @@
   alias: Guest Bathroom Activity
   description: ''
   use_blueprint:
-    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       illuminance_cutoff: input_number.illumination_medium
       time_limit_after: input_datetime.time_of_day_automation_start
@@ -872,7 +872,7 @@
   alias: Guest Room Button
   description: ''
   use_blueprint:
-    path: jlaska/generic_button.yaml
+    path: jlaska/zigbee_button_handler.yaml
     input:
       mqtt_sensor: sensor.guest_room_button_action
       zha_sensor:
@@ -1070,7 +1070,7 @@
   alias: Master Bathroom Shower Light - Activity
   description: Turn on Shower light during shower time in the evening
   use_blueprint:
-    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       motion_sensor: binary_sensor.master_bathroom_motion_occupancy
       target_entity: light.master_bathroom_shower_light
@@ -1250,7 +1250,7 @@
   alias: Henry’s Room Button
   description: 'Toggle devices based on button presses '
   use_blueprint:
-    path: jlaska/generic_button.yaml
+    path: jlaska/zigbee_button_handler.yaml
     input:
       mqtt_sensor: sensor.henry_s_room_button_action
       single_action:
@@ -1465,7 +1465,7 @@
   alias: Front Door - Exterior Activity
   description: ''
   use_blueprint:
-    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       illuminance_cutoff: input_number.illumination_very_low
       no_motion_wait: input_number.inactivity_timeout_short
@@ -1478,7 +1478,7 @@
   alias: Master Bedroom Button
   description: Aqara Wireless Switch (single, double, hold)
   use_blueprint:
-    path: jlaska/generic_button.yaml
+    path: jlaska/zigbee_button_handler.yaml
     input:
       mqtt_sensor:
       - sensor.master_bedroom_left_button_action
@@ -1508,7 +1508,7 @@
   alias: Master Bathroom Light - Double Tap
   description: ''
   use_blueprint:
-    path: jlaska/ge_double.yaml
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
     input:
       device: 98c706574bccaab03950f857a02451d9
       double_tap_on:
@@ -1529,7 +1529,7 @@
   alias: Williams Room Light - Double Tap
   description: ''
   use_blueprint:
-    path: jlaska/ge_double.yaml
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
     input:
       device: e886cf686b24935ac3ba4ef19ce35dd9
       double_tap_on:
@@ -1548,7 +1548,7 @@
   alias: Henrys Room Light - Double Tap
   description: ''
   use_blueprint:
-    path: jlaska/ge_double.yaml
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
     input:
       device: c1607f9a9b672e2ea111d8c56fb3901e
       double_tap_on:
@@ -1609,7 +1609,7 @@
   alias: Entryway Hall Light - Double Tap
   description: ''
   use_blueprint:
-    path: jlaska/ge_double.yaml
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
     input:
       device: 2ac64cb1a200b66dbf268c0d475ed532
       double_tap_on:
@@ -1666,7 +1666,7 @@
   alias: Powder Room Activity
   description: ''
   use_blueprint:
-    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       motion_sensor: binary_sensor.powder_room_motion_occupancy
       target_entity: light.powder_room_light
@@ -1720,7 +1720,7 @@
   alias: Master Bathroom Toilet Activity
   description: ''
   use_blueprint:
-    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       motion_sensor: binary_sensor.master_bathroom_toilet_motion_occupancy
       target_entity: light.master_bathroom_toilet_light
@@ -1731,7 +1731,7 @@
   alias: Attic Door - Activity
   description: ''
   use_blueprint:
-    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       motion_sensor: binary_sensor.attic_door_contact
       target_entity: light.attic_stairway_light
@@ -1766,7 +1766,7 @@
   alias: Henrys Fan Light - Double Tap
   description: ''
   use_blueprint:
-    path: jlaska/ge_double.yaml
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
     input:
       device: 4c5eece593f50f19d28b840520ff2b00
       double_tap_on:
@@ -1787,7 +1787,7 @@
   alias: Williams Fan Light - Double Tap
   description: ''
   use_blueprint:
-    path: jlaska/ge_double.yaml
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
     input:
       device: 732d10456301be460b20349595756983
       double_tap_on:
@@ -1807,7 +1807,7 @@
   alias: Back Deck - Activity
   description: ''
   use_blueprint:
-    path: jlaska/on_off_with_motion_illuminance_timeout.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       motion_sensor: binary_sensor.back_deck_protect_motion,binary_sensor.back_door_contact
       target_entity: group.back_deck_lights
@@ -1907,7 +1907,7 @@
   alias: Master Bedroom Light - Double Tap
   description: ''
   use_blueprint:
-    path: jlaska/ge_double.yaml
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
     input:
       device: d7c9ce7e99d9ebc5bcdd364acfeb0535
       double_tap_on:
@@ -1965,7 +1965,7 @@
   alias: Master Bathroom Shower Light - Double Tap
   description: ''
   use_blueprint:
-    path: jlaska/ge_double.yaml
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
     input:
       device: 5ad5e7c5ca690d511daa6dcddd5a92af
       double_tap_on:
@@ -1986,7 +1986,7 @@
   alias: Under Stair Button
   description: ''
   use_blueprint:
-    path: jlaska/generic_button.yaml
+    path: jlaska/zigbee_button_handler.yaml
     input:
       mqtt_sensor: sensor.under_stair_button_action
       single_action:

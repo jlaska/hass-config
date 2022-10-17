@@ -18,7 +18,8 @@ cards:
         - entity_id: light.henrys_room_*_lamp
         - entity_id: light.williams_room_*_lamp
         - entity_id: light.living_room_bookshelf_*
-        - entity_id: light.kitchen_end_table_light_*_on_off
+        - entity_id: light.kitchen_end_table_light_1
+        - entity_id: light.kitchen_end_table_light_2
     sort:
       method: name
       ignore_case: true

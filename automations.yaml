@@ -1013,6 +1013,7 @@
     - light.james_closet_light
     - light.william_s_closet_light
     - light.guest_room_closet_light
+    - light.under_stair_light
     - fan.powder_room_fan
     - fan.master_bathroom_toilet_fan
     - fan.guest_bathroom_fan
@@ -1981,3 +1982,28 @@
           entity_id:
           - light.master_bathroom_shower_light
           - light.master_bathroom_light
+- id: '1665923639357'
+  alias: Under Stair Button
+  description: ''
+  use_blueprint:
+    path: jlaska/generic_button.yaml
+    input:
+      mqtt_sensor: sensor.under_stair_button_action
+      single_action:
+      - service: light.toggle
+        data:
+          color_temp: 500
+          brightness_pct: 100
+        target:
+          entity_id: light.under_stair_light
+      double_action:
+      - service: light.turn_on
+        data:
+          rgb_color:
+          - 235
+          - 77
+          - 61
+          brightness_pct: 100
+        target:
+          entity_id:
+          - light.under_stair_light

@@ -93,6 +93,7 @@ dining_room_lights:
     - light.dining_room_floor_lamp
     - light.entryway_door_light
     - light.entryway_hall_light
+    - light.under_stair_light
 
 entryway_lights:
   name: 'Entryway Lights'

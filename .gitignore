@@ -22,13 +22,13 @@
 !zha.yaml
 !zwave.yaml
 
-!blueprints
-blueprints/*
-!blueprints/automation
-blueprints/automation/*
-!blueprints/automation/jlaska
-blueprints/automation/jlaska/*
-!blueprints/automation/jlaska/*.yaml
+# !blueprints
+# blueprints/*
+# !blueprints/automation
+# blueprints/automation/*
+# !blueprints/automation/jlaska
+# blueprints/automation/jlaska/*
+# !blueprints/automation/jlaska/*.yaml
 
 !lovelace
 lovelace/*

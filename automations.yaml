@@ -921,6 +921,11 @@
     to: 'off'
     for:
       minutes: '{{ states(''input_number.inactivity_timeout_long'')|int }}'
+  - platform: state
+    entity_id: binary_sensor.laundry_room_vibration_sensor_vibration
+    to: 'off'
+    for:
+      minutes: '{{ states(''input_number.inactivity_timeout_long'')|int }}'
   condition:
   - alias: Assert automation time constraints
     condition: time
@@ -938,6 +943,11 @@
   - alias: Assert no recent motion
     condition: template
     value_template: "{{ \n  states.binary_sensor.master_bedroom_motion_occupancy.last_updated
+      + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)
+      <= utcnow()\n}}"
+  - alias: Assert no recent vibration
+    condition: template
+    value_template: "{{ \n  states.binary_sensor.laundry_room_vibration_sensor_vibration.last_updated
       + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)
       <= utcnow()\n}}"
   - alias: Assert not currently in a meeting

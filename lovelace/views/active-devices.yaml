@@ -81,10 +81,6 @@ cards:
       title: Appliances
     filter:
       include:
-        - entity_id: binary_sensor.laundry_room_*
-          state: 'on'
-          options:
-            secondary_info: last-changed
         - entity_id: sensor.*_laundry_machine_state
           state: Run
           options:
@@ -104,7 +100,7 @@ cards:
   - type: custom:auto-entities
     card:
       type: entities
-      title: Motion
+      title: Active Motion
     filter:
       include:
         - domain: binary_sensor
@@ -117,6 +113,12 @@ cards:
           state: 'on'
           attributes:
             device_class: occupancy
+          options:
+            secondary_info: last-changed
+        - domain: binary_sensor
+          state: 'on'
+          attributes:
+            device_class: vibration
           options:
             secondary_info: last-changed
       exclude:

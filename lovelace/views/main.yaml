@@ -615,13 +615,13 @@ cards:
                   motion_entity: binary_sensor.master_bedroom_motion_occupancy
                   door_entity: null
                   # alert_entity: calendar.work
-                  alert_entity: binary_sensor.laundry_room_vibration_sensor_vibration
+                  alert_entity: binary_sensor.master_bedroom_workstation_sensor_vibration
                   temperature_entity: sensor.master_bedroom_motion_temperature
                   light_entity: group.master_bedroom_lights
                   fan_entity: fan.master_bedroom_fan
                 triggers_update:
                   - binary_sensor.master_bedroom_motion_occupancy
-                  - binary_sensor.laundry_room_vibration_sensor_vibration
+                  - binary_sensor.master_bedroom_workstation_sensor_vibration
               - type: custom:button-card
                 template: mini-area-card
                 entity: null

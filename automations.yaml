@@ -2017,3 +2017,21 @@
         target:
           entity_id:
           - light.under_stair_light
+- id: '1666351001427'
+  alias: Kitchen Table Light - Double Tap
+  description: ''
+  use_blueprint:
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
+    input:
+      device: 4f2217614439739cf3ccf55ac2d9737a
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          brightness_pct: 100
+        target:
+          entity_id: light.kitchen_light
+      double_tap_off:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id: light.kitchen_light

@@ -9,11 +9,13 @@
 !automations.yaml
 !binary_sensors.yaml
 !configuration.yaml
+!cover.yaml
 !customize.yaml
 !fans.yaml
 !groups.yaml
 !homekit.yaml
 !lights.yaml
+!mqtt.yaml
 !scenes.yaml
 !scripts.yaml
 !sensors.yaml

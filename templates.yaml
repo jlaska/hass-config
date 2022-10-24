@@ -105,3 +105,16 @@
     - name: cc_us_epa_health_concern
       state: |
         {{ states('sensor.climacell_us_epa_health_concern')|lower != 'unknown' and states('sensor.climacell_us_epa_health_concern') or states('sensor.u_s_air_pollution_level')|capitalize }}
+  # binary_sensor.shellyplus1_441793a9aca4_input
+  # switch.shellyplus1_441793a9aca4
+    - name: "Garage Door Shelly"
+      state: |
+        {% if is_state('binary_sensor.shellyplus1_441793a9aca4_input', 'on') and is_state('switch.shellyplus1_441793a9aca4', 'on') %}
+          opening
+        {% elif is_state('binary_sensor.shellyplus1_441793a9aca4_input', 'off') and is_state('switch.shellyplus1_441793a9aca4', 'on') %}
+          closing
+        {% elif is_state('binary_sensor.shellyplus1_441793a9aca4_input', 'off') %}
+          open
+        {% else %}
+          closed
+        {% endif %}

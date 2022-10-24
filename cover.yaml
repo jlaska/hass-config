@@ -1,0 +1,33 @@
+- platform: template
+  covers:
+    garage_door_shelly:
+      device_class: garage
+      friendly_name: Garage Door Shelly
+      unique_id: cover.garage_door_shelly
+      value_template: "{{ states('sensor.garage_door_shelly') }}"
+      open_cover:
+        - condition: state
+          entity_id: sensor.garage_door_shelly
+          state: "closed"
+        - service: switch.turn_on
+          target:
+            entity_id: switch.shellyplus1_441793a9aca4
+      close_cover:
+        - condition: state
+          entity_id: sensor.garage_door_shelly
+          state: "open"
+        - service: switch.turn_on
+          target:
+            entity_id: switch.shellyplus1_441793a9aca4
+      stop_cover:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.shellyplus1_441793a9aca4
+      icon_template: >-
+        {% if is_state('cover.garage_door_shelly', 'opening') or is_state('cover.garage_door_shelly', 'closing') %}
+          mdi:garage-alert
+        {% elif is_state('cover.garage_door_shelly', 'open') %}
+          mdi:garage-open
+        {% else %}
+          mdi:garage
+        {% endif %}

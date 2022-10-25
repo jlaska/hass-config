@@ -222,12 +222,12 @@
   - platform: device
     device_id: aca1fd076bac705db6d381d678fe5487
     domain: cover
-    entity_id: cover.garage_door_opener
+    entity_id: cover.garage_door_shelly
     type: opening
   - platform: device
     device_id: aca1fd076bac705db6d381d678fe5487
     domain: cover
-    entity_id: cover.garage_door_opener
+    entity_id: cover.garage_door_shelly
     type: opened
   condition: []
   action:
@@ -339,7 +339,7 @@
     - binary_sensor.back_door_contact
     - binary_sensor.front_door_contact
     - binary_sensor.garage_door_contact
-    - cover.garage_door_opener
+    - cover.garage_door_shelly
     to:
     - opening
     - open
@@ -358,7 +358,7 @@
     data: {}
   - alias: Wait until all exterior doors are closed
     wait_template: "{{ not expand(['binary_sensor.back_door_contact', 'binary_sensor.front_door_contact',
-      'binary_sensor.garage_door_contact', 'cover.garage_door_opener'])\n  | rejectattr('state',
+      'binary_sensor.garage_door_contact', 'cover.garage_door_shelly'])\n  | rejectattr('state',
       'in', ['off', 'closed'])\n  | map(attribute='name') | list }}\n"
   - delay:
       hours: 0
@@ -681,7 +681,7 @@
     - condition: device
       device_id: aca1fd076bac705db6d381d678fe5487
       domain: cover
-      entity_id: cover.garage_door_opener
+      entity_id: cover.garage_door_shelly
       type: is_open
     - type: is_open
       condition: device
@@ -1703,7 +1703,7 @@
     entity_id: binary_sensor.garage_door_contact
     to: 'on'
   - platform: state
-    entity_id: cover.garage_door_opener
+    entity_id: cover.garage_door_shelly
     to: opened
   condition: []
   action:
@@ -1888,7 +1888,7 @@
       minutes: 10
       seconds: 0
   - condition: state
-    entity_id: cover.garage_door_opener
+    entity_id: cover.garage_door_shelly
     state: closed
     for:
       hours: 0

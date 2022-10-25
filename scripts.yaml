@@ -92,7 +92,7 @@ zone_geofence_notification:
           sequence:
           - service: cover.open_cover
             target:
-              entity_id: cover.garage_door_opener
+              entity_id: cover.garage_door_shelly
     - conditions:
       - condition: template
         value_template: '{{ trigger_person != "person.james" }}'

@@ -1764,13 +1764,13 @@
 
       '
   - condition: state
-    entity_id: cover.garage_door_opener
+    entity_id: cover.garage_door_shelly
     state: closed
   action:
   - service: cover.open_cover
     data: {}
     target:
-      entity_id: cover.garage_door_opener
+      entity_id: cover.garage_door_shelly
   mode: single
 - id: '1653526542536'
   alias: Henrys Fan Light - Double Tap

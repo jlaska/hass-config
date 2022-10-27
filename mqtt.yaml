@@ -1,21 +1,39 @@
 cover:
   - name: Garage Door MQTT
     unique_id: cover.garage_door_mqtt
-    command_topic: "shelly-garagedoor/status/switch:0"
-    state_topic: "shelly-garagedoor/status/input:0"
-    availability:
-      # shelly-garagedoor/status/mqtt
-      topic: "shelly-garagedoor/online"
-      payload_available: true
-      payload_not_available: false
-    qos: 0
-    retain: false
     device_class: garage
-    payload_open: "OPEN"
-    payload_close: "CLOSE"
-    payload_stop: "STOP"
-    state_open: "open"
+    retain: false
+    qos: 1
+    command_topic: "shelly-garagedoor/rpc"
+    state_topic: "shelly-garagedoor/rpc"
+      # REQUEST: shelly-garagedoor/rpc
+      # {
+      #   id: 1,
+      #   src: "homeassistant/shellyplus1-441793a9aca4"
+      #   method: "Input.GetStatus"
+      #   params: {
+      #     id: 0
+      #   }
+      # }
+      # RESPONSE
+      # {
+      #     "id": 1,
+      #     "src": "shellyplus1-441793a9aca4",
+      #     "dst": "homeassistant/shellyplus1-441793a9aca4",
+      #     "result": {
+      #         "id": 0,
+      #         "state": false
+      #     }
+      # }
+    availability:
+      topic: "shelly-garagedoor/online"
+      payload_available: "true"
+      payload_not_available: "false"
+    payload_open: '{"id":1, "src": "homeassistant/shellyplus1-441793a9aca4", "method": "Switch.Set", "params":{"id":0,"on":true}}'
+    payload_close: '{"id":1, "src": "homeassistant/shellyplus1-441793a9aca4", "method": "Switch.Set", "params":{"id":0,"on":true}}'
+    payload_stop: '{"id":1, "src": "homeassistant/shellyplus1-441793a9aca4", "method": "Switch.Set", "params":{"id":0,"on":true}}'
+    value_template: "{{ value.result.state }}"
     state_opening: "opening"
-    state_closed: "closed"
+    state_open: "true"
     state_closing: "closing"
-    value_template: "{{ value.x }}"
+    state_closed: "false"

@@ -487,6 +487,9 @@ cards:
                             temperature_entity: sensor.front_door_temperature
                             fan_entity: light.front_door_light
                             light_entity: light.front_spot_light
+                          triggers_update:
+                            - binary_sensor.front_door_protect_motion
+                            - binary_sensor.front_door_contact
                         'front_yard_protect_motion':
                           type: custom:button-card
                           template: mini-area-card
@@ -498,6 +501,9 @@ cards:
                             temperature_entity: sensor.cc_temperature
                             fan_entity: light.front_door_light
                             light_entity: light.front_spot_light
+                          triggers_update:
+                            - binary_sensor.front_door_protect_motion
+                            - binary_sensor.front_door_contact
                     - type: custom:state-switch
                       entity: template
                       template: |

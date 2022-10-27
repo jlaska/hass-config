@@ -201,11 +201,6 @@
     domain: binary_sensor
   - type: opened
     platform: device
-    device_id: 37469d7629aa92d508d96a4d1139ac15
-    entity_id: binary_sensor.garage_door_contact
-    domain: binary_sensor
-  - type: opened
-    platform: device
     device_id: c2bd0018417d9382001ed77c17372f2d
     entity_id: binary_sensor.mudroom_door_contact
     domain: binary_sensor
@@ -235,15 +230,17 @@
     target:
       area_id: mudroom
       entity_id: light.garage_light
+    data: {}
   - delay:
       minutes: '{{ states(''input_number.inactivity_timeout_short'')|int(0) }}'
   - wait_template: "{{ is_state('binary_sensor.garage_motion_any', 'off')\n   and
-      is_state('binary_sensor.garage_door_contact', 'off')\n   and is_state('binary_sensor.mudroom_door_contact',
-      'off') \n}} "
+      is_state('binary_sensor.mudroom_door_contact', 'off') \n   and is_state('cover.garage_door_shelly',
+      'closed')\n}} "
     continue_on_timeout: false
   - service: light.turn_off
     target:
       entity_id: light.garage_light
+    data: {}
   - condition: state
     entity_id: automation.mudroom_activity
     state: 0
@@ -251,6 +248,7 @@
   - service: light.turn_off
     target:
       entity_id: light.mudroom_light
+    data: {}
   mode: restart
 - id: '1617977378814'
   alias: Downstairs Luminance Above Threshold
@@ -676,18 +674,11 @@
   - platform: sun
     event: sunset
   condition:
-  - condition: or
+  - condition: not
     conditions:
-    - condition: device
-      device_id: aca1fd076bac705db6d381d678fe5487
-      domain: cover
+    - condition: state
       entity_id: cover.garage_door_shelly
-      type: is_open
-    - type: is_open
-      condition: device
-      device_id: 37469d7629aa92d508d96a4d1139ac15
-      entity_id: binary_sensor.garage_door_contact
-      domain: binary_sensor
+      state: closed
   action:
   - service: notify.mobile_app_james_iphone
     data:
@@ -1700,8 +1691,8 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.garage_door_contact
-    to: 'on'
+    entity_id: binary_sensor.garage_door_closed
+    to: 'off'
   - platform: state
     entity_id: cover.garage_door_shelly
     to: opened

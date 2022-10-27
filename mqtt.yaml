@@ -5,35 +5,16 @@ cover:
     retain: false
     qos: 1
     command_topic: "shelly-garagedoor/rpc"
-    state_topic: "shelly-garagedoor/rpc"
-      # REQUEST: shelly-garagedoor/rpc
-      # {
-      #   id: 1,
-      #   src: "homeassistant/shellyplus1-441793a9aca4"
-      #   method: "Input.GetStatus"
-      #   params: {
-      #     id: 0
-      #   }
-      # }
-      # RESPONSE
-      # {
-      #     "id": 1,
-      #     "src": "shellyplus1-441793a9aca4",
-      #     "dst": "homeassistant/shellyplus1-441793a9aca4",
-      #     "result": {
-      #         "id": 0,
-      #         "state": false
-      #     }
-      # }
+    state_topic: "shelly-garagedoor/events/rpc"
     availability:
       topic: "shelly-garagedoor/online"
       payload_available: "true"
       payload_not_available: "false"
     payload_open: '{"id":1, "src": "homeassistant/shellyplus1-441793a9aca4", "method": "Switch.Set", "params":{"id":0,"on":true}}'
     payload_close: '{"id":1, "src": "homeassistant/shellyplus1-441793a9aca4", "method": "Switch.Set", "params":{"id":0,"on":true}}'
-    payload_stop: '{"id":1, "src": "homeassistant/shellyplus1-441793a9aca4", "method": "Switch.Set", "params":{"id":0,"on":true}}'
-    value_template: "{{ value.result.state }}"
-    state_opening: "opening"
-    state_open: "true"
-    state_closing: "closing"
-    state_closed: "false"
+    # payload_stop: '{"id":1, "src": "homeassistant/shellyplus1-441793a9aca4", "method": "Switch.Set", "params":{"id":0,"on":true}}'
+    value_template: "{{ value_json.method == 'NotifyStatus' and value_json.params['input:0'].state }}"
+    # state_opening: "opening"
+    state_open: true
+    # state_closing: "closing"
+    state_closed: false

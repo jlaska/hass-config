@@ -1264,31 +1264,24 @@
   alias: Piano Time
   description: Turn or/off lights when playing piano
   trigger:
-  - type: power
-    platform: device
-    device_id: 3a590d149622d6333f61fcff22283d9f
+  - platform: numeric_state
     entity_id: sensor.dining_room_plug_samjin_electricalmeasurement
-    domain: sensor
-    above: 0.5
     for:
       hours: 0
       minutes: 0
       seconds: 1
+    above: 0.5
   condition: []
   action:
   - scene: scene.piano_time
   - wait_for_trigger:
-    - type: power
-      platform: device
-      device_id: 3a590d149622d6333f61fcff22283d9f
+    - platform: numeric_state
       entity_id: sensor.dining_room_plug_samjin_electricalmeasurement
-      domain: sensor
-      below: 0.5
       for:
         hours: 0
         minutes: 0
         seconds: 3
-        milliseconds: 0
+      below: 0.5
     continue_on_timeout: false
   - service: script.announce
     data:
@@ -1677,11 +1670,8 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.garage_door_closed
-    to: 'off'
-  - platform: state
     entity_id: cover.garage_door_shelly
-    to: opened
+    to: opening
   condition: []
   action:
   - service: script.notify

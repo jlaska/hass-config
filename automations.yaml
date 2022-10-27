@@ -2002,3 +2002,18 @@
         data: {}
         target:
           entity_id: light.kitchen_light
+- id: '1666903071185'
+  alias: Home Assistant Start
+  description: Trigger actions whenever home assistant starts
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - alias: Force Shelly Plus MQTT status update
+    service: mqtt.publish
+    data:
+      topic: shelly-garagedoor/rpc
+      payload: '{"id": 1, "src": "shelly-garagedoor/events", "method": "Input.GetStatus",
+        "params": {"id": 0}}'
+  mode: single

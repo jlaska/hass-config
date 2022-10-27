@@ -194,36 +194,22 @@
   alias: Garage Light - Activity
   description: ''
   trigger:
-  - type: motion
-    platform: device
-    device_id: db0494415da5d2811883cf44f60faf94
-    entity_id: binary_sensor.garage_motion_occupancy
-    domain: binary_sensor
-  - type: opened
-    platform: device
-    device_id: c2bd0018417d9382001ed77c17372f2d
-    entity_id: binary_sensor.mudroom_door_contact
-    domain: binary_sensor
-  - type: motion
-    platform: device
-    device_id: d417ae82a38795b7659c9e75ef829ede
-    entity_id: binary_sensor.garage_protect_motion
-    domain: binary_sensor
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 0
-      milliseconds: 0
-  - platform: device
-    device_id: aca1fd076bac705db6d381d678fe5487
-    domain: cover
-    entity_id: cover.garage_door_shelly
-    type: opening
-  - platform: device
-    device_id: aca1fd076bac705db6d381d678fe5487
-    domain: cover
-    entity_id: cover.garage_door_shelly
-    type: opened
+  - platform: state
+    entity_id:
+    - cover.garage_door_shelly
+    to: Open,Opening
+  - platform: state
+    entity_id:
+    - binary_sensor.garage_motion_occupancy
+    to: 'on'
+  - platform: state
+    entity_id:
+    - binary_sensor.garage_protect_motion
+    to: 'on'
+  - platform: state
+    entity_id:
+    - binary_sensor.mudroom_door_contact
+    to: 'on'
   condition: []
   action:
   - service: light.turn_on
@@ -1117,10 +1103,10 @@
     to: 'on'
   condition: []
   action:
-  - type: turn_off
-    device_id: b9bea195719b7e53a8ae66a04660c655
-    entity_id: switch.laundry_room_washer_plug_centralite_switch
-    domain: switch
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.laundry_room_washer_plug_centralite_switch
   - service: script.notify
     data:
       title: Water Leak Detected

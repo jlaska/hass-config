@@ -197,7 +197,7 @@
   - platform: state
     entity_id:
     - cover.garage_door_shelly
-    to: Open,Opening
+    to: opening
   - platform: state
     entity_id:
     - binary_sensor.garage_motion_occupancy
@@ -322,7 +322,6 @@
     entity_id:
     - binary_sensor.back_door_contact
     - binary_sensor.front_door_contact
-    - binary_sensor.garage_door_contact
     - cover.garage_door_shelly
     to:
     - opening
@@ -342,8 +341,8 @@
     data: {}
   - alias: Wait until all exterior doors are closed
     wait_template: "{{ not expand(['binary_sensor.back_door_contact', 'binary_sensor.front_door_contact',
-      'binary_sensor.garage_door_contact', 'cover.garage_door_shelly'])\n  | rejectattr('state',
-      'in', ['off', 'closed'])\n  | map(attribute='name') | list }}\n"
+      'cover.garage_door_shelly'])\n  | rejectattr('state', 'in', ['off', 'closed'])\n
+      \ | map(attribute='name') | list }}\n"
   - delay:
       hours: 0
       minutes: 5
@@ -1670,8 +1669,9 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: cover.garage_door_shelly
-    to: opening
+    entity_id:
+    - cover.garage_door_shelly
+    to: open
   condition: []
   action:
   - service: script.notify
@@ -1684,7 +1684,7 @@
         entity_id: camera.garage_protect_high
         group: garage-door
         tag: garage-door-open
-  - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
+  - wait_template: '{{ is_state(trigger.entity_id, ''closed'') }}'
     timeout: '2:00:00'
   - service: script.notify
     data:

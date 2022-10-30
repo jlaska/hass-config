@@ -918,7 +918,8 @@ cards:
                       variables:
                         motion_entity: binary_sensor.garage_motion_any
                         alert_entity: binary_sensor.garage_freezer_door_contact
-                        door_entity: binary_sensor.garage_door_open
+                        # door_entity: binary_sensor.garage_door_open
+                        door_entity: cover.garage_door_shelly
                         temperature_entity: sensor.garage_motion_temperature
                         light_entity: group.garage_lights
                       triggers_update:

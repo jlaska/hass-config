@@ -149,7 +149,7 @@ mini-area-card:
             state:
               - value: |
                   [[[
-                    if (variables.door_entity === null || states[variables.door_entity].state == 'off')
+                    if (variables.door_entity === null || ['off', 'closed'].includes(states[variables.door_entity].state.toLowerCase()))
                       return true;
                     return false;
                   ]]]

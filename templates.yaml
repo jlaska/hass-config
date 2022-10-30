@@ -112,7 +112,7 @@
       state: |
         {% if is_state('binary_sensor.garage_door_closed', 'on') %}
           closed
-        {% elif is_state('binary_sensor.garage_door_open', 'on') %}
+        {% elif states('binary_sensor.garage_door_open') in ['on', 'unknown'] %}
           open
         {% elif states.binary_sensor.garage_door_open.last_updated > states.binary_sensor.garage_door_closed.last_updated %}
           closing

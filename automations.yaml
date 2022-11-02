@@ -1671,7 +1671,7 @@
   - platform: state
     entity_id:
     - cover.garage_door_shelly
-    to: open
+    to: opening
   condition: []
   action:
   - service: script.notify
@@ -1712,8 +1712,8 @@
     input:
       motion_sensor: binary_sensor.attic_door_contact
       target_entity: light.attic_stairway_light
-      no_motion_wait: input_number.inactivity_timeout_long
-      illuminance_cutoff: input_number.illumination_very_low
+      no_motion_wait: input_number.inactivity_timeout_short
+      illuminance_cutoff: input_number.illumination_low
       illuminance_sensor: sensor.master_bedroom_motion_illuminance_lux
 - id: '1651594543069'
   alias: Open Garage Door Upon Arrival
@@ -2017,3 +2017,22 @@
       payload: '{"id": 1, "src": "shelly-garagedoor/events", "method": "Input.GetStatus",
         "params": {"id": 0}}'
   mode: single
+- id: '1667351565058'
+  alias: Stairway Light - Double Tap
+  description: ''
+  use_blueprint:
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
+    input:
+      device: 9515c03c243d33db09c92eb49fae212f
+      double_tap_on:
+      - service: light.turn_on
+        data: {}
+        target:
+          area_id: dining_room
+      double_tap_off:
+      - service: light.turn_off
+        data: {}
+        target:
+          area_id:
+          - dining_room
+          - entryway

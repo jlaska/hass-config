@@ -96,8 +96,10 @@
       unique_id: binary_sensor.garage_door_open
       device_class: garage_door
       value_template: "{{ is_state('binary_sensor.garage_door_contact', 'off') }}"
+      availability_template: "{{ states('binary_sensor.garage_door_contact') in ['on', 'off'] }}"
     garage_door_closed:
       friendly_name: Garage Door Closed
       unique_id: binary_sensor.garage_door_closed
       device_class: garage_door
       value_template: "{{ is_state('binary_sensor.shellyplus1_441793a9aca4_input', 'off') }}"
+      availability_template: "{{ states('binary_sensor.shellyplus1_441793a9aca4_input') in ['on', 'off'] }}"

@@ -119,12 +119,5 @@
         {% else %}
           opening
         {% endif %}
-      # {% if is_state('binary_sensor.shellyplus1_441793a9aca4_input', 'off') and is_state('switch.shellyplus1_441793a9aca4', 'on') %}
-      #   opening
-      # {% elif is_state('binary_sensor.shellyplus1_441793a9aca4_input', 'on') and is_state('switch.shellyplus1_441793a9aca4', 'on') %}
-      #   closing
-      # {% elif is_state('binary_sensor.shellyplus1_441793a9aca4_input', 'on') %}
-      #   open
-      # {% else %}
-      #   closed
-      # {% endif %}
+      availability: "{{ states('binary_sensor.shellyplus1_441793a9aca4_input') in ['on', 'off'] }}"
+

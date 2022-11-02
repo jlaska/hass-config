@@ -4,6 +4,7 @@
       device_class: garage
       friendly_name: Garage Door Shelly
       unique_id: cover.garage_door_shelly
+      availability_template: "{{ states('binary_sensor.shellyplus1_441793a9aca4_input') in ['on', 'off'] }}"
       value_template: "{{ states('sensor.garage_door_shelly') }}"
       open_cover:
         - condition: state

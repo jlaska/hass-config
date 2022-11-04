@@ -2036,3 +2036,38 @@
           area_id:
           - dining_room
           - entryway
+- id: '1667493802732'
+  alias: Kitchen Light - Double Tap
+  description: ''
+  use_blueprint:
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
+    input:
+      double_tap_on:
+      - service: light.turn_on
+        data: {}
+        target:
+          area_id: kitchen
+      double_tap_off:
+      - service: light.turn_off
+        data: {}
+        target:
+          area_id: kitchen
+      device: 533032ace1f31a8cfec6c01a5793b151
+- id: '1667506045683'
+  alias: Living Room Light - Double Tap
+  description: ''
+  use_blueprint:
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
+    input:
+      device: c1dca11d8f2cef4f93e46d8d18d04337
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: 100
+        target:
+          area_id: living_room
+      double_tap_off:
+      - service: light.turn_off
+        data: {}
+        target:
+          area_id: living_room

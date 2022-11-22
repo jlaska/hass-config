@@ -2072,3 +2072,42 @@
         data: {}
         target:
           area_id: living_room
+- id: '1668379653327'
+  alias: Sunroom Activity
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - light.sunroom_fan_light
+    - fan.sunroom_fan
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 30
+      seconds: 0
+  - platform: state
+    entity_id:
+    - binary_sensor.sunroom_motion_any
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 30
+      seconds: 0
+  condition:
+  - condition: state
+    entity_id: binary_sensor.sunroom_motion_any
+    state: 'off'
+    for:
+      hours: 0
+      minutes: 30
+      seconds: 0
+  action:
+  - service: light.turn_off
+    data: {}
+    target:
+      area_id: sunroom
+  - service: fan.turn_off
+    data: {}
+    target:
+      entity_id: fan.sunroom_fan
+  mode: single

@@ -1433,10 +1433,11 @@
   - alias: Before kids lights out
     condition: time
     before: input_datetime.lights_out_kids
-  - alias: Sunset automation triggered within the last 3 hours
+    after: 00:00:00
+  - alias: Did the sunset automation already trigger today
     condition: template
-    value_template: '{{ utcnow() - state_attr(''automation.sunset'', ''last_triggered'')
-      < timedelta(hours=3) }}'
+    value_template: '{{ (state_attr(''automation.sunset'', ''last_triggered'')|as_local).day
+      == now().day }}'
   action:
   - scene: scene.sunset
   mode: single

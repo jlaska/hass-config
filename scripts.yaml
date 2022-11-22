@@ -306,7 +306,7 @@ announce:
     all_speakers:
     - entity_id: media_player.all_speakers
       normal: 0.7
-      quiet: 0.7
+      quiet: 0.4
       announce: true
       volume: true
     - entity_id: media_player.dining_room_speaker
@@ -323,7 +323,7 @@ announce:
       normal: 0.6
       quiet: 0.3
       announce: true
-      volume: true
+      volume: false
     - entity_id: media_player.living_room_homepod_left
       normal: 0.7
       quiet: 0.7

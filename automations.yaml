@@ -896,7 +896,7 @@
     entity_id: binary_sensor.master_bedroom_motion_occupancy
     to: 'off'
     for:
-      minutes: '{{ states(''input_number.inactivity_timeout_long'')|int }}'
+      minutes: '{{ states(''input_number.inactivity_timeout_medium'')|int }}'
   - platform: state
     entity_id: binary_sensor.master_bedroom_workstation_sensor_vibration
     to: 'off'
@@ -919,7 +919,7 @@
   - alias: Assert no recent motion
     condition: template
     value_template: "{{ \n  states.binary_sensor.master_bedroom_motion_occupancy.last_updated
-      + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)
+      + timedelta(minutes=states('input_number.inactivity_timeout_medium')|int, seconds=-5)
       <= utcnow()\n}}"
   - alias: Assert no recent vibration
     condition: template

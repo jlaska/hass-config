@@ -48,7 +48,7 @@ template: !include templates.yaml
 zha: !include zha.yaml
 homekit: !include homekit.yaml
 cover: !include cover.yaml
-mqtt: !include mqtt.yaml
+# mqtt: !include mqtt.yaml
 
 # Use camera plugin for forcast/doplar images
 camera:

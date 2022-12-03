@@ -335,6 +335,15 @@ announce:
       announce: false
       volume: false
   sequence:
+  - alias: Assert someone is home
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: person.shannon
+      state: home
+    - condition: state
+      entity_id: person.james
+      state: home
   - variables:
       volume_mode: '{% set current_time = now().strftime("%H:%M:%S") -%} {{ (current_time
         < states(''input_datetime.lights_out_kids'') and is_state(''calendar.work'',

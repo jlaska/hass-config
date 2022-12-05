@@ -186,3 +186,23 @@
     light.dining_room_light: false
   icon: mdi:motion-sensor-off
   metadata: {}
+- id: '1670082484346'
+  name: Holiday Lights
+  entities:
+    switch.outdoor_plug_ge: true
+    light.deck_rail_light:
+      brightness: 255
+      rgb_color:
+      - 0
+      - 255
+      - 64
+      state: 'on'
+    light.deck_step_light:
+      brightness: 255
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      state: 'on'
+  icon: phu:christmas-lights
+  metadata: {}

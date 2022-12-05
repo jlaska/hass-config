@@ -459,6 +459,12 @@
       - living_room
       - sunroom
     data: {}
+  - service: homeassistant.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.outdoor_plug_ge
+      - group.back_deck_lights
   mode: single
 - id: '1618103078420'
   alias: Watching A Movie
@@ -887,6 +893,9 @@
   condition: []
   action:
   - scene: scene.dusk
+  - condition: template
+    value_template: '{{ now().month == 12 }}'
+  - scene: scene.holiday_lights
   mode: single
 - id: '1624216187992'
   alias: Master Bedroom - Daytime Inactivity
@@ -1864,13 +1873,6 @@
       seconds: 0
   - condition: state
     entity_id: binary_sensor.front_door_protect_doorbell
-    state: 'off'
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
-  - condition: state
-    entity_id: binary_sensor.garage_door_contact
     state: 'off'
     for:
       hours: 0

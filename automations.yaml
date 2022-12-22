@@ -647,6 +647,11 @@
   - condition: state
     entity_id: binary_sensor.downstairs_motion_any
     state: 'off'
+  - condition: state
+    entity_id: media_player.samsung_un55h7100
+    state:
+    - 'off'
+    - unavailable
   - service: light.turn_off
     target:
       area_id:

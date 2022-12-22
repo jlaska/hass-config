@@ -20,8 +20,6 @@
   alias: Dawn (exterior)
   description: Turn off exterior lights before dawn
   trigger:
-  - platform: time
-    at: 01:00:00
   - platform: numeric_state
     entity_id: sun.sun
     attribute: elevation
@@ -892,8 +890,10 @@
     to: below_horizon
   condition: []
   action:
-  - scene: scene.dusk
-  - condition: template
+  - alias: Activate dusk scene
+    scene: scene.dusk
+  - alias: Activate holiday lights scene (optional)
+    condition: template
     value_template: '{{ now().month == 12 }}'
   - scene: scene.holiday_lights
   mode: single
@@ -2112,4 +2112,59 @@
     data: {}
     target:
       entity_id: fan.sunroom_fan
+  mode: single
+- id: '1670286838217'
+  alias: Back Deck Color Loop
+  description: ''
+  use_blueprint:
+    path: C.G.B.Spender/color-loop-effect-for-any-light-with-color-wheel-selector.yaml
+    input:
+      cl_light:
+        entity_id:
+        - light.deck_rail_light
+        - light.deck_step_light
+- id: '1671326649922'
+  alias: Door Chime
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.mudroom_door_contact
+    - binary_sensor.front_door_contact
+    - binary_sensor.back_door_contact
+    - binary_sensor.attic_door_contact
+    to: 'on'
+  condition: []
+  action:
+  - if:
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: media_player.living_room_homepod_left
+        state: playing
+    then:
+    - service: media_player.play_media
+      data:
+        media_content_type: music
+        media_content_id: /config/www/sounds/juntos-607.mp3
+      target:
+        entity_id: media_player.living_room_homepod_left
+  mode: single
+- id: '1671588501013'
+  alias: Good Night (exterior)
+  description: Turn off exterior lights
+  trigger:
+  - platform: time
+    at: input_datetime.trigger_good_night_exterior
+  condition: []
+  action:
+  - alias: Activate good night exterior scene
+    scene: scene.dawn
+  - alias: Choose random time for next good night trigger
+    service: input_datetime.set_datetime
+    data:
+      datetime: '{{ today_at(''01:00'') + timedelta( days = 1, seconds = range(0,5400)|random|int
+        ) }}'
+    target:
+      entity_id: input_datetime.trigger_good_night_exterior
   mode: single

@@ -1564,7 +1564,8 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.front_door_protect_doorbell
+    entity_id:
+    - binary_sensor.front_door_protect_doorbell
     to: 'on'
   condition: []
   action:
@@ -1575,14 +1576,14 @@
     - service: media_player.play_media
       data:
         media_content_type: music
-        media_content_id: "{{\n('https://www.orangefreesounds.com/wp-content/uploads/2021/10/Halloween-theme-doorbell-sound.mp3',\n
-          'https://www.myinstants.com/media/sounds/i-see-you-alternate.mp3',\n 'https://orangefreesounds.com/wp-content/uploads/2022/06/Haunted-whoosh-sound-effect.mp3',\n
-          'https://www.orangefreesounds.com/wp-content/uploads/2022/04/Scary-animal-noises.mp3',\n
-          'https://www.orangefreesounds.com/wp-content/uploads/2022/02/Screeching-horror-cinematic-sound.mp3',\n
-          'https://www.orangefreesounds.com/wp-content/uploads/2022/03/Horror-breath-with-long-reverb-sound-effect.mp3',\n
-          'https://www.orangefreesounds.com/wp-content/uploads/2022/01/Heart-beat-sound-effect.mp3',\n
-          'https://www.orangefreesounds.com/wp-content/uploads/2021/12/Horror-sound-effect.mp3',\n)|random
-          }}\n"
+        media_content_id: "{{\n  ('https://www.orangefreesounds.com/wp-content/uploads/2021/10/Halloween-theme-doorbell-sound.mp3',\n
+          \  'https://www.myinstants.com/media/sounds/i-see-you-alternate.mp3',\n
+          \  'https://orangefreesounds.com/wp-content/uploads/2022/06/Haunted-whoosh-sound-effect.mp3',\n
+          \  'https://www.orangefreesounds.com/wp-content/uploads/2022/04/Scary-animal-noises.mp3',\n
+          \  'https://www.orangefreesounds.com/wp-content/uploads/2022/02/Screeching-horror-cinematic-sound.mp3',\n
+          \  'https://www.orangefreesounds.com/wp-content/uploads/2022/03/Horror-breath-with-long-reverb-sound-effect.mp3',\n
+          \  'https://www.orangefreesounds.com/wp-content/uploads/2022/01/Heart-beat-sound-effect.mp3',\n
+          \  'https://www.orangefreesounds.com/wp-content/uploads/2021/12/Horror-sound-effect.mp3',)|random\n}}\n"
       target:
         entity_id: media_player.front_door_protect_speaker
   - if:
@@ -1592,12 +1593,10 @@
     - service: media_player.play_media
       data:
         media_content_type: music
-        media_content_id: '{{ (''https://quicksounds.com/uploads/tracks/1759518219_656234714_1828201613.mp3'',
-
-
-          )|random }}
-
-          '
+        media_content_id: "{{\n  ('/config/www/sounds/Christmas-bells-doorbell.mp3',\n
+          \ '/config/www/sounds/Christmas-doorbell-jingle-bells.mp3',\n  '/config/www/sounds/Christmas-doorbell-melody.mp3',\n
+          \ '/config/www/sounds/Christmas-doorbell-sound.mp3',\n  '/config/www/sounds/Christmas-music-doorbell.mp3',\n
+          \ '/config/www/sounds/Santa_Merry_Christmas.mp3',)|random }}\n"
       target:
         entity_id: media_player.front_door_protect_speaker
   mode: single
@@ -1808,6 +1807,7 @@
       illuminance_sensor: sensor.kitchen_motion_illuminance_lux
       illuminance_cutoff: input_number.illumination_low
       no_motion_wait: input_number.inactivity_timeout_medium
+      blocker_entity: switch.outdoor_plug_ge
 - id: '1655993369268'
   alias: Notify If Any Power Plug Off
   description: ''
@@ -1933,6 +1933,7 @@
   action:
   - service: light.turn_on
     data:
+      transition: 0
       color_temp: 500
       brightness_pct: 100
     target:

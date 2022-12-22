@@ -1293,6 +1293,11 @@
         seconds: 3
       below: 0.5
     continue_on_timeout: false
+    timeout:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
   - service: script.announce
     data:
       message: 'That was the best piano I''ve heard all {{ now().strftime(''%A'')

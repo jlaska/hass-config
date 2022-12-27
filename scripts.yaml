@@ -232,14 +232,14 @@ zone_geofence_light_pulse:
       color_name: '{{ states(''input_text.zone_pulse_color'') }}'
   - delay:
       hours: 0
-      minutes: 0
-      seconds: 20
+      minutes: 1
+      seconds: 0
       milliseconds: 0
   - service: scene.turn_on
     target:
       entity_id: scene.snapshot_zone_pulse
     data:
-      transition: 4
+      transition: 1
 sengled_light_pulse_test:
   alias: Sengled Light Pulse Test
   mode: restart

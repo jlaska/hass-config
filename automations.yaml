@@ -835,27 +835,6 @@
       illuminance_sensor: sensor.guest_bathroom_motion_illuminance_lux
       turn_off_blocker_entity: binary_sensor.guest_bathroom_hygrostat
       turn_off_blocker_wait: input_number.inactivity_timeout_extralong
-- id: '1622206147425'
-  alias: Notify When Solaredge Offline
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.solaredge_solar_power
-    attribute: status
-    from: Active,Idle
-  - platform: state
-    entity_id: device_tracker.solaredge
-    to: not_home
-  condition:
-  - condition: state
-    entity_id: sun.sun
-    state: above_horizon
-  action:
-  - service: notify.mobile_app_james_iphone
-    data:
-      title: Solaredge Offline
-      message: The solaredge may be offline ({{trigger.entity_id}} now {{trigger.to_state.status}})
-  mode: single
 - id: '1622209187653'
   alias: Guest Room Button
   description: ''

@@ -20,6 +20,7 @@ cards:
         - entity_id: light.living_room_bookshelf_*
         - entity_id: light.kitchen_end_table_light_1
         - entity_id: light.kitchen_end_table_light_2
+        - entity_id: light.dining_room_lights
     sort:
       method: name
       ignore_case: true
@@ -178,6 +179,24 @@ cards:
     sort:
       method: state
       ignore_case: true
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Missing Zigbee
+    filter:
+      template: |
+        {% with th = utcnow() - timedelta(hours=2), ms = ['Gledopto', 'Philips', 'SmartThings', 'Xiaomi'] %}
+          {% for s in integration_entities('mqtt') if s.endswith('_last_seen') and as_datetime(states(s)) < th %}
+            {% for m in ms if is_device_attr(s, 'manufacturer', m) %}
+             {{ s }},
+            {% endfor %}
+          {% endfor %}
+        {% endwith %}
+    sort:
+      method: last_triggered
+      reverse: true
+      ignore_case: true
+      count: 5
   - type: custom:auto-entities
     card:
       type: entities

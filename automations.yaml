@@ -410,10 +410,12 @@
   condition:
   - alias: Assert TV off
     condition: state
-    state: 'off'
+    state:
+    - 'off'
+    - unavailable
     for:
       minutes: 30
-    entity_id: remote.hubname
+    entity_id: media_player.samsung_un55h7100
   - alias: Assert evening
     condition: state
     entity_id: sun.sun

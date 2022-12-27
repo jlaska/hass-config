@@ -458,6 +458,7 @@
       area_id:
       - living_room
       - sunroom
+      - powder_room
     data: {}
   - service: homeassistant.turn_off
     data: {}
@@ -1134,7 +1135,8 @@
             name: default
             critical: 1
             volume: 1
-  - service: script.announce
+  - alias: Speaker announcement
+    service: script.announce
     data:
       entity_id: media_player.all_speakers
       message: A leak was detected in the {{ area_name(trigger.entity_id) }}

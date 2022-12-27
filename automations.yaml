@@ -382,6 +382,21 @@
     device_id: 5364ebdb1d63351833073f854e50a2b6
     entity_id: remote.hubname
     domain: remote
+  - service: fan.turn_off
+    target:
+      entity_id: all
+    data: {}
+  - alias: Wait for no active vacuum automation
+    wait_for_trigger:
+    - platform: state
+      entity_id:
+      - automation.robot_start
+      attribute: current
+      to: '0'
+      for:
+        hours: 1
+        minutes: 0
+        seconds: 0
   - service: light.turn_off
     target:
       entity_id: "{% set exclude_light = [\n    'light.back_door_light',\n    'light.front_door_light',\n
@@ -389,10 +404,6 @@
         \  ] %}\n{%- for device in states.light|selectattr('state','in','on')|rejectattr('entity_id','in',exclude_light)
         -%}\n  {{device.entity_id }}\n  {%- if not loop.last %},{% endif %}\n{%- endfor
         \ %}\n"
-  - service: fan.turn_off
-    target:
-      entity_id: all
-    data: {}
   mode: single
 - id: '1618088888089'
   alias: Good Night

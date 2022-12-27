@@ -40,15 +40,3 @@ binary_sensor.garage_freezer_contact_on_off:
   device_class: door
 sensor.laundry_room_vibration_sensor_strength:
   state_class: measurement
-device_tracker.williams_nintendo_switch_ping:
-  friendly_name: "William's Nintendo Switch"
-  icon: mdi:nintendo-switch
-device_tracker.williams_ipad_ping:
-  friendly_name: "William's iPad"
-  icon: mdi:tablet
-device_tracker.henrys_nintendo_switch_ping:
-  friendly_name: "William's Nintendo Switch"
-  icon: mdi:nintendo-switch
-device_tracker.henrys_ipad_ping:
-  friendly_name: "Henry's iPad"
-  icon: mdi:tablet

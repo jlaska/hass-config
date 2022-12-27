@@ -139,16 +139,16 @@ cards:
                           variables:
                             entity: person.william
                             activity: device_tracker.williams_chromebook
-                            connection_type: device_tracker.williams_ipad_ping
-                            battery_level: device_tracker.williams_nintendo_switch_ping
+                            connection_type: device_tracker.williams_ipad
+                            battery_level: device_tracker.williams_nintendo_switch
                         - type: custom:button-card
                           template: person-state-card
                           entity: person.henry
                           variables:
                             entity: person.henry
                             activity: device_tracker.family_chromebook
-                            connection_type: device_tracker.henrys_ipad_ping
-                            battery_level: device_tracker.henrys_nintendo_switch_ping
+                            connection_type: device_tracker.henrys_ipad
+                            battery_level: device_tracker.henrys_nintendo_switch
           - type: custom:ha-card-weather-conditions
             name: Cary, NC
             animation: true

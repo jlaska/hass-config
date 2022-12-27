@@ -23,6 +23,8 @@
 !ui-lovelace.yaml
 !zha.yaml
 !zwave.yaml
+!device_trackers.yaml
+!known_devices.yaml
 
 # !blueprints
 # blueprints/*

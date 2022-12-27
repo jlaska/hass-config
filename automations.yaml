@@ -1092,20 +1092,26 @@
     entity_id:
     - binary_sensor.laundry_room_washer_leak_water_leak
     - binary_sensor.laundry_room_dryer_leak_water_leak
+    - binary_sensor.kitchen_sink_leak_water_leak
     to: 'on'
   condition: []
   action:
-  - service: switch.turn_off
-    data: {}
-    target:
-      entity_id: switch.laundry_room_washer_plug_centralite_switch
-  - service: script.notify
+  - alias: Turn off washing machine (optionally)
+    if:
+    - condition: template
+      value_template: '{{ area_id(trigger.entity_id) == ''laundry_room'' }}'
+    then:
+    - service: switch.turn_off
+      data: {}
+      target:
+        entity_id: switch.laundry_room_washer_plug_centralite_switch
+  - alias: Critical phone alert
+    service: script.notify
     data:
       title: Water Leak Detected
-      message: 'A water leak was detected by {{ state_attr(trigger.to_state.entity_id,
-        ''friendly_name'') }} at {{ as_timestamp(state_attr(this.entity_id,
-
-        ''last_triggered''))|timestamp_custom(''%I:%M %p'') }}'
+      message: A water leak was detected by {{ state_attr(trigger.to_state.entity_id,
+        'friendly_name') }} at {{ as_timestamp(state_attr(this.entity_id, 'last_triggered'))|timestamp_custom('%I:%M
+        %p') }}
       data:
         group: water-leak
         tag: water-leak

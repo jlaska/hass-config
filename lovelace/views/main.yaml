@@ -576,8 +576,6 @@ cards:
                           - entity: binary_sensor.guest_bathroom_hygrostat
                           - entity: light.guest_bathroom_light
                           - entity: fan.guest_bathroom_fan
-                            tap_action:
-                              action: more-info
                   'kids_bathroom':
                     type: custom:decluttering-card
                     template: minimal_area_card
@@ -589,8 +587,6 @@ cards:
                           - entity: binary_sensor.kids_bathroom_hygrostat
                           - entity: light.kids_bathroom_light
                           - entity: fan.kids_bathroom_fan
-                            tap_action:
-                              action: more-info
                   'laundry_room':
                     type: custom:decluttering-card
                     template: minimal_area_card

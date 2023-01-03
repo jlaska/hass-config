@@ -1,7 +1,7 @@
 title: oldmain
 theme: Backend-selected
 path: oldmain
-icon: mdi:home-assistant
+icon: mdi:home-floor-2
 type: panel
 layout: {}
 badges: []

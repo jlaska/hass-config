@@ -10,14 +10,33 @@ minimal_area_card:
     title: '[[title]]'
     card_mod:
       style: |
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(359deg);
+          }
+        }
+        @keyframes wiggle {
+          0% { transform: rotate(0deg); }
+          10% { transform: rotate(-2deg); }
+          20% { transform: rotate(-4deg); }
+          30% { transform: rotate(-2deg); }
+          40% { transform: rotate(0deg); }
+          50% { transform: rotate(2deg); }
+          60% { transform: rotate(4deg); }
+          70% { transform: rotate(2deg); }
+          80% { transform: rotate(0deg); }
+          90% { transform: rotate(-2deg); }
+          95% { transform: rotate(-4deg); }
+          100% { transform: rotate(-2deg); }
+        }
         ha-card {
           background-color: rgba(0, 100, 150, 0.7);
           padding: 0px;
           aspect-ratio: 16 / 9;
           box-shadow: var( --ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12) );
-          __background-image: url({{ state_attr("[[entity]]", "entity_picture")}}&width=440&height=248);
-          __background-size: cover;
-          __background-position: [[background_position]];
         }
         ha-card .card-header {
           text-shadow: none;
@@ -41,6 +60,23 @@ minimal_area_card:
         }
         .box ha-icon-button.state-on state-badge {
           color: rgb(var(--rgb-state-light-color)) !important;
+        }
+        .box ha-icon-button.state-on state-badge[title*='Docked' i] {
+          color: unset !important;
+        }
+        .box ha-icon-button.state-on state-badge[title*='fan' i] {
+          animation: spin 1.5s infinite linear;
+        }
+        .box ha-icon-button.state-on state-badge[title*='MS963932G' i] {
+          color: lightblue !important;
+          animation: wiggle 0.5s linear infinite alternate;
+        }
+        .box ha-icon-button.state-on state-badge[title*='VS553419C' i] {
+          color: red !important;
+          animation: wiggle 0.5s linear infinite alternate;
+        }
+        ha-state-icon[data-domain='light'][data-state='on'] {
+          color: blue !important;
         }
 
     state_color: true

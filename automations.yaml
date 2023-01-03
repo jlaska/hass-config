@@ -186,7 +186,7 @@
       time_limit_after: input_datetime.time_of_day_automation_start
       time_limit_before: input_datetime.goodnight_start_time
       no_motion_wait: input_number.inactivity_timeout_short
-      motion_sensor: binary_sensor.master_bathroom_motion_occupancy
+      motion_sensor: binary_sensor.master_bathroom_motion_any
       illuminance_sensor: sensor.master_bedroom_motion_illuminance_lux
 - id: '1617970121884'
   alias: Garage Light - Activity

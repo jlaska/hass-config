@@ -4,17 +4,13 @@
   entities:
     light.master_bedroom_nightstand: true
     light.living_room_bookshelf:
-      min_mireds: 111
-      max_mireds: 400
+      state: 'on'
       brightness: 128
       color_temp: 301
-      state: 'on'
     light.living_room_table_lamp:
-      min_mireds: 111
-      max_mireds: 400
+      state: 'on'
       brightness: 255
       color_temp: 300
-      state: 'on'
     light.guest_room_nightstand: true
     light.henrys_room_floor_lamp:
       state: 'on'

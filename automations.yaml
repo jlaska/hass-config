@@ -2177,3 +2177,20 @@
     target:
       entity_id: input_datetime.trigger_good_night_exterior
   mode: single
+- id: '1672670675301'
+  alias: Attic Light - Double Tap
+  description: ''
+  use_blueprint:
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
+    input:
+      device: 5e18ccfb7997e8ccf6bf44ff80f80dd1
+      double_tap_on:
+      - service: light.turn_on
+        data: {}
+        target:
+          area_id: attic
+      double_tap_off:
+      - service: light.turn_off
+        data: {}
+        target:
+          area_id: attic

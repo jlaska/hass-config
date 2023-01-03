@@ -214,3 +214,16 @@
       - 0
       - 0
       state: 'on'
+- id: '1672760545726'
+  name: Back Deck Activity
+  icon: mdi:motion-sensor
+  metadata: {}
+  entities:
+    light.deck_rail_light:
+      brightness: 127
+      color_temp: 495
+      state: 'on'
+    light.deck_step_light:
+      brightness: 127
+      color_temp: 495
+      state: 'on'

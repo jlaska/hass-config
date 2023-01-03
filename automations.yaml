@@ -2147,16 +2147,17 @@
   - if:
     - condition: not
       conditions:
-      - condition: state
-        entity_id: media_player.living_room_homepod_left
-        state: playing
+      - alias: Going for a morning run
+        condition: time
+        after: 06:20:00
+        before: 07:30:00
     then:
     - service: media_player.play_media
-      data:
-        media_content_type: music
-        media_content_id: /config/www/sounds/juntos-607.mp3
       target:
-        entity_id: media_player.living_room_homepod_left
+        entity_id: media_player.all_speakers
+      data:
+        media_content_id: media-source://media_source/local/samus_morphball.m4a
+        media_content_type: audio/mpeg
   mode: single
 - id: '1671588501013'
   alias: Good Night (exterior)

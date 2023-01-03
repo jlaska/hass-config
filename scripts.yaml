@@ -344,6 +344,10 @@ announce:
     - condition: state
       entity_id: person.james
       state: home
+  - alias: Assert Not Quiet Time
+    condition: state
+    entity_id: schedule.quiet_time
+    state: 'off'
   - variables:
       volume_mode: '{% set current_time = now().strftime("%H:%M:%S") -%} {{ (current_time
         < states(''input_datetime.lights_out_kids'') and is_state(''calendar.work'',

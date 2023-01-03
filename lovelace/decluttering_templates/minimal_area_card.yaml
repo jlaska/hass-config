@@ -1,0 +1,51 @@
+minimal_area_card:
+  default:
+    - title: null
+    - entity: null
+    - entities: []
+    - height: 200px
+    - background_position: 0% 25%
+  card:
+    type: custom:minimalistic-area-card
+    title: '[[title]]'
+    card_mod:
+      style: |
+        ha-card {
+          background-color: rgba(0, 100, 150, 0.7);
+          padding: 0px;
+          aspect-ratio: 16 / 9;
+          box-shadow: var( --ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12) );
+          __background-image: url({{ state_attr("[[entity]]", "entity_picture")}}&width=440&height=248);
+          __background-size: cover;
+          __background-position: [[background_position]];
+        }
+        ha-card .card-header {
+          text-shadow: none;
+          text-align: start;
+        }
+        ha-card .sensors {
+          text-align: start;
+        }
+        .sensors ha-icon-button state-badge {
+          color: white !important;
+        }
+        .sensors ha-icon-button.state-on {
+          color: rgb(var(--rgb-state-light-color)) !important;
+          __background-color: var(--accent-color);
+          __border-radius: 50%;
+        }
+        .buttons ha-icon-button state-badge {
+          color: white !important;
+          __fixme__background-color: var(--area-button-color, #727272b2) !important;
+          __fixme__border-radius: 50%;
+        }
+        .box ha-icon-button.state-on state-badge {
+          color: rgb(var(--rgb-state-light-color)) !important;
+        }
+
+    state_color: true
+    entity: '[[entity]]'
+    camera_image: '[[entity]]'
+    tap_action:
+      action: more-info
+    entities: '[[entities]]'

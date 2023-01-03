@@ -1,0 +1,1013 @@
+title: oldmain
+theme: Backend-selected
+path: oldmain
+icon: mdi:home-assistant
+type: panel
+layout: {}
+badges: []
+cards:
+  - type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-template-columns: repeat(auto-fill, minmax(min(50%, 100%), 1fr))
+      grid-template-rows: min-content
+      mediaquery:
+        "(max-width: 600px)":
+          grid-template-columns: 100%
+          grid-template-areas: |
+            "left"
+            "right"
+        "(max-width: 2000px)":
+          grid-template-columns: 50% 50%
+          grid-template-areas: |
+            "left  right"
+    cards:
+      - type: vertical-stack
+        view_layout:
+          grid-area: left
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:button-card
+                entity: sensor.date_time
+                tap_action: more-info
+                hold_action: more-info
+                show_name: false
+                show_icon: false
+                show_label: false
+                styles:
+                  card:
+                    - color: var(--button-card-text-color)
+                    - padding: 5px
+                    - box-shadow: >-
+                        var(--ha-card-box-shadow, 0px 2px 1px -1px rgba(0,
+                        0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px
+                        1px 3px 0px rgba(0, 0, 0, 0.12) )
+                    - background: >-
+                        var(--ha-card-background,
+                        var(--card-background-color, white))
+                  grid:
+                    - grid-template-areas: |
+                        "time"
+                        "date"
+                    - grid-template-columns: auto
+                    - grid-template-rows: auto
+                  custom_fields:
+                    time:
+                      - justify-self: center
+                      - align-self: center
+                      - font-size: 68px
+                    date:
+                      - justify-self: center
+                      - align-self: start
+                      - font-size: 24px
+                      - color: var(--secondary-text-color)
+                      - overflow-wrap: break-word
+                custom_fields:
+                  time: |
+                    [[[
+                      var now = new Date();
+                      return now.toLocaleString('en-US', {
+                          hour: 'numeric',
+                          minute: 'numeric',
+                        });
+                      return now.toDateString();
+                    ]]]
+                  date: |
+                    [[[
+                      var now = new Date();
+                      return now.toLocaleString('en-US', {
+                          month: 'long',
+                          day: 'numeric',
+                          weekday: 'long'
+                        });
+                      return now.toDateString();
+                    ]]]
+              - type: custom:button-card
+                show_name: false
+                show_icon: false
+                show_label: false
+                styles:
+                  card:
+                    - color: var(--button-card-text-color)
+                    - padding: 0px
+                    - box-shadow: >-
+                        var(--ha-card-box-shadow, 0px 2px 1px -1px rgba(0,
+                        0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px
+                        1px 3px 0px rgba(0, 0, 0, 0.12) )
+                    - background: >-
+                        var(--ha-card-background,
+                        var(--card-background-color, white))
+                  grid:
+                    - grid-template-areas: |
+                        "people"
+                    - grid-template-columns: repeat(auto-fit, minmax(0,1fr))
+                    - grid-template-rows: auto
+                  custom_fields:
+                    people:
+                      - justify-self: center
+                      - align-content: center
+                custom_fields:
+                  people:
+                    card:
+                      type: custom:layout-card
+                      layout_type: custom:grid-layout
+                      layout:
+                        grid-template-columns: repeat(4,auto)
+                        grid-template-rows: min-content
+                      cards:
+                        - type: custom:button-card
+                          template: person-state-card
+                          entity: person.james
+                          variables:
+                            entity: person.james
+                            activity: sensor.james_iphone_activity
+                            connection_type: sensor.james_iphone_connection_type
+                            battery_level: sensor.james_iphone_battery_level
+                            busy_entity: calendar.work
+                        - type: custom:button-card
+                          template: person-state-card
+                          entity: person.shannon
+                          variables:
+                            entity: person.shannon
+                            activity: sensor.shannons_iphone_activity
+                            connection_type: sensor.shannons_iphone_connection_type
+                            battery_level: sensor.shannons_iphone_battery_level
+                        - type: custom:button-card
+                          template: person-state-card
+                          entity: person.william
+                          variables:
+                            entity: person.william
+                            activity: device_tracker.williams_chromebook
+                            connection_type: device_tracker.williams_ipad
+                            battery_level: device_tracker.williams_nintendo_switch
+                        - type: custom:button-card
+                          template: person-state-card
+                          entity: person.henry
+                          variables:
+                            entity: person.henry
+                            activity: device_tracker.family_chromebook
+                            connection_type: device_tracker.henrys_ipad
+                            battery_level: device_tracker.henrys_nintendo_switch
+          - type: custom:ha-card-weather-conditions
+            name: Cary, NC
+            animation: true
+            pollen:
+              weed:
+                entity: sensor.cc_weed_pollen_index_mod
+                min: 0
+                max: 5
+                low: 1
+                high: 3
+              grass:
+                entity: sensor.cc_grass_pollen_index_mod
+                min: 0
+                max: 5
+                low: 1
+                high: 3
+              tree:
+                entity: sensor.cc_tree_pollen_index_mod
+                min: 0
+                max: 5
+                low: 1
+                high: 3
+            weather:
+              icons_model: darksky
+              current:
+                sun: sun.sun
+                moon_phase: sensor.moon
+                current_conditions: sensor.cc_current_conditions
+                temperature: sensor.cc_temperature
+                humidity: sensor.cc_humidity
+                pressure: sensor.cc_pressure
+                visibility: sensor.cc_visibility
+                wind_bearing: sensor.cc_wind_bearing
+                wind_speed: sensor.cc_wind_speed
+                forecast: true
+              forecast:
+                # meteogram: camera.weather_local_forecast
+                temperature_high:
+                  day_1: sensor.cc_temperature_maximum_0d
+                temperature_low:
+                  day_1: sensor.cc_temperature_minimum_0d
+                precipitation_probability:
+                  day_1: sensor.cc_precipitation_probability_0d
+                precipitation_intensity:
+                  day_1: sensor.cc_precipitation_intensity_0d
+            air_quality:
+              o3: sensor.airnow_o3
+              pm25: sensor.airnow_pm2_5
+              _pm10: sensor.cc_particulate_matter_10_mm
+              _no2: sensor.climacell_nitrogen_dioxide
+              _co: sensor.climacell_carbon_monoxide
+              _so2: sensor.climacell_sulfur_dioxide
+              epa_aqi: sensor.cc_us_epa_air_quality_index
+              epa_health_concern: sensor.cc_us_epa_health_concern
+            uv:
+              protection_window: binary_sensor.protection_window
+              ozone_level: sensor.current_ozone_level
+              uv_index: sensor.current_uv_index
+              uv_level: sensor.current_uv_level
+              max_uv_index: sensor.max_uv_index
+              _set_skin_type_1: sensor.skin_type_1_safe_exposure_time
+              _set_skin_type_2: sensor.skin_type_2_safe_exposure_time
+              _set_skin_type_3: sensor.skin_type_3_safe_exposure_time
+              _set_skin_type_4: sensor.skin_type_4_safe_exposure_time
+              _set_skin_type_5: sensor.skin_type_5_safe_exposure_time
+              _set_skin_type_6: sensor.skin_type_6_safe_exposure_time
+          - type: custom:swipe-card
+            parameters:
+              autoplay:
+                delay: 8000
+              speed: 400
+              preloadImages: true
+            cards:
+              - type: picture-entity
+                show_name: false
+                show_state: false
+                entity: camera.weather_local_forecast
+                name: Local Forecast
+                aspect_ratio: '625:375'
+              - type: picture-entity
+                show_name: false
+                show_state: false
+                entity: camera.weather_local_doplar
+                name: Local Doplar Radar
+                aspect_ratio: '625:375'
+          - type: custom:button-card
+            entity: sensor.powerwall_charge
+            show_state: false
+            show_label: false
+            show_name: false
+            show_icon: false
+            icon: |
+              [[[
+                var battery_level = states['sensor.powerwall_charge'].state;
+                var battery_round = parseInt(battery_level / 10) * 10;
+                var is_charging = states['binary_sensor.powerwall_charging'].state.toLowerCase() == 'on';
+                // var is_charging = states['binary_sensor.powerwall_charging'].state;
+                var battery_icon = 'mdi:battery';
+
+                if (battery_round == 100)
+                  battery_icon += '';
+                else if (battery_round == 0)
+                  battery_icon += '-outline';
+                else {
+                  if (is_charging)
+                    battery_icon += '-charging';
+                  battery_icon += '-' + battery_round;
+                }
+                return battery_icon;
+              ]]]
+            styles:
+              card:
+                - height: 40px
+                - padding: 0px
+                - background: |
+                    [[[
+                      var battery_level = states['sensor.powerwall_charge'].state;
+                      var battery_round = parseInt(battery_level / 10) * 10;
+                      if (battery_level >= 70) {
+                        var background_color = 'rgba(15, 160, 15, 0.6)';
+                        var accent_color = 'rgba(15, 160, 15, 1)';
+                      } else if (battery_level >= 35) {
+                        var background_color = 'rgba(255, 152, 0, 0.4)';
+                        var accent_color = 'rgba(255, 152, 0, 1)';
+                      } else {
+                        var background_color = 'rgba(255, 35, 40, 0.4)';
+                        var accent_color = 'rgba(255, 35, 40, 1)';
+                      }
+                      return 'linear-gradient(to right, '+ background_color + ' '+ parseInt(battery_round-1) +'%, '+ accent_color +' '+ parseInt(battery_round) +'%, var(--label-badge-background-color) '+ parseInt(battery_round) +'%)';
+                    ]]]
+              icon:
+                - transform: rotate(0deg)
+                - opacity: 0.3
+              custom_fields:
+                sensors:
+                  - position: absolute
+                  - justify-self: center
+                  - align-self: center
+            custom_fields:
+              sensors:
+                card:
+                  type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    grid-template-columns: repeat(5,auto)
+                    grid-template-rows: min-content
+                  cards:
+                    - type: custom:button-card
+                      entity: sensor.powerwall_solar_now
+                      show_icon: true
+                      show_state: true
+                      show_name: false
+                      show_label: false
+                      icon: mdi:solar-power
+                      state_display: |
+                        [[[
+                          return `${Number(states['sensor.powerwall_solar_now'].state).toFixed(2)} ${states['sensor.powerwall_solar_now'].attributes.unit_of_measurement}`;
+                        ]]]
+                      styles:
+                        grid:
+                          - grid-template-areas: '"i s"'
+                        card:
+                          - box-shadow: none
+                          - border-radius: 0px
+                          - background: none
+                        state:
+                          - color: |
+                              [[[
+                                if (entity.state < 0)
+                                  return 'red';
+                                else
+                                  return 'darkgreen';
+                              ]]]
+                    - type: custom:button-card
+                      entity: sensor.powerwall_load_now
+                      show_icon: true
+                      show_state: true
+                      show_name: false
+                      show_label: false
+                      icon: mdi:home-outline
+                      state_display: |
+                        [[[
+                          return `${Number(states['sensor.powerwall_load_now'].state).toFixed(2)} ${states['sensor.powerwall_load_now'].attributes.unit_of_measurement}`;
+                        ]]]
+                      styles:
+                        grid:
+                          - grid-template-areas: '"i s"'
+                        card:
+                          - box-shadow: none
+                          - border-radius: 0px
+                          - background: none
+                        state:
+                          - color: |
+                              [[[
+                                if (entity.state > 0)
+                                  return 'red';
+                                else
+                                  return 'darkgreen';
+                              ]]]
+                    - type: custom:button-card
+                      entity: sensor.powerwall_charge
+                      show_icon: true
+                      show_state: false
+                      show_name: false
+                      show_label: false
+                      icon: |
+                        [[[
+                          var battery_level = states['sensor.powerwall_charge'].state;
+                          var battery_round = parseInt(battery_level / 10) * 10;
+                          var is_charging = states['binary_sensor.powerwall_charging'].state.toLowerCase() == 'on';
+                          // var is_charging = states['binary_sensor.powerwall_charging'].state;
+                          var battery_icon = 'mdi:battery';
+
+                          if (battery_round == 100)
+                            battery_icon += '';
+                          else if (battery_round == 0)
+                            battery_icon += '-outline';
+                          else {
+                            if (is_charging)
+                              battery_icon += '-charging';
+                            battery_icon += '-' + battery_round;
+                          }
+                          return battery_icon;
+                        ]]]
+                      styles:
+                        grid:
+                          - grid-template-areas: '"i s"'
+                        card:
+                          - box-shadow: none
+                          - border-radius: 0px
+                          - background: none
+                        state:
+                          - color: |
+                              [[[
+                                if (entity.state < 0)
+                                  return 'red';
+                                else
+                                  return 'darkgreen';
+                              ]]]
+                    - type: custom:button-card
+                      entity: sensor.powerwall_battery_now
+                      show_icon: true
+                      show_state: true
+                      show_name: false
+                      show_label: false
+                      icon: mdi:home-battery-outline
+                      state_display: |
+                        [[[
+                          return `${Number(states['sensor.powerwall_battery_now'].state).toFixed(2)} ${states['sensor.powerwall_battery_now'].attributes.unit_of_measurement}`;
+                        ]]]
+                      styles:
+                        grid:
+                          - grid-template-areas: '"i s"'
+                        card:
+                          - box-shadow: none
+                          - border-radius: 0px
+                          - background: none
+                        state:
+                          - color: |
+                              [[[
+                                if (entity.state < 0)
+                                  return 'red';
+                                else
+                                  return 'darkgreen';
+                              ]]]
+                    - type: custom:button-card
+                      entity: sensor.powerwall_site_now
+                      show_icon: true
+                      show_state: true
+                      show_name: false
+                      show_label: false
+                      icon: mdi:transmission-tower
+                      state_display: |
+                        [[[
+                          return `${Number(states['sensor.powerwall_site_now'].state).toFixed(2)} ${states['sensor.powerwall_site_now'].attributes.unit_of_measurement}`;
+                        ]]]
+                      styles:
+                        grid:
+                          - grid-template-areas: '"i s"'
+                        card:
+                          - box-shadow: none
+                          - border-radius: 0px
+                          - background: none
+                        state:
+                          - color: |
+                              [[[
+                                if (entity.state < 0)
+                                  return 'red';
+                                else if (entity.state > 0)
+                                  return 'darkgreen';
+                              ]]]
+          - type: custom:button-card
+            template: banner_header
+            name: Outside
+            styles:
+              card:
+                - padding: 0px
+                - box-shadow: >-
+                    var( --ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0,
+                    0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px
+                    3px 0px rgba(0, 0, 0, 0.12) )
+                - background: var(--ha-card-background, var(--card-background-color, white))
+            custom_fields:
+              buttons:
+                card:
+                  type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    grid-template-columns: repeat(auto-fill, minmax(min(50%, 100%), 1fr))
+                    grid-template-rows: auto
+                  cards:
+                    - type: custom:decluttering-card
+                      template: minimal_area_card
+                      variables:
+                        - title: Front Yard
+                        - entity: camera.front_yard_protect_high
+                        - entities:
+                            - entity: binary_sensor.front_yard_protect_motion
+                              tap_action:
+                                action: more-info
+                            - entity: light.garage_exterior_light
+                            - entity: light.front_spot_light
+                    - type: custom:decluttering-card
+                      template: minimal_area_card
+                      variables:
+                        - title: Front Door
+                        - entity: camera.front_door_protect_high
+                        - background_position: 0% 50%
+                        - entities:
+                            - entity: binary_sensor.front_door_protect_motion
+                            - entity: binary_sensor.front_door_contact
+                              tap_action:
+                                action: more-info
+                            - entity: light.front_door_light
+                    - type: custom:decluttering-card
+                      template: minimal_area_card
+                      variables:
+                        - title: Back Deck
+                        - entity: camera.back_deck_protect_high
+                        - entities:
+                            - entity: binary_sensor.back_deck_protect_motion
+                            - entity: binary_sensor.back_door_contact
+                            - entity: group.back_deck_lights
+                              icon: mdi:led-strip-variant
+                              tap_action:
+                                action: more-info
+                            - entity: light.back_door_light
+                            - entity: light.back_spot_light
+                    - type: custom:decluttering-card
+                      template: minimal_area_card
+                      variables:
+                        - title: Garage
+                        - entity: camera.garage_protect_high
+                        - entities:
+                            - entity: binary_sensor.garage_motion_any
+                            - entity: binary_sensor.garage_freezer_door_contact
+                              icon: 'mdi:fridge-industrial-outline'
+                            - entity: cover.garage_door_shelly
+                              tap_action:
+                                action: more-info
+                            - entity: group.garage_lights
+                              tap_action:
+                                action: more-info
+      - type: vertical-stack
+        view_layout:
+          grid-area: right
+        cards:
+          - type: custom:button-card
+            template: banner_header
+            name: Outside
+            styles:
+              card:
+                - padding: 0px
+                - box-shadow: >-
+                    var( --ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0,
+                    0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px
+                    3px 0px rgba(0, 0, 0, 0.12) )
+                - background: >-
+                    var( --ha-card-background, var(--card-background-color,
+                    white))
+            custom_fields:
+              buttons:
+                card:
+                  type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    grid-template-columns: repeat(auto-fill, minmax(min(50%, 100%), 1fr))
+                    grid-template-rows: auto
+                  cards:
+                    - type: custom:state-switch
+                      entity: template
+                      template: |
+                        {% set entities = expand(['binary_sensor.front_yard_protect_motion',
+                          'binary_sensor.front_door_protect_motion']) %}
+                        {% if (entities|count > 0) %}
+                        {{ (entities|max(attribute='last_updated')).object_id }}
+                        {% endif %}
+                      transition: slide-left
+                      states:
+                        'front_door_protect_motion':
+                          type: custom:button-card
+                          template: mini-area-card
+                          entity: camera.front_door_protect_high
+                          name: Front Door
+                          variables:
+                            motion_entity: binary_sensor.front_door_protect_motion
+                            door_entity: binary_sensor.front_door_contact
+                            temperature_entity: sensor.front_door_temperature
+                            fan_entity: light.front_door_light
+                            light_entity: light.front_spot_light
+                          triggers_update:
+                            - binary_sensor.front_door_protect_motion
+                            - binary_sensor.front_door_contact
+                        'front_yard_protect_motion':
+                          type: custom:button-card
+                          template: mini-area-card
+                          entity: camera.front_yard_protect_high
+                          name: Front Yard
+                          variables:
+                            motion_entity: binary_sensor.front_yard_protect_motion
+                            door_entity: binary_sensor.front_door_contact
+                            temperature_entity: sensor.cc_temperature
+                            fan_entity: light.front_door_light
+                            light_entity: light.front_spot_light
+                          triggers_update:
+                            - binary_sensor.front_door_protect_motion
+                            - binary_sensor.front_door_contact
+                    - type: custom:state-switch
+                      entity: template
+                      template: |
+                        {% set entities = expand(['binary_sensor.back_yard_protect_motion',
+                          'binary_sensor.back_deck_protect_motion']) %}
+                        {% if (entities|count > 0) %}
+                        {{ (entities|max(attribute='last_updated')).object_id }}
+                        {% endif %}
+                      transition: slide-left
+                      states:
+                        'back_deck_protect_motion':
+                          type: custom:button-card
+                          template: mini-area-card
+                          entity: camera.back_deck_protect_high
+                          name: Back Deck
+                          variables:
+                            motion_entity: binary_sensor.back_deck_protect_motion
+                            door_entity: binary_sensor.back_door_contact
+                            temperature_entity: sensor.cc_temperature
+                            fan_entity: group.back_lights
+                            light_entity: light.back_spot_light
+                        'back_yard_protect_motion':
+                          type: custom:button-card
+                          template: mini-area-card
+                          entity: camera.back_yard_protect_high
+                          name: Back Yard
+                          variables:
+                            motion_entity: binary_sensor.back_yard_protect_motion
+                            door_entity: binary_sensor.back_door_contact
+                            temperature_entity: sensor.cc_temperature
+                            fan_entity: group.back_lights
+                            light_entity: light.back_spot_light
+          - type: custom:mini-climate
+            entity: climate.upstairs
+            card_mod:
+              style:
+                .: |
+                  ha-icon {
+                    color: var(--paper-item-icon-color);
+                  }
+            group: false
+            hide_current_temperature: true
+            toggle:
+              hide: true
+            secondary_info:
+              type: hvac-action
+            indicators:
+              temperature:
+                icon:
+                  template: () => 'mdi:thermometer'
+                  style: |
+                    (value) => ({ color: 'red'})
+                unit: °F
+                source:
+                  entity: sensor.upstairs_temperature
+              humidity:
+                icon:
+                  template: () => 'mdi:water-percent'
+                  style: |
+                    (value) => ({ color: 'lightblue'})
+                unit: '%'
+                round: 1
+                source:
+                  entity: sensor.upstairs_humidity
+              luminance:
+                icon:
+                  template: () => 'mdi:brightness-5'
+                  style: >
+                    (value) => ({ color:
+                    'var(--paper-item-icon-active-color)'})
+                unit: lx
+                source:
+                  entity: sensor.master_bedroom_motion_illuminance_lux
+            target_temperature:
+              unit: °F
+              step: 1
+            temperature:
+              unit: °F
+            hvac_mode:
+              style: |
+                (value, entity) => {
+                  let hvac_action = entity.attributes.hvac_action;
+                  if (hvac_action == 'heating')
+                    return { color: 'red !important' };
+                  else if (hvac_action == 'cooling')
+                    return { color: 'blue !important' };
+                  else
+                    return { color: 'var(--paper-item-icon-color) !important' };
+                }
+              hide: false
+              source:
+                'off':
+                  icon: mdi:power
+                  name: 'off'
+                heat:
+                  icon: mdi:radiator
+                  name: heat
+                cool:
+                  icon: mdi:snowflake
+                  name: cool
+                heat_cool:
+                  icon: mdi:refresh-auto
+                  name: auto
+          - type: custom:layout-card
+            layout_type: custom:grid-layout
+            layout:
+              grid-template-columns: repeat(auto-fill, minmax(min(50%, 100%), 1fr))
+              grid-template-rows: auto
+            cards:
+              - type: custom:decluttering-card
+                template: minimal_area_card
+                entity: null
+                variables:
+                  - title: Master
+                  - entities:
+                      - entity: binary_sensor.master_bedroom_motion_occupancy
+                        tap_action:
+                          action: more-info
+                      - entity: binary_sensor.master_bedroom_workstation_sensor_vibration
+                        tap_action:
+                          action: more-info
+                      - entity: group.master_bedroom_lights
+                        tap_action:
+                          action: more-info
+                      - entity: fan.master_bedroom_fan
+              - type: custom:button-card
+                template: mini-area-card
+                entity: null
+                name: M Bath
+                variables:
+                  motion_entity: binary_sensor.master_bathroom_motion_occupancy
+                  door_entity: binary_sensor.master_bathroom_hygrostat
+                  temperature_entity: sensor.master_bathroom_motion_temperature
+                  light_entity: group.master_bathroom_lights
+                  fan_entity: fan.master_bathroom_fan
+                triggers_update:
+                  - binary_sensor.master_bathroom_motion_occupancy
+              - type: custom:button-card
+                template: mini-area-card
+                entity: camera.williams_protect_high
+                name: William
+                variables:
+                  motion_entity: binary_sensor.williams_protect_motion
+                  temperature_entity: sensor.william_s_room_button_temperature
+                  light_entity: group.william_s_room_lights
+                  fan_entity: fan.williams_room_fan
+                triggers_update:
+                  - binary_sensor.williams_protect_motion
+              - type: custom:button-card
+                template: mini-area-card
+                entity: camera.henrys_protect_high
+                name: Henry
+                variables:
+                  motion_entity: binary_sensor.henrys_protect_motion
+                  door_entity: binary_sensor.henrys_room_closet_door_contact
+                  temperature_entity: sensor.henry_s_room_button_temperature
+                  light_entity: group.henry_s_room_lights
+                  fan_entity: fan.henrys_room_fan
+                triggers_update:
+                  - binary_sensor.henrys_protect_motion
+#              - type: custom:button-card
+#                template: mini-area-card
+#                entity: camera.guest_room_protect_high
+#                name: Guest
+#                variables:
+#                  motion_entity: binary_sensor.guest_room_motion_any
+#                  temperature_entity: sensor.guest_room_motion_temperature
+#                  light_entity: group.guest_room_lights
+#                  fan_entity: fan.guest_room_fan
+#                triggers_update:
+#                  - binary_sensor.guest_room_motion_any
+              - type: custom:decluttering-card
+                template: minimal_area_card
+                variables:
+                  - title: Guest
+                  - entity: camera.guest_room_protect_high
+                  - entities:
+                      - entity: binary_sensor.guest_room_motion_any
+                      - entity: group.guest_room_lights
+                        tap_action:
+                          action: more-info
+                      - entity: fan.guest_room_fan
+              - type: custom:state-switch
+                entity: template
+                template: |
+                  {% set entities = expand(['binary_sensor.laundry_room_motion_occupancy',
+                    'binary_sensor.guest_bathroom_motion_occupancy',
+                    'binary_sensor.kids_bathroom_motion_occupancy']) %}
+                  {% if (entities|count > 0) %}
+                  {{ (entities|max(attribute='last_updated')).object_id }}
+                  {% endif %}
+                transition: slide-left
+                states:
+                  'guest_bathroom_motion_occupancy':
+                    type: custom:button-card
+                    template: mini-area-card
+                    name: G Bath
+                    variables:
+                      motion_entity: binary_sensor.guest_bathroom_motion_occupancy
+                      door_entity: binary_sensor.guest_bathroom_hygrostat
+                      temperature_entity: sensor.guest_bathroom_motion_temperature
+                      light_entity: light.guest_bathroom_light
+                      fan_entity: fan.guest_bathroom_fan
+                    triggers_update:
+                      - binary_sensor.guest_bathroom_motion_occupancy
+                  'kids_bathroom_motion_occupancy':
+                    type: custom:button-card
+                    template: mini-area-card
+                    name: K Bath
+                    variables:
+                      motion_entity: binary_sensor.kids_bathroom_motion_occupancy
+                      door_entity: binary_sensor.kids_bathroom_hygrostat
+                      temperature_entity: sensor.kids_bathroom_motion_temperature
+                      light_entity: light.kids_bathroom_light
+                      fan_entity: fan.kids_bathroom_fan
+                    triggers_update:
+                      - binary_sensor.kids_bathroom_motion_occupancy
+                  'laundry_room_motion_occupancy':
+                    type: custom:button-card
+                    template: mini-area-card
+                    name: Laundry
+                    variables:
+                      __alert_entity_2: sensor.vs553419c_laundry_machine_state
+                      alert_entity: sensor.ms963932g_laundry_machine_state
+                      motion_entity: binary_sensor.laundry_room_motion_occupancy
+                      door_entity: binary_sensor.laundry_room_washer_leak_water_leak
+                      temperature_entity: sensor.laundry_room_motion_temperature
+                      light_entity: light.laundry_room_light
+                    triggers_update:
+                      - binary_sensor.laundry_room_motion_occupancy
+          - type: custom:mini-climate
+            entity: climate.entry
+            card_mod:
+              style:
+                .: |
+                  ha-icon {
+                    color: var(--paper-item-icon-color);
+                  }
+            name: Downstairs
+            group: false
+            hide_current_temperature: true
+            toggle:
+              hide: true
+            secondary_info:
+              type: hvac-action
+              source:
+                cooling:
+                  icon: mdi:snowflake
+            indicators:
+              temperature:
+                icon:
+                  template: () => 'mdi:thermometer'
+                  style: |
+                    (value) => ({ color: 'red'})
+                unit: °F
+                source:
+                  entity: sensor.entry_temperature
+              humidity:
+                icon:
+                  template: () => 'mdi:water-percent'
+                  style: |
+                    (value) => ({ color: 'lightblue'})
+                unit: '%'
+                round: 1
+                source:
+                  entity: sensor.entry_humidity
+              luminance:
+                icon:
+                  template: () => 'mdi:brightness-5'
+                  style: >
+                    (value) => ({ color:
+                    'var(--paper-item-icon-active-color)'})
+                unit: lx
+                source:
+                  entity: sensor.kitchen_motion_illuminance_lux
+            target_temperature:
+              unit: °F
+              step: 1
+            temperature:
+              unit: °F
+            hvac_mode:
+              style: |
+                (value, entity) => {
+                  let hvac_action = entity.attributes.hvac_action;
+                  if (hvac_action == 'heating')
+                    return { color: 'red !important' };
+                  else if (hvac_action == 'cooling')
+                    return { color: 'blue !important' };
+                  else
+                    return { color: 'var(--paper-item-icon-color) !important' };
+                }
+              hide: false
+              source:
+                'off':
+                  icon: mdi:power
+                  name: 'off'
+                heat:
+                  icon: mdi:radiator
+                  name: heat
+                cool:
+                  icon: mdi:snowflake
+                  name: cool
+                heat_cool:
+                  icon: mdi:refresh-auto
+                  name: auto
+          - type: custom:button-card
+            template: banner_header
+            name: Downstairs
+            styles:
+              card:
+                - padding: 0px
+                - box-shadow: >-
+                    var( --ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0,
+                    0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px
+                    3px 0px rgba(0, 0, 0, 0.12) )
+                - background: >-
+                    var( --ha-card-background, var(--card-background-color,
+                    white))
+            custom_fields:
+              buttons:
+                card:
+                  type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    grid-template-columns: repeat(auto-fill, minmax(min(50%, 100%), 1fr))
+                    grid-template-rows: auto
+                  cards:
+                    - type: custom:button-card
+                      template: mini-area-card
+                      name: Kitchen
+                      variables:
+                        motion_entity: binary_sensor.kitchen_motion_occupancy
+                        alert_entity: binary_sensor.kitchen_refrigerator_door_contact
+                        temperature_entity: sensor.kitchen_motion_temperature
+                        light_entity: group.kitchen_lights
+                      triggers_update:
+                        - binary_sensor.kitchen_motion_occupancy
+                        - binary_sensor.kitchen_refrigerator_door_contact
+                        - group.kitchen_lights
+                    - type: custom:button-card
+                      template: mini-area-card
+                      entity: camera.living_room_protect_high
+                      name: Living
+                      variables:
+                        motion_entity: binary_sensor.living_room_motion_any
+                        alert_entity: remote.hubname
+                        temperature_entity: sensor.living_room_motion_temperature
+                        light_entity: group.living_room_lights
+                        fan_entity: fan.living_room_fan
+                      triggers_update:
+                        - binary_sensor.living_room_motion_any
+                        - remote.hubname
+                        - switch.hubname_watch_apple_tv
+                        - switch.hubname_watch_nintendo
+                        - switch.hubname_watch_tv
+                        - group.living_room_lights
+                        - fan.living_room_fan
+                    - type: custom:button-card
+                      template: mini-area-card
+                      entity: camera.dining_room_protect_high
+                      name: Dining
+                      variables:
+                        motion_entity: binary_sensor.dining_room_motion_any
+                        alert_entity: vacuum.roomba
+                        temperature_entity: sensor.dining_room_motion_temperature
+                        light_entity: group.dining_room_lights
+                        fan_entity: null
+                      triggers_update:
+                        - binary_sensor.dining_room_motion_any
+                    - type: custom:button-card
+                      template: mini-area-card
+                      name: Sunroom
+                      entity: camera.sunroom_protect_high
+                      variables:
+                        motion_entity: binary_sensor.sunroom_motion_any
+                        door_entity: binary_sensor.sunroom_door_contact
+                        temperature_entity: sensor.sunroom_motion_temperature
+                        light_entity: light.sunroom_fan_light
+                        fan_entity: fan.sunroom_fan
+                      triggers_update:
+                        - binary_sensor.sunroom_motion_any
+                        - binary_sensor.sunroom_door_contact
+                        - sensor.sunroom_motion_temperature
+                        - light.sunroom_fan_light
+                        - fan.sunroom_fan
+                    - type: custom:state-switch
+                      entity: template
+                      template: |
+                        {% set entities = expand(['binary_sensor.powder_room_motion_occupancy',
+                          'binary_sensor.mudroom_motion_occupancy']) %}
+                        {% if (entities|count > 0) %}
+                        {{ (entities|max(attribute='last_updated')).object_id }}
+                        {% endif %}
+                      transition: slide-left
+                      states:
+                        mudroom_motion_occupancy:
+                          type: custom:button-card
+                          template: mini-area-card
+                          name: Mudroom
+                          variables:
+                            motion_entity: binary_sensor.mudroom_motion_occupancy
+                            temperature_entity: sensor.mudroom_motion_temperature
+                            door_entity: binary_sensor.mudroom_door_contact
+                            light_entity: light.mudroom_light
+                            fan_entity: null
+                          triggers_update:
+                            - binary_sensor.mudroom_motion_occupancy
+                        powder_room_motion_occupancy:
+                          type: custom:button-card
+                          template: mini-area-card
+                          name: Powder
+                          variables:
+                            motion_entity: binary_sensor.powder_room_motion_occupancy
+                            temperature_entity: sensor.powder_room_motion_temperature
+                            door_entity: null
+                            light_entity: light.powder_room_light
+                            fan_entity: fan.powder_room_fan
+                          triggers_update:
+                            - binary_sensor.powder_room_motion_occupancy
+                    - type: custom:button-card
+                      template: mini-area-card
+                      entity: camera.garage_protect_high
+                      name: Garage
+                      variables:
+                        motion_entity: binary_sensor.garage_motion_any
+                        alert_entity: binary_sensor.garage_freezer_door_contact
+                        # door_entity: binary_sensor.garage_door_open
+                        door_entity: cover.garage_door_shelly
+                        temperature_entity: sensor.garage_motion_temperature
+                        light_entity: group.garage_lights
+                      triggers_update:
+                        - binary_sensor.garage_motion_any
+                        - binary_sensor.garage_freezer_door_contact
+                        - cover.garage_door_shelly
+                        - group.garage_lights

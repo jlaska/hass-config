@@ -3,6 +3,7 @@ background: var(--background-image)
 # custom_header: !include /config/lovelace/custom_header.yaml
 # decluttering_templates: !include_dir_merge_named /config/lovelace/decluttering_templates/
 button_card_templates: !include_dir_merge_named lovelace/button_card_templates/
+decluttering_templates: !include_dir_merge_named lovelace/decluttering_templates/
 
 # swipe-navigation - https://github.com/maykar/lovelace-swipe-navigation
 swipe_nav:
@@ -13,6 +14,7 @@ swipe_nav:
 
 views:
   - !include lovelace/views/main.yaml
+  - !include lovelace/views/oldmain.yaml
   - !include lovelace/views/active-devices.yaml
   - !include lovelace/views/cameras.yaml
   - !include lovelace/views/solar.yaml

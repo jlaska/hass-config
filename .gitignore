@@ -44,3 +44,6 @@ lovelace/views/*
 !lovelace/button_card_templates
 lovelace/button_card_templates/*
 !lovelace/button_card_templates/*.yaml
+!lovelace/decluttering_templates
+lovelace/decluttering_templates/*
+!lovelace/decluttering_templates/*.yaml

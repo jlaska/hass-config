@@ -55,6 +55,13 @@
       unique_id: binary_sensor.master_bedroom_motion_any
       value_template: >-
         {{ is_state('binary_sensor.master_bedroom_motion_occupancy', 'on') }}
+    master_bathroom_motion_any:
+      friendly_name: "Master Bathroom Motion (any)"
+      device_class: motion
+      unique_id: binary_sensor.master_bathroom_motion_any
+      value_template: >-
+        {{ is_state('binary_sensor.master_bathroom_motion_occupancy', 'on')
+           or is_state('binary_sensor.master_bathroom_toilet_motion_occupancy', 'on') }}
     downstairs_motion_any:
       friendly_name: "Downstairs Motion (any)"
       device_class: motion
@@ -106,6 +113,17 @@
       prob_given_true: 0.85
       prob_given_false: 0.75
       to_state: 'on'
+    # No activity in Master Bathroom
+    - platform: state
+      entity_id: binary_sensor.master_bathroom_motion_any
+      prob_given_true: 0.85
+      prob_given_false: 0.35
+      to_state: 'off'
+    # All Master Suite Lights off
+    - platform: template
+      prob_given_true: 0.95
+      prob_given_false: 0.75
+      value_template: "{{ expand(area_entities('master_bedroom') + area_entities('master_bathroom'))|selectattr('domain', 'in', ['light'])|selectattr('state', 'eq', 'on')|list|length == 0 }}"
     # TV Off
     - platform: state
       entity_id: media_player.samsung_un55h7100
@@ -120,8 +138,8 @@
       to_state: 'home'
     # Phone charging
     - platform: template
-      prob_given_true: 0.95
-      prob_given_false: 0.1
+      prob_given_true: 0.90
+      prob_given_false: 0.25
       value_template: "{{ states('sensor.james_iphone_battery_state')|lower in ['full', 'charging'] }}"
     # Phone activity
     - entity_id: sensor.james_iphone_activity

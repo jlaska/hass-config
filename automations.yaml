@@ -1731,8 +1731,8 @@
     event: enter
   condition:
   - condition: template
-    value_template: '{{ (trigger.entity_id == ''person.james'' and is_state(''sensor.james_iphone_activity'',
-      ''Automotive'')) }}
+    value_template: '{{ (trigger.entity_id == ''person.james'' and states(''sensor.james_iphone_activity'')
+      in [''Automotive'', ''Cycling'']) }}
 
       '
   - condition: state

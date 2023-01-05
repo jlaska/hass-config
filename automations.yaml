@@ -1164,9 +1164,14 @@
   - platform: homeassistant
     event: start
   condition:
-  - condition: template
-    value_template: '{{ states(''sensor.hacs'')|int(0) > 0 or is_state(''binary_sensor.docker_hub_update_available'',
-      ''on'') }}'
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ trigger.platform == ''state'' and states(''sensor.hacs'')|int(0)
+        > 0}}'
+    - condition: template
+      value_template: '{{ trigger.platform == ''homeassistant'' and is_state(''binary_sensor.docker_hub_update_available'',
+        ''on'')}}'
   action:
   - variables:
       update_name: "{% if trigger.entity_id == 'sensor.hacs' %}\n  {{ state_attr('sensor.hacs',

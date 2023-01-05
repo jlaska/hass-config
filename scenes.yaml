@@ -93,8 +93,6 @@
     light.kitchen_cabinet_light:
       brightness: 125
       state: 'on'
-    light.living_room_christmas_tree: true
-    light.dining_room_christmas_tree: true
 - id: '1617838113817'
   name: Downstairs Inactivity
   icon: mdi:motion-sensor-off
@@ -103,7 +101,6 @@
     light.living_room_table_lamp: false
     light.living_room_fan_light: false
     light.living_room_light: false
-    light.living_room_christmas_tree: false
     light.kitchen_cabinet_light: false
     light.kitchen_light: false
     light.kitchen_table_light: false
@@ -111,7 +108,6 @@
     light.kitchen_end_table_light_zha_group_0x0004: false
     light.entryway_hall_light: false
     light.entryway_door_light: false
-    light.dining_room_christmas_tree: false
 - id: '1618704370608'
   name: Roomba Start
   icon: mdi:robot-vacuum

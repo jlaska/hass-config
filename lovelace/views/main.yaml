@@ -556,12 +556,33 @@ cards:
               - type: custom:state-switch
                 entity: template
                 template: |
-                  {% set entities = expand( area_entities('guest_bathroom') + area_entities('kids_bathroom') + area_entities('laundry_room') +
-                    ['binary_sensor.laundry_room_motion_occupancy',
+                  {% set entities = expand(['binary_sensor.guest_bathroom_hygrostat',
                     'binary_sensor.guest_bathroom_motion_occupancy',
-                    'binary_sensor.kids_bathroom_motion_occupancy']) %}
+                    'binary_sensor.kids_bathroom_hygrostat',
+                    'binary_sensor.laundry_room_dryer_leak_water_leak',
+                    'binary_sensor.laundry_room_motion_occupancy',
+                    'binary_sensor.laundry_room_washer_leak_water_leak',
+                    'binary_sensor.ms963932g_laundry_door',
+                    'binary_sensor.vs553419c_laundry_door',
+                    'fan.guest_bathroom_fan',
+                    'fan.kids_bathroom_fan',
+                    'light.guest_bathroom_light',
+                    'light.kids_bathroom_light',
+                    'light.kids_bathroom_shower_light',
+                    'light.laundry_room_light',
+                    'sensor.guest_bathroom_motion_device_temperature',
+                    'sensor.guest_bathroom_motion_illuminance_lux',
+                    'sensor.guest_bathroom_weather_humidity',
+                    'sensor.guest_bathroom_weather_temperature',
+                    'sensor.kids_bathroom_weather_humidity',
+                    'sensor.kids_bathroom_weather_temperature',
+                    'sensor.laundry_room_dryer_leak_device_temperature',
+                    'sensor.laundry_room_motion_temperature',
+                    'sensor.laundry_room_washer_leak_temperature',
+                    'sensor.ms963932g_laundry_machine_state',
+                    'sensor.vs553419c_laundry_machine_state']) %}
                   {% if entities|count > 0 %}
-                  {{ (entities|max(attribute='last_updated')).entity_id|area_id }}
+                    {{ (entities|max(attribute='last_updated')).entity_id|area_id }}
                   {% endif %}
                 transition: slide-left
                 states:

@@ -84,7 +84,6 @@ living_room_lights:
     - light.living_room_fan_light
     - light.living_room_light
     - light.living_room_table_lamp
-    - light.living_room_christmas_tree
 
 dining_room_lights:
   name: 'Dining Room Lights'
@@ -92,7 +91,6 @@ dining_room_lights:
   entities:
     - light.dining_room_light
     - light.dining_room_floor_lamp
-    - light.dining_room_christmas_tree
     - light.entryway_door_light
     - light.entryway_hall_light
     - light.under_stair_light

@@ -1576,14 +1576,11 @@
     - service: media_player.play_media
       data:
         media_content_type: music
-        media_content_id: "{{\n  ('https://www.orangefreesounds.com/wp-content/uploads/2021/10/Halloween-theme-doorbell-sound.mp3',\n
-          \  'https://www.myinstants.com/media/sounds/i-see-you-alternate.mp3',\n
-          \  'https://orangefreesounds.com/wp-content/uploads/2022/06/Haunted-whoosh-sound-effect.mp3',\n
-          \  'https://www.orangefreesounds.com/wp-content/uploads/2022/04/Scary-animal-noises.mp3',\n
-          \  'https://www.orangefreesounds.com/wp-content/uploads/2022/02/Screeching-horror-cinematic-sound.mp3',\n
-          \  'https://www.orangefreesounds.com/wp-content/uploads/2022/03/Horror-breath-with-long-reverb-sound-effect.mp3',\n
-          \  'https://www.orangefreesounds.com/wp-content/uploads/2022/01/Heart-beat-sound-effect.mp3',\n
-          \  'https://www.orangefreesounds.com/wp-content/uploads/2021/12/Horror-sound-effect.mp3',)|random\n}}\n"
+        media_content_id: "{{\n  ('media-source://media_source/sounds/Halloween-theme-doorbell-sound.mp3',\n
+          \  'media-source://media_source/sounds/i-see-you-alternate.mp3',\n   'media-source://media_source/sounds/Haunted-whoosh-sound-effect.mp3',\n
+          \  'media-source://media_source/sounds/Scary-animal-noises.mp3',\n   'media-source://media_source/sounds/Screeching-horror-cinematic-sound.mp3',\n
+          \  'media-source://media_source/sounds/Horror-breath-with-long-reverb-sound-effect.mp3',\n
+          \  'media-source://media_source/sounds/Heart-beat-sound-effect.mp3',\n   'media-source://media_source/sounds/Horror-sound-effect.mp3',)|random\n}}\n"
       target:
         entity_id: media_player.front_door_protect_speaker
   - if:
@@ -1593,10 +1590,11 @@
     - service: media_player.play_media
       data:
         media_content_type: music
-        media_content_id: "{{\n  ('/config/www/sounds/Christmas-bells-doorbell.mp3',\n
-          \ '/config/www/sounds/Christmas-doorbell-jingle-bells.mp3',\n  '/config/www/sounds/Christmas-doorbell-melody.mp3',\n
-          \ '/config/www/sounds/Christmas-doorbell-sound.mp3',\n  '/config/www/sounds/Christmas-music-doorbell.mp3',\n
-          \ '/config/www/sounds/Santa_Merry_Christmas.mp3',)|random }}\n"
+        media_content_id: "{('media-source://media_source/sounds/Christmas-bells-doorbell.mp3',\n
+          \ 'media-source://media_source/sounds/Christmas-doorbell-jingle-bells.mp3',\n
+          \ 'media-source://media_source/sounds/Christmas-doorbell-melody.mp3',\n
+          \ 'media-source://media_source/sounds/Christmas-doorbell-sound.mp3',\n  'media-source://media_source/sounds/Christmas-music-doorbell.mp3',\n
+          \ 'media-source://media_source/sounds/Santa_Merry_Christmas.mp3',)|random}}"
       target:
         entity_id: media_player.front_door_protect_speaker
   mode: single
@@ -2156,7 +2154,7 @@
       target:
         entity_id: media_player.all_speakers
       data:
-        media_content_id: media-source://media_source/local/samus_morphball.m4a
+        media_content_id: media-source://media_source/sounds/samus_morphball.m4a
         media_content_type: audio/mpeg
   mode: single
 - id: '1671588501013'

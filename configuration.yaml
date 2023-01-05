@@ -13,6 +13,8 @@ scene: !include scenes.yaml
 
 homeassistant:
   customize: !include customize.yaml
+  media_dirs:
+    sounds: /config/www/sounds
 
 # Include themes directory
 frontend:

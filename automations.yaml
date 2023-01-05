@@ -1669,20 +1669,6 @@
       motion_sensor: binary_sensor.powder_room_motion_occupancy
       target_entity: light.powder_room_light
       no_motion_wait: input_number.inactivity_timeout_medium
-- id: '1641844323492'
-  alias: Front Door Protect - Smart Detection Notification
-  description: ''
-  use_blueprint:
-    path: briis/push_notification_smart_event.yaml
-    input:
-      smart_entity: sensor.front_door_protect_detected_object
-      send_mobile: true
-      notify_target_app: mobile_app_james_iphone
-      cooldown: 180
-      base_image_url: https://homeassistant.jlaska.com
-      lovelace_view: /lovelace-cameras/front-door-protect
-      silence_timer: 15
-      objects: package, person
 - id: '1642538127999'
   alias: Garage Door - Notify When Open
   description: ''

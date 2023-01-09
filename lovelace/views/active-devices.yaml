@@ -46,11 +46,14 @@ cards:
     card:
       type: entities
       title: Plugs
-    entities:
-      - switch.dishwasher_switch_0
-      - switch.hot_water_pump_switch_0
     filter:
       include:
+        - domain: switch
+          device_manufacturer: 'Shelly'
+          attributes:
+            device_class: switch
+          options:
+            secondary_info: last-changed
         - domain: switch
           attributes:
             device_class: outlet

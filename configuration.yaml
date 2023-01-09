@@ -73,47 +73,8 @@ camera:
 downloader:
   download_dir: www
 
-input_text:
-  url_weather_noaa_us_continent:
-    name: url_weather_noaa_us_continent
-    initial: !secret weather_noaa_us_url
-    icon: "mdi:link"
-    pattern: "^https?://\\w.*"
-    max: 255
-    min: 10
-    mode: text
-  url_weather_noaa_us_southeast:
-    name: url_weather_noaa_us_southeast
-    initial: !secret weather_noaa_us_southeast_url
-    icon: "mdi:link"
-    pattern: "^https?://\\w.*"
-    max: 255
-    min: 10
-    mode: text
-  url_weather_noaa_us_east_coast:
-    name: url_weather_noaa_us_east_coast
-    initial: !secret weather_noaa_us_east_coast_url
-    icon: "mdi:link"
-    pattern: "^https?://\\w.*"
-    max: 255
-    min: 10
-    mode: text
-  url_weather_local_doplar:
-    name: url_weather_local_doplar
-    initial: !secret weather_local_doplar_url
-    icon: "mdi:link"
-    pattern: "^https?://\\w.*"
-    max: 255
-    min: 10
-    mode: text
-  url_weather_local_forecast:
-    name: url_weather_local_forecast
-    initial: !secret weather_local_forecast_url
-    icon: "mdi:link"
-    pattern: "^https?://\\w.*"
-    max: 255
-    min: 10
-    mode: text
+# input_datetime: !include input_datetime.yaml
+input_text: !include input_text.yaml
 
 # Enable/disable browser mod plugin
 # browser_mod:

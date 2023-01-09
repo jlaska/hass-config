@@ -46,6 +46,9 @@ cards:
     card:
       type: entities
       title: Plugs
+    entities:
+      - switch.dishwasher_switch_0
+      - switch.hot_water_pump_switch_0
     filter:
       include:
         - domain: switch

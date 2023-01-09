@@ -5,6 +5,13 @@
     - light.living_room_bookshelf_left
     - light.living_room_bookshelf_right
 
+- platform: group
+  name: 'Back Deck Lights'
+  unique_id: light.back_deck_lights
+  entities:
+    - light.deck_rail_light
+    - light.deck_step_light
+
 # Convert switches to a light
 - platform: switch
   name: Back Door Light

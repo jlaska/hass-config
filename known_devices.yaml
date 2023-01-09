@@ -2,14 +2,14 @@
 henrys_ipad:
   name: Henry's iPad
   mac:
-  icon: mdi:tablet-android
+  icon: mdi:tablet
   picture:
   track: true
 
 williams_ipad:
   name: William's iPad
   mac:
-  icon: mdi:tablet-android
+  icon: mdi:tablet
   picture:
   track: true
 

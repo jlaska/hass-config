@@ -358,45 +358,53 @@
   alias: Goodbye
   description: Everyone leaves home
   trigger:
-  - platform: zone
-    entity_id: device_tracker.james_iphone
-    zone: zone.home
-    event: leave
-  - platform: zone
-    entity_id: device_tracker.shannons_iphone
-    zone: zone.home
-    event: leave
+  - platform: state
+    entity_id:
+    - person.james
+    - person.shannon
+    to: not_home
   condition:
-  - condition: not
-    conditions:
-    - condition: or
-      conditions:
-      - condition: zone
-        entity_id: device_tracker.james_iphone
-        zone: zone.home
-      - condition: zone
-        entity_id: device_tracker.shannons_iphone
-        zone: zone.home
+  - condition: state
+    entity_id: person.james
+    state: not_home
+  - condition: state
+    entity_id: person.shannon
+    state: not_home
   action:
-  - type: turn_off
+  - alias: Turn off Harmony
+    type: turn_off
     device_id: 5364ebdb1d63351833073f854e50a2b6
     entity_id: remote.hubname
     domain: remote
-  - service: fan.turn_off
+  - alias: Turn off Samsung TV
+    service: media_player.turn_off
+    data: {}
+    target:
+      entity_id: media_player.samsung_un55h7100
+  - alias: Turn off all fans
+    service: fan.turn_off
     target:
       entity_id: all
     data: {}
-  - alias: Wait for no active vacuum automation
-    wait_for_trigger:
-    - platform: state
-      entity_id:
-      - automation.robot_start
-      attribute: current
-      to: '0'
-      for:
-        hours: 1
-        minutes: 0
+  - alias: Optionally wait for vacuum completion
+    if:
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: vacuum.roomba
+        state: docked
+    then:
+    - wait_for_trigger:
+      - platform: state
+        entity_id:
+        - vacuum.roomba
+        to: docked
+      timeout:
+        hours: 0
+        minutes: 45
         seconds: 0
+        milliseconds: 0
+      continue_on_timeout: false
   - service: light.turn_off
     target:
       entity_id: "{% set exclude_light = [\n    'light.back_door_light',\n    'light.front_door_light',\n
@@ -1738,6 +1746,9 @@
   - condition: state
     entity_id: cover.garage_door_shelly
     state: closed
+  - condition: state
+    entity_id: schedule.quiet_time
+    state: 'off'
   action:
   - service: cover.open_cover
     data: {}
@@ -2078,7 +2089,6 @@
   - platform: state
     entity_id:
     - light.sunroom_fan_light
-    - fan.sunroom_fan
     to: 'on'
     for:
       hours: 0
@@ -2105,11 +2115,7 @@
     data: {}
     target:
       area_id: sunroom
-  - service: fan.turn_off
-    data: {}
-    target:
-      entity_id: fan.sunroom_fan
-  mode: single
+  mode: restart
 - id: '1670286838217'
   alias: Back Deck Color Loop
   description: ''
@@ -2145,7 +2151,7 @@
       target:
         entity_id: media_player.all_speakers
       data:
-        media_content_id: media-source://media_source/sounds/samus_morphball.m4a
+        media_content_id: media-source://media_source/sounds/jump.m4a
         media_content_type: audio/mpeg
   mode: single
 - id: '1671588501013'

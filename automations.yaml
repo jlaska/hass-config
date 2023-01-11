@@ -426,7 +426,21 @@
   - platform: state
     entity_id:
     - schedule.goodnight_schedule
+    to:
   condition:
+  - condition: state
+    entity_id: schedule.goodnight_schedule
+    state: 'on'
+  - alias: Assert no recent motion
+    condition: state
+    entity_id: binary_sensor.downstairs_motion_any
+    state: 'off'
+    for:
+      minutes: 30
+  - alias: Assert evening
+    condition: state
+    entity_id: sun.sun
+    state: below_horizon
   - alias: Assert TV off
     condition: state
     state:
@@ -435,23 +449,11 @@
     for:
       minutes: 30
     entity_id: media_player.samsung_un55h7100
-  - alias: Assert evening
-    condition: state
-    entity_id: sun.sun
-    state: below_horizon
-  - alias: Assert no recent motion
-    condition: state
-    entity_id: binary_sensor.downstairs_motion_any
-    state: 'off'
-    for:
-      minutes: 30
   - alias: Assert last_triggered was more than 8 hours ago
+    enabled: false
     condition: template
     value_template: '{{ state_attr(this.entity_id, ''last_triggered'')|default(utcnow()
       - timedelta(weeks=1), true) < utcnow() - timedelta(hours=8) }}'
-  - condition: state
-    entity_id: schedule.goodnight_schedule
-    state: 'on'
   action:
   - service: light.turn_off
     data: {}

@@ -610,8 +610,8 @@
     data: {}
   mode: single
 - id: '1618704455944'
-  alias: Vacuum Cycle
-  description: A full cycle of the roomba vacuum
+  alias: Vacuum Cycle - Started
+  description: A vacuum cycle has started
   trigger:
   - platform: state
     entity_id:
@@ -621,8 +621,6 @@
       hours: 0
       minutes: 0
       seconds: 3
-  - platform: homeassistant
-    event: start
   condition:
   - alias: Is it dark in the area?
     condition: or
@@ -657,34 +655,7 @@
       - light.dining_room_light
     data:
       brightness_pct: 100
-  - wait_for_trigger:
-    - platform: state
-      entity_id:
-      - vacuum.roomba
-      to: docked
-      for:
-        seconds: 30
-    timeout:
-      hours: 1
-      minutes: 30
-    continue_on_timeout: false
-  - condition: state
-    entity_id: binary_sensor.downstairs_motion_any
-    state: 'off'
-  - condition: state
-    entity_id: media_player.samsung_un55h7100
-    state:
-    - 'off'
-    - unavailable
-  - service: light.turn_off
-    target:
-      area_id:
-      - entryway
-      - dining_room
-      - kitchen
-      - living_room
-    data: {}
-  mode: restart
+  mode: single
 - id: '1618877720683'
   alias: Notify Garage Door Open at Sunset
   description: ''
@@ -742,18 +713,18 @@
       - binary_sensor.front_door_protect_doorbell
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
 - id: '1619447091981'
-  alias: Dining Room - Activity
+  alias: Dining Room Floor Lamp - Activity
   description: ''
   use_blueprint:
     path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       turn_off_blocker_entity: light.entryway_hall_light
       illuminance_cutoff: input_number.illumination_very_low
-      target_entity: scene.dining_room_activity
+      target_entity: light.dining_room_floor_lamp
       motion_sensor: binary_sensor.dining_room_motion_occupancy
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
-      no_motion_wait: input_number.inactivity_timeout_medium
-      target_off_entity: group.dining_room_lights
+      no_motion_wait: input_number.inactivity_timeout_short
+      target_off_entity: light.dining_room_floor_lamp
 - id: '1619530751693'
   alias: Sunrise
   description: ''
@@ -2191,3 +2162,238 @@
         data: {}
         target:
           area_id: attic
+- id: '1673219610594'
+  alias: 'Hot Water Pump - Schedule '
+  description: 'Turn off pump when away or inactive '
+  trigger:
+  - platform: state
+    enabled: true
+    entity_id:
+    - schedule.hot_water_pump
+    to:
+  condition:
+  - alias: Check someone is home
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: person.james
+      state: home
+    - condition: state
+      entity_id: person.shannon
+      state: home
+  action:
+  - alias: Turn on/off the switch
+    service: switch.turn_{{ trigger.to_state.state }}
+    data: {}
+    target:
+      entity_id: switch.hot_water_pump_switch_0
+  mode: single
+- id: '1673283425818'
+  alias: Bathroom Fan/Light Timer (NEW)
+  description: Set and turn off entities based on a datetime input helper
+  trigger:
+  - platform: state
+    id: state
+    entity_id:
+    - light.kitchen_table_light
+    to: 'on'
+  - platform: event
+    id: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.kitchen_table_light
+  - platform: time
+    id: time
+    at: input_datetime.kitchen_table_light
+  condition: []
+  action:
+  - choose:
+    - alias: Did an entity turn on?
+      conditions:
+      - condition: trigger
+        id: state
+      sequence:
+      - service: timer.start
+        target:
+          entity_id: timer.kitchen_table_light
+        data:
+          duration: 00:10:00
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.kitchen_table_light
+        data:
+          datetime: '{{ now() + timedelta(minutes=states(''input_number.inactivity_timeout_short'')|int)
+            }}'
+    - alias: Did a timer expire?
+      conditions:
+      - condition: trigger
+        id: event
+      sequence:
+      - service: homeassistant.turn_off
+        target:
+          entity_id: light.kitchen_table_light
+        data: {}
+    - alias: Did a time pass?
+      conditions:
+      - condition: trigger
+        id: time
+      sequence:
+      - service: homeassistant.turn_off
+        target:
+          entity_id: light.kitchen_table_light
+        data: {}
+  mode: parallel
+  max: 8
+- id: '1673644598281'
+  alias: Downstairs Activity (blueprint)
+  description: Activate scene based on downstairs motion
+  use_blueprint:
+    path: jlaska/motion_illuminance_activated_entity.yaml
+    input:
+      motion_sensor:
+      - binary_sensor.living_room_motion_occupancy
+      - binary_sensor.sunroom_motion_occupancy
+      - binary_sensor.sunroom_protect_motion
+      - binary_sensor.dining_room_motion_occupancy
+      - binary_sensor.mudroom_motion_occupancy
+      - binary_sensor.kitchen_motion_occupancy
+      target_entity: scene.downstairs_motion
+      illuminance_sensor: sensor.kitchen_motion_illuminance_lux
+      illuminance_cutoff: input_number.illumination_medium
+      no_motion_wait: input_number.inactivity_timeout_long
+      target_off_entity: scene.downstairs_inactivity
+      turn_off_blocker_entity: binary_sensor.downstairs_motion_any
+      turn_off_blocker_wait: input_number.inactivity_timeout_short
+- id: '1673646188464'
+  alias: Dining Room Light - Activity
+  description: ''
+  use_blueprint:
+    path: jlaska/motion_illuminance_activated_entity.yaml
+    input:
+      turn_off_blocker_entity: light.entryway_hall_light
+      illuminance_cutoff: input_number.illumination_very_low
+      target_entity: light.dining_room_light
+      motion_sensor: binary_sensor.dining_room_motion_occupancy
+      illuminance_sensor: sensor.dining_room_motion_illuminance_lux
+      no_motion_wait: input_number.inactivity_timeout_long
+      target_off_entity: light.dining_room_light
+      time_limit_before: input_datetime.lights_out_kids
+- id: '1673809836266'
+  alias: Hot Water Pump - Timer
+  description: Start/stop the pump timer based on various events
+  trigger:
+  - platform: event
+    event_type:
+    - timer.finished
+    event_data:
+      entity_id: timer.hot_water_pump
+  - platform: state
+    entity_id:
+    - switch.hot_water_pump_switch_0
+    to:
+  - platform: numeric_state
+    entity_id: sensor.dishwasher_switch_0_power
+    above: 3
+  - platform: numeric_state
+    entity_id: sensor.laundry_room_washer_plug_centralite_electricalmeasurement
+    above: 5
+  condition:
+  - alias: Assert the hot water pump schedule is off
+    condition: state
+    entity_id: schedule.hot_water_pump
+    state: 'off'
+  action:
+  - choose:
+    - conditions:
+      - alias: Timer change event
+        condition: template
+        value_template: '{{ trigger.platform == ''event'' }}'
+      sequence:
+      - alias: Turn on/off the switch
+        service: switch.turn_{{ trigger.event.event_type == 'timer.started' and 'on'
+          or 'off' }}
+        data: {}
+        target:
+          entity_id: switch.hot_water_pump_switch_0
+    - conditions:
+      - alias: Switch state change
+        condition: template
+        value_template: '{{ trigger.entity_id == ''switch.hot_water_pump_switch_0''
+          }}'
+      sequence:
+      - alias: Start or cancel timer
+        service: timer.{{ trigger.to_state.state == 'on' and 'start' or 'cancel' }}
+        data: {}
+        target:
+          entity_id: timer.hot_water_pump
+      - if:
+        - condition: template
+          value_template: '{{ trigger.to_state.state == ''on'' }}'
+        then:
+        - service: script.announce
+          data:
+            entity_id: media_player.all_speakers
+            message: The hot water pump is {{ trigger.to_state.state }}
+    - conditions:
+      - alias: Electrical measurement changed
+        condition: template
+        value_template: '{{ trigger.platform == ''numeric_state'' }}'
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.hot_water_pump_switch_0
+    default: []
+  mode: restart
+- id: '1673880320096'
+  alias: Vacuum Cycle - Completed
+  description: A vacuum cycle has completed
+  trigger:
+  - platform: state
+    entity_id:
+    - vacuum.roomba
+    to: docked
+    for:
+      seconds: 30
+  condition:
+  - alias: Is it dark in the area?
+    condition: or
+    conditions:
+    - condition: numeric_state
+      entity_id: sensor.dining_room_motion_illuminance_lux
+      below: input_number.illumination_low
+    - condition: numeric_state
+      entity_id: sensor.kitchen_motion_illuminance_lux
+      below: input_number.illumination_low
+    - condition: state
+      entity_id: sun.sun
+      state: below_horizon
+  - condition: state
+    entity_id: vacuum.roomba
+    state: cleaning
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  action:
+  - condition: state
+    entity_id: binary_sensor.downstairs_motion_any
+    state: 'off'
+    for:
+      hours: 0
+      minutes: 30
+      seconds: 0
+  - condition: state
+    entity_id: media_player.samsung_un55h7100
+    state:
+    - 'off'
+    - unavailable
+  - service: light.turn_off
+    target:
+      area_id:
+      - entryway
+      - dining_room
+      - kitchen
+      - living_room
+    data: {}
+  mode: single

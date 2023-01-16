@@ -50,8 +50,6 @@ cards:
       include:
         - domain: switch
           device_manufacturer: 'Shelly'
-          attributes:
-            device_class: switch
           options:
             secondary_info: last-changed
         - domain: switch

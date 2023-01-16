@@ -47,6 +47,8 @@ cards:
       type: entities
       title: Plugs
     filter:
+      exclude:
+        - hidden_by: "user"
       include:
         - domain: switch
           device_manufacturer: 'Shelly'

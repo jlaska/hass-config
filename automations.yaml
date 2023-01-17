@@ -2056,7 +2056,7 @@
         target:
           area_id: living_room
 - id: '1668379653327'
-  alias: Sunroom Activity
+  alias: Sunroom - Inactivity
   description: ''
   trigger:
   - platform: state

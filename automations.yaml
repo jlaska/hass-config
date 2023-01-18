@@ -2262,8 +2262,6 @@
       illuminance_cutoff: input_number.illumination_medium
       no_motion_wait: input_number.inactivity_timeout_long
       target_off_entity: scene.downstairs_inactivity
-      turn_off_blocker_entity: binary_sensor.downstairs_motion_any
-      turn_off_blocker_wait: input_number.inactivity_timeout_short
 - id: '1673646188464'
   alias: Dining Room Light - Activity
   description: ''
@@ -2347,7 +2345,7 @@
   mode: restart
 - id: '1673880320096'
   alias: Vacuum Cycle - Completed
-  description: A vacuum cycle has completed
+  description: Perform actions when vacuum cycle completed
   trigger:
   - platform: state
     entity_id:

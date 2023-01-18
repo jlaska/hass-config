@@ -100,20 +100,6 @@
         {{ is_state('binary_sensor.front_door_protect_motion', 'on')
            and is_state('sensor.front_door_protect_detected_object', 'person') }}
 
-    # Create binary open/closed door sensors
-    garage_door_open:
-      friendly_name: Garage Door Open
-      unique_id: binary_sensor.garage_door_open
-      device_class: garage_door
-      value_template: "{{ is_state('binary_sensor.garage_door_contact', 'off') }}"
-      availability_template: "{{ states('binary_sensor.garage_door_contact') in ['on', 'off'] }}"
-    garage_door_closed:
-      friendly_name: Garage Door Closed
-      unique_id: binary_sensor.garage_door_closed
-      device_class: garage_door
-      value_template: "{{ is_state('binary_sensor.shellyplus1_441793a9aca4_input', 'off') }}"
-      availability_template: "{{ states('binary_sensor.shellyplus1_441793a9aca4_input') in ['on', 'off'] }}"
-
 # https://diyfuturism.com/index.php/2017/12/29/useful-sensor-bayesian-sleep-detection-in-home-assistant/
 - platform: "bayesian"
   name: "Bayesian Sleep Sensor"
@@ -143,7 +129,7 @@
     - platform: template
       prob_given_true: 0.95
       prob_given_false: 0.75
-      value_template: "{{ expand(area_entities('master_bedroom') + area_entities('master_bathroom'))|selectattr('domain', 'in', ['light'])|selectattr('state', 'eq', 'on')|list|length == 0 }}"
+      value_template: "{{ expand(area_entities('master_bedroom') + area_entities('master_bathroom'))|selectattr('domain', 'in', 'light')|selectattr('state', 'eq', 'on')|list|length == 0 }}"
     # TV Off
     - platform: state
       entity_id: media_player.samsung_un55h7100

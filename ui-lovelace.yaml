@@ -14,7 +14,6 @@ swipe_nav:
 
 views:
   - !include lovelace/views/main.yaml
-  - !include lovelace/views/oldmain.yaml
   - !include lovelace/views/active-devices.yaml
   - !include lovelace/views/cameras.yaml
   - !include lovelace/views/solar.yaml

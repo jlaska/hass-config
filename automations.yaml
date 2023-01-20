@@ -1788,9 +1788,9 @@
     entity_id:
     - switch.garage_freezer_plug
     - switch.garage_chest_freezer_plug
-    - switch.garage_chest_freezer_fan_plug_ge_switch
-    - switch.laundry_room_washer_plug_centralite_switch
     - switch.kitchen_refrigerator_plug
+    - switch.microwave_plug
+    - switch.laundry_room_washer_plug_centralite_switch
     - binary_sensor.grid_status
     to:
     - 'off'

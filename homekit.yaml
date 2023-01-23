@@ -12,6 +12,7 @@
       - switch.*_on_off
       - switch.*_plug*
       - switch.hubname_watch_*
+      - switch.hot_water_pump_*
     # Exclude LIFX bulbs since they have native homekit
     exclude_entity_globs:
       - light.living_room_bookshelf_left

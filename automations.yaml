@@ -2180,6 +2180,14 @@
     data: {}
     target:
       entity_id: switch.hot_water_pump_switch_0
+  - if:
+    - condition: template
+      value_template: '{{ trigger.to_state.state == ''on'' }}'
+    then:
+    - service: script.announce
+      data:
+        entity_id: media_player.all_speakers
+        message: The hot water pump is {{ trigger.to_state.state }}
   mode: single
 - id: '1673283425818'
   alias: Bathroom Fan/Light Timer (NEW)

@@ -18,20 +18,23 @@
   mode: single
 - id: '1617753489001'
   alias: Dawn (exterior)
-  description: Turn off exterior lights before dawn
+  description: Turn off exterior lights before dawn (see also https://www.timeanddate.com/astronomy/dawn.html)
   trigger:
-  - platform: numeric_state
+  - alias: Astronomical dawn
+    platform: numeric_state
     entity_id: sun.sun
     attribute: elevation
     above: '-18.0'
-  - platform: state
-    entity_id:
-    - sun.sun
-    attribute: next_dawn
-  - platform: state
-    entity_id:
-    - sun.sun
-    to: above_horizon
+  - alias: Nautical dawn
+    platform: numeric_state
+    entity_id: sun.sun
+    attribute: elevation
+    above: '-12.0'
+  - alias: Civil dawn
+    platform: numeric_state
+    entity_id: sun.sun
+    attribute: elevation
+    above: '-6.0'
   condition:
   - alias: Run once per day
     condition: template
@@ -48,14 +51,6 @@
 
       '
   action:
-  - alias: If triggered by time, introduce a random delay for variability
-    if:
-    - condition: template
-      value_template: '{{ trigger.platform == ''time'' }}'
-    then:
-    - alias: Random delay
-      delay:
-        seconds: '{{ range(0,5400)|random|int }}'
   - scene: scene.dawn
   mode: single
 - id: '1617754756338'
@@ -730,7 +725,7 @@
   trigger:
   - platform: sun
     event: sunrise
-    offset: 00:00:00
+    offset: 0
   condition: []
   action:
   - service: frontend.set_theme
@@ -739,6 +734,7 @@
   - service: light.turn_off
     target:
       area_id: outside
+    data: {}
   - service: script.ge_switch_led_light
     data:
       node_value: 2
@@ -848,25 +844,23 @@
           entity_id: fan.guest_room_fan
 - id: '1622383389825'
   alias: Dusk (exterior)
-  description: Turn on exterior lights at dusk
+  description: Turn on exterior lights at dusk (see also https://www.timeanddate.com/astronomy/dusk.html)
   trigger:
-  - platform: numeric_state
-    entity_id: sun.sun
-    attribute: elevation
-    below: '-2.5'
-  - platform: state
-    entity_id:
-    - sun.sun
-    attribute: next_dusk
-  - platform: state
-    entity_id:
-    - sensor.period_of_day
-    to: nautical_twilight
-  - platform: state
-    entity_id:
-    - sun.sun
-    to: below_horizon
-  condition: []
+  - alias: Twilight
+    platform: state
+    entity_id: sensor.period_of_day
+    to:
+    - civil_twilight
+    - nautical_twilight
+    - astronomical_twilight
+    - night_twilight
+  condition:
+  - alias: Run once per day
+    condition: template
+    value_template: '{{ now().day != (state_attr(this.entity_id, ''last_triggered'')|as_local).day
+      }}
+
+      '
   action:
   - alias: Activate dusk scene
     scene: scene.dusk

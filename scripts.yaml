@@ -171,11 +171,10 @@ zone_geofence_light_pulse:
       required: true
   sequence:
   - service: scene.create
+    enabled: false
     data:
       scene_id: snapshot_zone_pulse
       snapshot_entities: '{{ sengled_entities|list }}'
-  - delay:
-      seconds: 1
   - alias: Determine the light pulse color
     choose:
     - conditions:
@@ -228,18 +227,15 @@ zone_geofence_light_pulse:
     entity_id: schedule.quiet_time
     state: 'off'
   - service: light.turn_on
+    enabled: false
     target:
       entity_id: '{{ sengled_entities|list }}'
     data:
       brightness: '{{ light_brightness|int }}'
-      transition: 4
+      transition: 1
       color_name: '{{ states(''input_text.zone_pulse_color'') }}'
-  - delay:
-      hours: 0
-      minutes: 1
-      seconds: 0
-      milliseconds: 0
   - service: scene.turn_on
+    enabled: false
     target:
       entity_id: scene.snapshot_zone_pulse
     data:
@@ -297,7 +293,7 @@ sengled_light_pulse_test:
       transition: 4
 announce:
   alias: Announce
-  mode: restart
+  mode: single
   icon: mdi:bullhorn-outline
   fields:
     message:
@@ -352,6 +348,9 @@ announce:
     condition: state
     entity_id: schedule.quiet_time
     state: 'off'
+  - service: script.disable_google_home_chime
+    data: {}
+    enabled: false
   - variables:
       volume_mode: '{% set current_time = now().strftime("%H:%M:%S") -%} {{ (current_time
         < states(''input_datetime.lights_out_kids'') and is_state(''calendar.work'',
@@ -441,3 +440,95 @@ notify:
     data:
       title: '{{ title }}'
       message: '{{ message }}'
+apple_tv_off:
+  alias: Apple TV Sleep
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.living_room_apple_tv
+    data:
+      delay_secs: 1
+      command:
+      - home_hold
+      - select
+  - service: media_player.turn_off
+    data: {}
+    target:
+      entity_id: media_player.living_room_apple_tv
+  mode: single
+  icon: phu:apple-tv-box
+goodbye:
+  alias: Goodbye
+  sequence:
+  - service: light.turn_off
+    target:
+      entity_id: all
+  - service: fan.turn_off
+    target:
+      entity_id: all
+  mode: single
+  icon: mdi:exit-run
+disable_google_home_chime:
+  alias: Disable Google Home Chime
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: media_player.all_speakers
+        state: 'off'
+      sequence:
+      - service: media_player.volume_mute
+        data:
+          is_volume_muted: true
+        target:
+          entity_id:
+          - media_player.living_room_display
+          - media_player.dining_room_speaker
+      - service: media_player.turn_on
+        data: {}
+        target:
+          entity_id:
+          - media_player.living_room_display
+          - media_player.dining_room_speaker
+      - wait_template: '{{ is_state(''media_player.living_room_display'', ''idle'')
+          }}'
+    - conditions:
+      - condition: state
+        entity_id: media_player.all_speakers
+        state: idle
+      sequence:
+      - service: media_player.volume_mute
+        data:
+          is_volume_muted: false
+        target:
+          entity_id:
+          - media_player.dining_room_speaker
+          - media_player.living_room_display
+    default: []
+  - service: media_player.volume_mute
+    data:
+      is_volume_muted: true
+    target:
+      entity_id:
+      - media_player.dining_room_speaker
+      - media_player.living_room_display
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.5
+    target:
+      entity_id:
+      - media_player.dining_room_speaker
+      - media_player.living_room_display
+  - service: media_player.volume_mute
+    data:
+      is_volume_muted: false
+    target:
+      entity_id:
+      - media_player.dining_room_speaker
+      - media_player.living_room_display
+  mode: single

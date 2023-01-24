@@ -715,10 +715,11 @@
     input:
       turn_off_blocker_entity: light.entryway_hall_light
       illuminance_cutoff: input_number.illumination_very_low
-      target_entity: light.dining_room_floor_lamp
       motion_sensor: binary_sensor.dining_room_motion_any
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
       no_motion_wait: input_number.inactivity_timeout_short
+      target_entity: scene.dining_room_activity
+      target_off_entity: light.dining_room_floor_lamp
 - id: '1619530751693'
   alias: Sunrise
   description: ''
@@ -2274,7 +2275,7 @@
       target_entity: light.dining_room_light
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
       no_motion_wait: input_number.inactivity_timeout_long
-      target_off_entity: light.dining_room_light
+      target_off_entity: scene.dining_room_inactivity
       time_limit_before: input_datetime.lights_out_kids
       motion_sensor: binary_sensor.dining_room_motion_any
 - id: '1673809836266'

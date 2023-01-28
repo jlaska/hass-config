@@ -20,34 +20,48 @@
   alias: Dawn (exterior)
   description: Turn off exterior lights before dawn (see also https://www.timeanddate.com/astronomy/dawn.html)
   trigger:
+  - alias: Twilight (custom)
+    platform: state
+    entity_id: sensor.sun_phase_2
+    to:
+    - civil_twilight
+    - nautical_twilight
+    - astronomical_twilight
+  - alias: Twilight (sun2)
+    platform: state
+    entity_id: sensor.sun_phase
+    to:
+    - Civil Twilight
+    - Nautical Twilight
+    - Astronomical Twilight
   - alias: Astronomical dawn
     platform: numeric_state
     entity_id: sun.sun
     attribute: elevation
     above: '-18.0'
+    enabled: false
   - alias: Nautical dawn
     platform: numeric_state
     entity_id: sun.sun
     attribute: elevation
     above: '-12.0'
+    enabled: false
   - alias: Civil dawn
     platform: numeric_state
     entity_id: sun.sun
     attribute: elevation
     above: '-6.0'
+    enabled: false
   condition:
+  - alias: Sun is rising
+    condition: state
+    entity_id: sun.sun
+    attribute: rising
+    state: true
   - alias: Run once per day
     condition: template
     value_template: '{{ now().day != (state_attr(this.entity_id, ''last_triggered'')|as_local).day
       }}
-
-      '
-  - alias: Last trigger more than 6 hours ago
-    condition: template
-    value_template: '{{ utcnow() - state_attr(this.entity_id, ''last_triggered'')
-      >
-
-      timedelta(hours=6) }}
 
       '
   action:
@@ -847,15 +861,26 @@
   alias: Dusk (exterior)
   description: Turn on exterior lights at dusk (see also https://www.timeanddate.com/astronomy/dusk.html)
   trigger:
-  - alias: Twilight
+  - alias: Twilight (custom)
     platform: state
-    entity_id: sensor.period_of_day
+    entity_id: sensor.sun_phase_2
     to:
     - civil_twilight
     - nautical_twilight
     - astronomical_twilight
-    - night_twilight
+  - alias: Twilight (sun2)
+    platform: state
+    entity_id: sensor.sun_phase
+    to:
+    - Civil Twilight
+    - Nautical Twilight
+    - Astronomical Twilight
   condition:
+  - alias: Sun is setting
+    condition: state
+    entity_id: sun.sun
+    attribute: rising
+    state: false
   - alias: Run once per day
     condition: template
     value_template: '{{ now().day != (state_attr(this.entity_id, ''last_triggered'')|as_local).day

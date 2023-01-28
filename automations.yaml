@@ -2422,3 +2422,20 @@
       - living_room
     data: {}
   mode: single
+- id: '1674935088917'
+  alias: Guest Room Fan Light - Double Tap
+  description: ''
+  use_blueprint:
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
+    input:
+      device: ed35f72b87bfeab32193d10ef7c8c51f
+      double_tap_on:
+      - service: light.turn_on
+        data: {}
+        target:
+          area_id: guest_room
+      double_tap_off:
+      - service: light.turn_off
+        data: {}
+        target:
+          area_id: guest_room

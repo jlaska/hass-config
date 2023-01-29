@@ -27,6 +27,7 @@
     - civil_twilight
     - nautical_twilight
     - astronomical_twilight
+    enabled: false
   - alias: Twilight (sun2)
     platform: state
     entity_id: sensor.sun_phase
@@ -868,6 +869,7 @@
     - civil_twilight
     - nautical_twilight
     - astronomical_twilight
+    enabled: false
   - alias: Twilight (sun2)
     platform: state
     entity_id: sensor.sun_phase
@@ -876,6 +878,13 @@
     - Nautical Twilight
     - Astronomical Twilight
   condition:
+  - alias: Sun is not rising
+    condition: not
+    conditions:
+    - condition: state
+      entity_id: sun.sun
+      attribute: rising
+      state: true
   - alias: Sun is setting
     condition: state
     entity_id: sun.sun

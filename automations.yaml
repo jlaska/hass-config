@@ -6,6 +6,13 @@
     entity_id: sun.sun
     attribute: elevation
     below: '12.5'
+  - platform: state
+    entity_id: sensor.sun_phase
+    attribute: golden_hour
+    to: 'true'
+  - platform: sun
+    event: sunset
+    offset: 0
   condition: []
   action:
   - scene: scene.sunset
@@ -736,7 +743,7 @@
       target_entity: scene.dining_room_activity
       target_off_entity: light.dining_room_floor_lamp
 - id: '1619530751693'
-  alias: Sunrise
+  alias: Sunrise (interior)
   description: ''
   trigger:
   - platform: sun
@@ -747,10 +754,6 @@
   - service: frontend.set_theme
     data:
       name: default
-  - service: light.turn_off
-    target:
-      area_id: outside
-    data: {}
   - service: script.ge_switch_led_light
     data:
       node_value: 2

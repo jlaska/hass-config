@@ -73,7 +73,7 @@ minimal_area_card:
           .box ha-icon-button.state-on state-badge[title$='Cleaning' i] {
             animation: vacuum 2s infinite alternate;
           }
-          .box ha-icon-button.state-on state-badge[title*='fan' i] {
+          .box ha-icon-button.state-on state-badge[title*='Fan:' i] {
             animation: spin 1.5s infinite linear;
           }
           .box ha-icon-button.state-on state-badge[title*='MS963932G' i],

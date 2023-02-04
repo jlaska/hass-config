@@ -54,7 +54,7 @@ minimal_area_card:
             __color: white !important;
           }
           .sensors ha-icon-button.state-on {
-            color: rgb(var(--rgb-state-light-color)) !important;
+            color: var(--state-light-on-color, var(--state-light-active-color, var(--state-active-color))) !important;
             __background-color: var(--accent-color);
             __border-radius: 50%;
           }
@@ -64,7 +64,7 @@ minimal_area_card:
             __fixme__border-radius: 50%;
           }
           .box ha-icon-button.state-on state-badge {
-            color: rgb(var(--rgb-state-light-color)) !important;
+            color: var(--state-light-on-color, var(--state-light-active-color, var(--state-active-color))) !important;
           }
           .box ha-icon-button.state-on state-badge[title$='Docked' i],
           .box ha-icon-button.state-on state-badge[title$='Standby' i] {
@@ -87,7 +87,7 @@ minimal_area_card:
           }
         ha-state-icon$: |
           :host([data-domain=light]) {
-            color: rgb(var(--rgb-state-light-color)) !important;
+            color: var(--state-light-on-color, var(--state-light-active-color, var(--state-active-color))) !important;
           }
           :host([data-domain=fan][data-state=on]) {
             animation: spin 1.5s infinite linear;

@@ -2,6 +2,8 @@ minimal_area_card:
   default:
     - title: null
     - entity: null
+    - area: null
+    - image: null
     - entities: []
     - height: 200px
     - background_position: 0% 25%
@@ -94,6 +96,8 @@ minimal_area_card:
           }
     state_color: true
     entity: '[[entity]]'
+    area: '[[area]]'
+    image: '[[image]]'
     camera_image: '[[entity]]'
     tap_action:
       action: more-info

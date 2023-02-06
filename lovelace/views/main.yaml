@@ -538,9 +538,11 @@ cards:
             cards:
               - type: custom:decluttering-card
                 template: minimal_area_card
-                entity: null
                 variables:
                   - title: Master
+                  - area: master_bedroom
+                  - entity: null
+                  - __image: 'media-source://media_source/images/bed.png'
                   - entities:
                       - entity: binary_sensor.master_bedroom_motion_occupancy
                         tap_action:
@@ -668,6 +670,8 @@ cards:
                     variables:
                       - title: Laundry
                       - entity: null
+                      - area: laundry_room
+                      - __image: 'media-source://media_source/images/laundry.jpg'
                       - entities:
                           - entity: binary_sensor.laundry_room_motion_occupancy
                           - entity: binary_sensor.laundry_room_washer_leak_water_leak
@@ -695,7 +699,9 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: Kitchen
+                  - area: kitchen
                   - entity: null
+                  - __image: 'media-source://media_source/images/kitchen.png'
                   - entities:
                       - entity: binary_sensor.kitchen_motion_occupancy
                       - entity: binary_sensor.kitchen_refrigerator_door_contact
@@ -758,6 +764,7 @@ cards:
                     template: minimal_area_card
                     variables:
                       - title: Mudroom
+                      - area: mudroom
                       - entity: null
                       - entities:
                           - entity: binary_sensor.mudroom_motion_occupancy
@@ -768,6 +775,7 @@ cards:
                     template: minimal_area_card
                     variables:
                       - title: Powder
+                      - area: powder_room
                       - entity: null
                       - entities:
                           - entity: binary_sensor.powder_room_motion_occupancy

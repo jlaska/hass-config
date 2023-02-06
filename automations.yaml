@@ -284,7 +284,7 @@
       - light.kitchen_table_light
   mode: restart
 - id: '1618002489309'
-  alias: Master Bathroom Button
+  alias: Master Bathroom - Button
   description: Toggle lights based on button presses
   use_blueprint:
     path: jlaska/zigbee_button_handler.yaml
@@ -295,16 +295,19 @@
       - service: light.toggle
         target:
           entity_id: light.master_bathroom_light
+        data: {}
       double_action:
       - service: light.toggle
         target:
           entity_id: light.master_bathroom_shower_light
+        data: {}
       hold_action:
       - service: fan.toggle
         target:
           entity_id: fan.master_bathroom_fan
+        data: {}
 - id: '1618002599661'
-  alias: William's Room Button
+  alias: William's Room - Button
   description: ''
   use_blueprint:
     path: jlaska/zigbee_button_handler.yaml
@@ -322,15 +325,18 @@
       - service: light.toggle
         target:
           entity_id: light.williams_room_light
+        data: {}
       - service: light.turn_off
         target:
           entity_id: light.william_s_room_fan_light
+        data: {}
       hold_action:
       - service: fan.toggle
         target:
           entity_id: fan.williams_room_fan
+        data: {}
 - id: '1618048885985'
-  alias: Spot Lights When Door Opens
+  alias: Spot Lights - Door Activity
   description: Turn on spot lights when exterior door opens at night
   trigger:
   - platform: state
@@ -827,7 +833,7 @@
   mode: parallel
   max: 6
 - id: '1622157422281'
-  alias: Guest Bathroom Activity
+  alias: Guest Bathroom - Activity
   description: ''
   use_blueprint:
     path: jlaska/motion_illuminance_activated_entity.yaml
@@ -842,7 +848,7 @@
       turn_off_blocker_entity: binary_sensor.guest_bathroom_hygrostat
       turn_off_blocker_wait: input_number.inactivity_timeout_extralong
 - id: '1622209187653'
-  alias: Guest Room Button
+  alias: Guest Room - Button
   description: ''
   use_blueprint:
     path: jlaska/zigbee_button_handler.yaml
@@ -853,14 +859,17 @@
       - service: light.toggle
         target:
           entity_id: light.guest_room_nightstand
+        data: {}
       double_action:
       - service: light.toggle
         target:
           entity_id: light.guest_room_fan_light
+        data: {}
       hold_action:
       - service: fan.toggle
         target:
           entity_id: fan.guest_room_fan
+        data: {}
 - id: '1622383389825'
   alias: Dusk (exterior)
   description: Turn on exterior lights at dusk (see also https://www.timeanddate.com/astronomy/dusk.html)
@@ -1009,7 +1018,7 @@
     data: {}
   mode: single
 - id: '1624222738706'
-  alias: Bathroom Fan/Light Timer
+  alias: Bathroom Fan/Light - Timer
   description: Turn off bathroom lights/fans after a period of time
   trigger:
   - platform: state
@@ -1221,7 +1230,7 @@
         '
   mode: single
 - id: '1629811616934'
-  alias: Master Bedroom Ceiling Fan
+  alias: Master Bedroom Ceiling Fan - Activity
   description: Turn on/off fan automatically based on temperature and time of day
   trigger:
   - platform: state
@@ -1230,7 +1239,6 @@
       hours: 0
       minutes: 1
       seconds: 0
-      milliseconds: 0
     entity_id: binary_sensor.master_bedroom_motion_occupancy
   condition:
   - condition: state
@@ -1259,9 +1267,10 @@
   - service: fan.turn_on
     target:
       entity_id: fan.master_bedroom_fan
+    data: {}
   mode: single
 - id: '1630371041263'
-  alias: Henry’s Room Button
+  alias: Henry’s Room - Button
   description: 'Toggle devices based on button presses '
   use_blueprint:
     path: jlaska/zigbee_button_handler.yaml
@@ -1279,14 +1288,17 @@
       - service: light.toggle
         target:
           entity_id: light.henrys_room_light
+        data: {}
       - service: light.turn_off
         target:
           entity_id: light.henry_s_room_fan_light
+        data: {}
       release_action: []
       hold_action:
       - service: fan.toggle
         target:
           entity_id: fan.henrys_room_fan
+        data: {}
 - id: '1630755323301'
   alias: Piano Time
   description: Turn or/off lights when playing piano
@@ -1330,7 +1342,7 @@
     data: {}
   mode: restart
 - id: '1631050114594'
-  alias: Bathroom Humidity
+  alias: Bathroom Fan - Humidity
   description: Turn on/off bathroom fans based on humidity sensor state
   trigger:
   - platform: state
@@ -1488,7 +1500,7 @@
       blocker_entity: light.garage_exterior_light
       turn_off_blocker_entity: light.garage_exterior_light
 - id: '1638199338566'
-  alias: Master Bedroom Button
+  alias: Master Bedroom - Button
   description: Aqara Wireless Switch (single, double, hold)
   use_blueprint:
     path: jlaska/zigbee_button_handler.yaml
@@ -1673,7 +1685,7 @@
     - url: '{{ states(''input_text.url_weather_noaa_us_continent'') }}'
       entity_id: camera.weather_noaa_us_continent
 - id: '1641679968022'
-  alias: Powder Room Activity
+  alias: Powder Room - Activity
   description: ''
   use_blueprint:
     path: jlaska/motion_illuminance_activated_entity.yaml
@@ -1711,7 +1723,7 @@
         tag: garage-door-open
   mode: single
 - id: '1647367670259'
-  alias: Master Bathroom Toilet Activity
+  alias: Master Bathroom Toilet - Activity
   description: ''
   use_blueprint:
     path: jlaska/motion_illuminance_activated_entity.yaml
@@ -1926,7 +1938,7 @@
       message: Things are happening!
   mode: single
 - id: '1664929317664'
-  alias: Henry’s Room Closet Activity
+  alias: Henry’s Room Closet - Activity
   description: Turn on light based on door state
   trigger:
   - platform: state
@@ -1975,7 +1987,7 @@
           - light.master_bathroom_shower_light
           - light.master_bathroom_light
 - id: '1665923639357'
-  alias: Under Stair Button
+  alias: Under Stair - Button
   description: ''
   use_blueprint:
     path: jlaska/zigbee_button_handler.yaml
@@ -2131,8 +2143,8 @@
         - light.deck_rail_light
         - light.deck_step_light
 - id: '1671326649922'
-  alias: Door Chime
-  description: ''
+  alias: Exterior Door - Chime
+  description: Door chime when an exterior door opens
   trigger:
   - platform: state
     entity_id:
@@ -2143,7 +2155,8 @@
     to: 'on'
   condition: []
   action:
-  - if:
+  - alias: Conditionally play chime
+    if:
     - condition: not
       conditions:
       - alias: Going for a morning run
@@ -2228,7 +2241,7 @@
         message: The hot water pump is {{ trigger.to_state.state }}
   mode: single
 - id: '1673283425818'
-  alias: Bathroom Fan/Light Timer (NEW)
+  alias: Bathroom Fan/Light - Timer (NEW)
   description: Set and turn off entities based on a datetime input helper
   trigger:
   - platform: state
@@ -2284,7 +2297,7 @@
   mode: parallel
   max: 8
 - id: '1673644598281'
-  alias: Downstairs Activity (blueprint)
+  alias: Downstairs - Activity (blueprint)
   description: Activate scene based on downstairs motion
   use_blueprint:
     path: jlaska/motion_illuminance_activated_entity.yaml

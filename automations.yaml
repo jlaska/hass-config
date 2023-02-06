@@ -1818,7 +1818,7 @@
   use_blueprint:
     path: jlaska/motion_illuminance_activated_entity.yaml
     input:
-      motion_sensor: binary_sensor.back_deck_protect_motion,binary_sensor.back_door_contact
+      motion_sensor: binary_sensor.back_deck_protect_motion,binary_sensor.back_door_contact,binary_sensor.back_yard_protect_person_detected
       target_entity: scene.back_deck_activity
       illuminance_sensor: sensor.kitchen_motion_illuminance_lux
       illuminance_cutoff: input_number.illumination_low

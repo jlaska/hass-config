@@ -506,9 +506,9 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: Back Yard
-                  - entity: camera.g4_pro_high
+                  - entity: camera.back_yard_protect_high
                   - entities:
-                      - entity: binary_sensor.g4_pro_motion
+                      - entity: binary_sensor.back_yard_protect_motion
                         tap_action:
                           action: more-info
                       - entity: light.back_door_light

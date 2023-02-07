@@ -526,7 +526,6 @@ cards:
                         tap_action:
                           action: more-info
                       - entity: light.back_door_light
-                      - entity: light.back_spot_light
           - type: custom:mushroom-title-card
             title: Upstairs
             alignment: left

@@ -666,18 +666,6 @@
       seconds: 0
   action:
   - scene: scene.robot_start
-  - condition: numeric_state
-    entity_id: sensor.kitchen_motion_illuminance_lux
-    below: '80'
-  - service: light.turn_on
-    target:
-      entity_id:
-      - light.living_room_light
-      - light.kitchen_light
-      - light.entryway_hall_light
-      - light.dining_room_light
-    data:
-      brightness_pct: 100
   mode: single
 - id: '1618877720683'
   alias: Notify Garage Door Open at Sunset
@@ -2427,13 +2415,7 @@
     - condition: state
       entity_id: sun.sun
       state: below_horizon
-  - condition: state
-    entity_id: vacuum.roomba
-    state: cleaning
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 0
+    enabled: false
   action:
   - condition: state
     entity_id: binary_sensor.downstairs_motion_any

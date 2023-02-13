@@ -150,6 +150,7 @@ cards:
           options:
             secondary_info: last-changed
       exclude:
+        - hidden_by: "user"
         - entity_id: '*plex*'
         - entity_id: switch.*_protect
         - entity_id: switch.*_bullet

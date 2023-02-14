@@ -131,7 +131,7 @@
       prob_given_false: 0.75
       value_template: "{{ expand(area_entities('master_bedroom') + area_entities('master_bathroom'))|selectattr('domain', 'in', 'light')|selectattr('state', 'eq', 'on')|list|length == 0 }}"
     # TV Off
-    - platform: state
+    - platform: template
       prob_given_true: 0.95
       prob_given_false: 0.10
       value_template: "{{ not is_state('media_player.samsung_un55h7100', 'on') }}"

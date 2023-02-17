@@ -75,77 +75,6 @@
   action:
   - scene: scene.kids_bedtime
   mode: single
-- id: '1617838004557'
-  alias: Downstairs Activity
-  description: 'Downstairs activity triggers when the movie automation is enabled
-    and not watching a movie '
-  trigger:
-  - type: motion
-    platform: device
-    device_id: 4730e6c001209ad6704136353b3ff8f1
-    entity_id: binary_sensor.living_room_motion_occupancy
-    domain: binary_sensor
-  - type: motion
-    platform: device
-    device_id: 62f4e5988da089c749d84a512c932b90
-    entity_id: binary_sensor.sunroom_motion_occupancy
-    domain: binary_sensor
-  - type: motion
-    platform: device
-    device_id: 8a6d52690d1c3c0121c9cf7e526a31a6
-    entity_id: binary_sensor.sunroom_protect_motion
-    domain: binary_sensor
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 3
-      milliseconds: 0
-  - type: motion
-    platform: device
-    device_id: 1d4f49c0e8e1bb39d711f96f5f8b8472
-    entity_id: binary_sensor.dining_room_motion_occupancy
-    domain: binary_sensor
-  - type: motion
-    platform: device
-    device_id: 0064f401138da744f8facb92fea365cc
-    entity_id: binary_sensor.mudroom_motion_occupancy
-    domain: binary_sensor
-  - type: motion
-    platform: device
-    device_id: 2a5f8fecdec09e90b7bf94fc70d519c8
-    entity_id: binary_sensor.kitchen_motion_occupancy
-    domain: binary_sensor
-  condition:
-  - condition: numeric_state
-    below: input_number.illumination_medium
-    entity_id: sensor.kitchen_motion_illuminance_lux
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: automation.watching_a_movie
-      state: 'off'
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: automation.watching_a_movie
-        state: 'on'
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: media_player.family_room_appletv
-          state: playing
-  action:
-  - scene: scene.downstairs_motion
-  - wait_for_trigger:
-    - platform: state
-      entity_id: binary_sensor.downstairs_motion_any
-      from: 'on'
-      to: 'off'
-      for:
-        minutes: '{{states(''input_number.inactivity_timeout_long'')|int }}'
-    continue_on_timeout: false
-  - scene: scene.downstairs_inactivity
-  mode: restart
 - id: '1617890462942'
   alias: Aeon Minimote Remote Scene Control
   description: ''
@@ -1449,8 +1378,8 @@
         trigger_person: '{{ trigger.entity_id }}'
   mode: single
 - id: '1632007420377'
-  alias: Welcome Back (after dark)
-  description: Restart sunset scene if someone returns home after dark.
+  alias: Welcome home
+  description: Trigger actions when someone returns home.
   trigger:
   - platform: zone
     entity_id:
@@ -1458,17 +1387,8 @@
     - person.shannon
     zone: zone.home
     event: enter
-  condition:
-  - alias: Before kids lights out
-    condition: time
-    before: input_datetime.lights_out_kids
-    after: 00:00:00
-  - alias: Did the sunset automation already trigger today
-    condition: template
-    value_template: '{{ (state_attr(''automation.sunset'', ''last_triggered'')|as_local).day
-      == now().day }}'
+  condition: []
   action:
-  - scene: scene.sunset
   - if:
     - condition: state
       entity_id: schedule.hot_water_pump
@@ -1478,6 +1398,17 @@
       data: {}
       target:
         entity_id: switch.hot_water_pump_switch_0
+  - if:
+    - alias: Before kids lights out
+      condition: time
+      before: input_datetime.lights_out_kids
+      after: 00:00:00
+    - alias: Did the sunset automation already trigger today
+      condition: template
+      value_template: '{{ (state_attr(''automation.sunset'', ''last_triggered'')|as_local).day
+        == now().day }}'
+    then:
+    - scene: scene.sunset
   mode: single
 - id: '1634814893252'
   alias: Front Door - Exterior Activity
@@ -2125,16 +2056,6 @@
     target:
       area_id: sunroom
   mode: restart
-- id: '1670286838217'
-  alias: Back Deck Color Loop
-  description: ''
-  use_blueprint:
-    path: C.G.B.Spender/color-loop-effect-for-any-light-with-color-wheel-selector.yaml
-    input:
-      cl_light:
-        entity_id:
-        - light.deck_rail_light
-        - light.deck_step_light
 - id: '1671326649922'
   alias: Exterior Door - Chime
   description: Door chime when an exterior door opens
@@ -2224,14 +2145,6 @@
     data: {}
     target:
       entity_id: switch.hot_water_pump_switch_0
-  - if:
-    - condition: template
-      value_template: '{{ trigger.to_state.state == ''on'' }}'
-    then:
-    - service: script.announce
-      data:
-        entity_id: media_player.all_speakers
-        message: The hot water pump is {{ trigger.to_state.state }}
   mode: single
 - id: '1673283425818'
   alias: Bathroom Fan/Light - Timer (NEW)
@@ -2333,6 +2246,9 @@
   - platform: state
     entity_id:
     - switch.hot_water_pump_switch_0
+    not_from:
+    - unknown
+    - unavailable
     to:
   - platform: numeric_state
     entity_id: sensor.dishwasher_switch_0_power
@@ -2369,14 +2285,6 @@
         data: {}
         target:
           entity_id: timer.hot_water_pump
-      - if:
-        - condition: template
-          value_template: '{{ trigger.to_state.state == ''on'' }}'
-        then:
-        - service: script.announce
-          data:
-            entity_id: media_player.all_speakers
-            message: The hot water pump is {{ trigger.to_state.state }}
     - conditions:
       - alias: Electrical measurement changed
         condition: template
@@ -2451,3 +2359,56 @@
         data: {}
         target:
           area_id: guest_room
+- id: '1675295889814'
+  alias: Notify Sun Phase
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.sun_phase
+    attribute: golden_hour
+    id: Golden Hour
+  - platform: state
+    entity_id:
+    - sensor.sun_phase
+    attribute: blue_hour
+    id: Blue Hour
+  condition: []
+  action:
+  - service: script.notify
+    data:
+      service: notify.mobile_app_james_iphone
+      title: Sun Phase
+      message: "{{ trigger.id }} {% set sun_attr = trigger.id|contains('Blue') and
+        'blue_hour' or 'golden_hour' -%} {% if trigger.to_state.attributes[sun_attr]
+        -%}\n  started\n{% else -%}\n  finished\n{% endif -%} at {{ trigger.to_state.last_updated|as_timestamp|timestamp_custom('%I:%M
+        %p') }}\n"
+      data:
+        is_persistent: false
+        group: notify-sun-phase
+  mode: queued
+  max: 2
+- id: '1675968216648'
+  alias: Hot Water Pump - Announce
+  description: Handler for hot water pump state changes
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.hot_water_pump_switch_0
+    to:
+  condition: []
+  action:
+  - enabled: false
+    if:
+    - condition: template
+      value_template: '{{ trigger.to_state.state == ''on'' }}'
+    then:
+    - service: script.announce
+      data:
+        entity_id: media_player.all_speakers
+        message: The hot water pump is {{ trigger.to_state.state }}
+  - service: script.announce
+    data:
+      entity_id: media_player.all_speakers
+      message: The hot water pump is {{ trigger.to_state.state }}
+  mode: single

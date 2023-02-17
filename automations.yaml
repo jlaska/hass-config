@@ -58,10 +58,8 @@
     state: true
   - alias: Run once per day
     condition: template
-    value_template: '{{ now().day != (state_attr(this.entity_id, ''last_triggered'')|default(now()
-      - timedelta(weeks=1), true)|as_local).day }}
-
-      '
+    value_template: "{{ state_attr(this.entity_id, 'last_triggered') is none  or \n
+      \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}\n"
   action:
   - scene: scene.dawn
   mode: single
@@ -817,10 +815,8 @@
     state: false
   - alias: Run once per day
     condition: template
-    value_template: '{{ now().day != (state_attr(this.entity_id, ''last_triggered'')|default(now()
-      - timedelta(weeks=1), true)|as_local).day }}
-
-      '
+    value_template: "{{ state_attr(this.entity_id, 'last_triggered') is none  or \n
+      \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}\n"
   action:
   - alias: Activate dusk scene
     scene: scene.dusk

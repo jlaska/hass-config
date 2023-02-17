@@ -6,19 +6,27 @@
     entity_id: sun.sun
     attribute: elevation
     below: '12.5'
+    enabled: false
   - platform: state
-    entity_id: sensor.sun_phase
+    entity_id:
+    - sensor.sun_phase
     attribute: golden_hour
-    to: 'true'
+    to: true
   - platform: sun
     event: sunset
     offset: 0
-  condition: []
+  condition:
+  - alias: Sun is setting
+    condition: state
+    entity_id: sun.sun
+    attribute: rising
+    state: false
   action:
   - scene: scene.sunset
   - service: frontend.set_theme
     data:
       name: ios-dark-mode-light-blue
+      mode: light
   - service: script.ge_switch_led_light
     data:
       node_value: 3
@@ -42,24 +50,6 @@
     - Civil Twilight
     - Nautical Twilight
     - Astronomical Twilight
-  - alias: Astronomical dawn
-    platform: numeric_state
-    entity_id: sun.sun
-    attribute: elevation
-    above: '-18.0'
-    enabled: false
-  - alias: Nautical dawn
-    platform: numeric_state
-    entity_id: sun.sun
-    attribute: elevation
-    above: '-12.0'
-    enabled: false
-  - alias: Civil dawn
-    platform: numeric_state
-    entity_id: sun.sun
-    attribute: elevation
-    above: '-6.0'
-    enabled: false
   condition:
   - alias: Sun is rising
     condition: state
@@ -743,11 +733,17 @@
   - platform: sun
     event: sunrise
     offset: 0
-  condition: []
+  condition:
+  - alias: Sun is rising
+    condition: state
+    entity_id: sun.sun
+    attribute: rising
+    state: true
   action:
   - service: frontend.set_theme
     data:
       name: default
+      mode: light
   - service: script.ge_switch_led_light
     data:
       node_value: 2

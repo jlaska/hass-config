@@ -460,12 +460,18 @@ apple_tv_off:
 goodbye:
   alias: Goodbye
   sequence:
-  - service: light.turn_off
+  - alias: Turn off all fans
+    service: fan.turn_off
     target:
       entity_id: all
-  - service: fan.turn_off
+    data: {}
+  - alias: Turn off all interior lights
+    service: light.turn_off
     target:
-      entity_id: all
+      entity_id: "{% set exclude_light = area_entities('outside')|select('contains',
+        'light.')|list -%} {%- for device in states.light|selectattr('state','in','on')|rejectattr('entity_id','in',exclude_light)
+        -%}\n  {{device.entity_id }}\n  {%- if not loop.last %},{% endif %}\n{%- endfor
+        \ %}\n"
   mode: single
   icon: mdi:exit-run
 disable_google_home_chime:

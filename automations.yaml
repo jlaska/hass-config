@@ -345,11 +345,11 @@
         seconds: 0
         milliseconds: 0
       continue_on_timeout: false
-  - service: light.turn_off
+  - alias: Turn off interior lights
+    service: light.turn_off
     target:
-      entity_id: "{% set exclude_light = [\n    'light.back_door_light',\n    'light.front_door_light',\n
-        \   'light.garage_exterior_light',\n    'light.back_spot_light',\n    'light.front_spot_light'\n
-        \  ] %}\n{%- for device in states.light|selectattr('state','in','on')|rejectattr('entity_id','in',exclude_light)
+      entity_id: "{% set exclude_light = area_entities('outside')|select('contains',
+        'light.')|list -%} {%- for device in states.light|selectattr('state','in','on')|rejectattr('entity_id','in',exclude_light)
         -%}\n  {{device.entity_id }}\n  {%- if not loop.last %},{% endif %}\n{%- endfor
         \ %}\n"
   mode: single

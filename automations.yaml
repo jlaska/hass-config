@@ -1963,6 +1963,23 @@
       topic: shelly-garagedoor/rpc
       payload: '{"id": 1, "src": "shelly-garagedoor/events", "method": "Input.GetStatus",
         "params": {"id": 0}}'
+      qos: 0
+      retain: false
+  - alias: Conditionally turn on hot water pump
+    if:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: schedule.hot_water_pump
+        state: 'on'
+      - condition: state
+        entity_id: switch.hot_water_pump_switch_0
+        state: 'off'
+    then:
+    - service: switch.turn_on
+      data: {}
+      target:
+        entity_id: switch.hot_water_pump_switch_0
   mode: single
 - id: '1667351565058'
   alias: Stairway Light - Double Tap
@@ -2246,17 +2263,19 @@
     - unknown
     - unavailable
     to:
-  - platform: numeric_state
-    entity_id: sensor.dishwasher_switch_0_power
-    above: 3
-  - platform: numeric_state
-    entity_id: sensor.laundry_room_washer_plug_centralite_electricalmeasurement
-    above: 5
   condition:
   - alias: Assert the hot water pump schedule is off
     condition: state
     entity_id: schedule.hot_water_pump
     state: 'off'
+  - alias: Assert the laundry machine is off
+    condition: state
+    entity_id: sensor.ms963932g_laundry_machine_state
+    state: 'Off'
+  - condition: state
+    entity_id: binary_sensor.kitchen_dishwasher_status
+    state: 'off'
+    alias: Assert Dishwasher is off
   action:
   - choose:
     - conditions:
@@ -2281,15 +2300,6 @@
         data: {}
         target:
           entity_id: timer.hot_water_pump
-    - conditions:
-      - alias: Electrical measurement changed
-        condition: template
-        value_template: '{{ trigger.platform == ''numeric_state'' }}'
-      sequence:
-      - service: switch.turn_on
-        data: {}
-        target:
-          entity_id: switch.hot_water_pump_switch_0
     default: []
   mode: restart
 - id: '1673880320096'
@@ -2407,4 +2417,90 @@
     data:
       entity_id: media_player.all_speakers
       message: The hot water pump is {{ trigger.to_state.state }}
+  mode: single
+- id: '1676737892733'
+  alias: Hot Water Pump - Laundry
+  description: 'Turn off pump when away or inactive '
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.ms963932g_laundry_machine_state
+    to:
+    - Run
+    - 'Off'
+  condition:
+  - alias: Check someone is home
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: person.james
+      state: home
+    - condition: state
+      entity_id: person.shannon
+      state: home
+  - condition: state
+    entity_id: schedule.hot_water_pump
+    state: 'off'
+  - condition: state
+    entity_id: binary_sensor.kitchen_dishwasher_status
+    state: 'off'
+  - condition: state
+    entity_id: trigger.to_state
+    state:
+    - Run
+    - 'Off'
+  action:
+  - alias: Turn on/off the switch
+    service: switch.turn_{{ trigger.to_state.state|lower == "off" and "off" or "on"
+      }}
+    data: {}
+    target:
+      entity_id: switch.hot_water_pump_switch_0
+    enabled: true
+  mode: single
+- id: '1676836126179'
+  alias: Hot Water Pump - Dishwasher
+  description: Turn on/off the hot water pump when dishwasher is active
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.dishwasher_switch_0_power
+    above: 1.9
+    id: dishwasher_on
+    enabled: false
+  - platform: numeric_state
+    entity_id: sensor.dishwasher_switch_0_power
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+    below: 1.9
+    id: dishwasher_off
+    enabled: false
+  - platform: state
+    entity_id:
+    - binary_sensor.kitchen_dishwasher_status
+    to:
+  condition:
+  - alias: Check someone is home
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: person.james
+      state: home
+    - condition: state
+      entity_id: person.shannon
+      state: home
+  - condition: state
+    entity_id: schedule.hot_water_pump
+    state: 'off'
+  - condition: state
+    entity_id: sensor.ms963932g_laundry_machine_state
+    state: 'Off'
+  action:
+  - alias: Turn on/off the switch
+    service: switch.turn_{{ trigger.to_state.state }}
+    data: {}
+    target:
+      entity_id: switch.hot_water_pump_switch_0
+    enabled: true
   mode: single

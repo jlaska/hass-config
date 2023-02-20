@@ -92,13 +92,6 @@
 #      value_template: >-
 #        {{ is_state('binary_sensor.upstairs_motion_any', 'on')
 #           or is_state('binary_sensor.downstairs_motion_any', 'on') }}
-    front_door_protect_person:
-      friendly_name: "Motion Front Door Protect Person"
-      device_class: motion
-      unique_id: binary_sensor.front_door_protect_detected_person
-      value_template: >-
-        {{ is_state('binary_sensor.front_door_protect_motion', 'on')
-           and is_state('sensor.front_door_protect_detected_object', 'person') }}
 
 # https://diyfuturism.com/index.php/2017/12/29/useful-sensor-bayesian-sleep-detection-in-home-assistant/
 - platform: "bayesian"

@@ -628,7 +628,7 @@
       target_entity: light.sunroom_fan_light
 - id: '1619441985700'
   alias: Front Door - Activity
-  description: ''
+  description: Trigger actions based on front door activity
   use_blueprint:
     path: jlaska/motion_illuminance_activated_entity.yaml
     input:
@@ -637,7 +637,7 @@
       no_motion_wait: input_number.inactivity_timeout_short
       motion_sensor:
       - binary_sensor.front_door_contact
-      - binary_sensor.front_door_protect_person
+      - binary_sensor.front_door_protect_person_detected
       - binary_sensor.front_door_protect_doorbell
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
 - id: '1619447091981'
@@ -1408,13 +1408,16 @@
   mode: single
 - id: '1634814893252'
   alias: Front Door - Exterior Activity
-  description: ''
+  description: Trigger events based on front door exterior activity
   use_blueprint:
     path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       illuminance_cutoff: input_number.illumination_very_low
       no_motion_wait: input_number.inactivity_timeout_short
-      motion_sensor: binary_sensor.front_door_contact,binary_sensor.front_door_protect_doorbell,binary_sensor.front_door_protect_person
+      motion_sensor:
+      - binary_sensor.front_door_contact
+      - binary_sensor.front_door_protect_person_detected
+      - binary_sensor.front_door_protect_doorbell
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
       target_entity: light.front_door_light
       blocker_entity: light.garage_exterior_light
@@ -1797,7 +1800,7 @@
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.front_door_protect_person
+    - binary_sensor.front_door_protect_person_detected
     to: 'on'
   condition:
   - condition: state

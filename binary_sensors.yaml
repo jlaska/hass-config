@@ -18,83 +18,8 @@
   sensor: sensor.kids_bathroom_weather_humidity
   max_on_time: 2700
 
-# Consolidate motion sensors for rooms that have multiple sensors
-- platform: template
-  sensors:
-    garage_motion_any:
-      friendly_name: "Garage Motion (any)"
-      device_class: motion
-      unique_id: binary_sensor.garage_motion_any
-      value_template: >-
-        {{ is_state('binary_sensor.garage_motion_occupancy', 'on')
-           or is_state('binary_sensor.garage_protect_motion', 'on') }}
-    living_room_motion_any:
-      friendly_name: "Living Room Motion (any)"
-      device_class: motion
-      unique_id: binary_sensor.living_room_motion_any
-      value_template: >-
-        {{ is_state('binary_sensor.living_room_motion_occupancy', 'on')
-           or is_state('binary_sensor.living_room_protect_motion', 'on') }}
-    sunroom_motion_any:
-      friendly_name: "Sunroom Motion (any)"
-      device_class: motion
-      unique_id: binary_sensor.sunroom_motion_any
-      value_template: >-
-        {{ is_state('binary_sensor.sunroom_protect_motion', 'on')
-           or is_state('binary_sensor.sunroom_motion_occupancy', 'on') }}
-    dining_room_motion_any:
-      friendly_name: "Dining Room Motion (any)"
-      device_class: motion
-      unique_id: binary_sensor.dining_room_motion_any
-      value_template: >-
-        {{ is_state('binary_sensor.dining_room_motion_occupancy', 'on')
-           or is_state('binary_sensor.dining_room_protect_motion', 'on') }}
-    master_bedroom_motion_any:
-      friendly_name: "Master Bedroom Motion (any)"
-      device_class: motion
-      unique_id: binary_sensor.master_bedroom_motion_any
-      value_template: >-
-        {{ is_state('binary_sensor.master_bedroom_motion_occupancy', 'on') }}
-    master_bathroom_motion_any:
-      friendly_name: "Master Bathroom Motion (any)"
-      device_class: motion
-      unique_id: binary_sensor.master_bathroom_motion_any
-      value_template: >-
-        {{ is_state('binary_sensor.master_bathroom_motion_occupancy', 'on')
-           or is_state('binary_sensor.master_bathroom_toilet_motion_occupancy', 'on') }}
-    downstairs_motion_any:
-      friendly_name: "Downstairs Motion (any)"
-      device_class: motion
-      unique_id: binary_sensor.downstairs_motion_any
-      value_template: >-
-        {{ is_state('binary_sensor.mudroom_motion_occupancy', 'on')
-           or is_state('binary_sensor.kitchen_motion_any', 'on')
-           or is_state('binary_sensor.living_room_motion_any', 'on')
-           or is_state('binary_sensor.dining_room_motion_any', 'on')
-           or is_state('binary_sensor.sunroom_motion_any', 'on') }}
-    upstairs_motion_any:
-      friendly_name: "Upstairs Motion (any)"
-      device_class: motion
-      unique_id: binary_sensor.upstairs_motion_any
-      value_template: >-
-        {{ is_state('binary_sensor.guest_bathroom_motion_occupancy', 'on')
-           or is_state('binary_sensor.guest_room_motion_any', 'on')
-           or is_state('binary_sensor.henrys_protect_motion', 'on')
-           or is_state('binary_sensor.laundry_room_motion_occupancy', 'on')
-           or is_state('binary_sensor.master_bathroom_motion_any', 'on')
-           or is_state('binary_sensor.master_bedroom_motion_any', 'on')
-           or is_state('binary_sensor.williams_protect_motion', 'on') }}
-# Currently tracked as a helper
-#    motion_any:
-#      friendly_name: "Motion (any)"
-#      device_class: motion
-#      unique_id: binary_sensor.motion_any
-#      value_template: >-
-#        {{ is_state('binary_sensor.upstairs_motion_any', 'on')
-#           or is_state('binary_sensor.downstairs_motion_any', 'on') }}
-
 # https://diyfuturism.com/index.php/2017/12/29/useful-sensor-bayesian-sleep-detection-in-home-assistant/
-- platform: "bayesian"
+- platform: bayesian
   name: "Bayesian Sleep Sensor"
   unique_id: "e5d4e97d-1b13-4bbb-8e0a-4efb1e95137a" # generated on https://www.uuidgenerator.net/
   prior: 0.29 # I spend 7 hours a day in bed (7hr/24hr)

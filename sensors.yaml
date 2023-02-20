@@ -166,3 +166,9 @@
     - nautical_dusk
     - astronomical_dusk
     - sun_phase
+
+# Create an illuminance sensor based no current time of day
+# https://github.com/pnbruckner/ha-illuminance
+- platform: illuminance
+  name: Keener Illuminance
+  entity_id: weather.keener

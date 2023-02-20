@@ -214,6 +214,12 @@ cards:
           state: 'on'
           options:
             secondary_info: last-triggered
+      _fixme_template: |
+        {{ states.automation
+           | selectattr('attributes.last_triggered')
+           | sort(attribute='attributes.last_triggered', reverse=true)
+           | map(attribute='entity_id')
+           | list }}
     sort:
       method: last_triggered
       reverse: true

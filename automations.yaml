@@ -1666,7 +1666,7 @@
       target_entity: light.attic_stairway_light
       no_motion_wait: input_number.inactivity_timeout_short
       illuminance_cutoff: input_number.illumination_high
-      illuminance_sensor: sensor.keener_illuminance
+      illuminance_sensor: sensor.keener_illuminance_lux
 - id: '1651594543069'
   alias: Open Garage Door Upon Arrival
   description: Open garage door when arriving home by car

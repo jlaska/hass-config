@@ -352,11 +352,8 @@ announce:
     data: {}
     enabled: false
   - variables:
-      volume_mode: '{% set current_time = now().strftime("%H:%M:%S") -%} {{ (current_time
-        < states(''input_datetime.lights_out_kids'') and is_state(''calendar.work'',
-        ''off'')) and ''normal'' or ''quiet'' }}
-
-        '
+      volume_mode: "{%- if is_state('schedule.quiet_time', 'on') or is_state('calendar.work',
+        'on') -%}\n  quiet\n{%- else -%}\n  normal\n{%- endif -%} "
   - alias: Set volume
     repeat:
       while:

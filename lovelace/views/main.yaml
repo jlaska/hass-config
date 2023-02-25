@@ -704,6 +704,8 @@ cards:
                   - entities:
                       - entity: binary_sensor.kitchen_motion_occupancy
                       - entity: binary_sensor.kitchen_refrigerator_door_contact
+                      - entity: binary_sensor.kitchen_dishwasher_status
+                      - entity: binary_sensor.kitchen_microwave_status
                       - entity: group.kitchen_lights
                         tap_action:
                           action: more-info

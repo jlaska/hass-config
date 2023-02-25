@@ -90,6 +90,10 @@ cards:
       title: Appliances
     filter:
       include:
+        - entity_id: binary_sensor.kitchen_*_status
+          state: on
+          options:
+            secondary_info: last-changed
         - entity_id: sensor.*_laundry_machine_state
           state: Run
           options:

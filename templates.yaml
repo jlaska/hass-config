@@ -126,9 +126,17 @@
     delay_off:
       minutes: 2
     icon: |
-      {{ states('sensor.dishwasher_switch_0_power')|float > 1.90 and 'mdi:dishwasher' or 'mdi:dishwasher-off' }}
+      {{ states('sensor.dishwasher_switch_0_power')|float > 2.30 and 'mdi:dishwasher' or 'mdi:dishwasher-off' }}
     state: |
-      {{ states('sensor.dishwasher_switch_0_power')|float > 1.90 }}
+      {{ states('sensor.dishwasher_switch_0_power')|float > 2.30 }}
+
+  - name: "Kitchen Microwave Status"
+    unique_id: binary_sensor.kitchen_microwave_status
+    availability: "{{ is_state('sensor.node_157_node_status', 'alive') }}"
+    icon: |
+      {{ states('sensor.microwave_plug_electric_consumption_w')|float > 0.2 and 'mdi:microwave' or 'mdi:microwave-off' }}
+    state: |
+      {{ states('sensor.microwave_plug_electric_consumption_w')|float > 0.0 }}
 
   - name: "Garage Motion (any)"
     unique_id: binary_sensor.garage_motion_any

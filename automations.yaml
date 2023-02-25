@@ -326,6 +326,20 @@
     target:
       entity_id: all
     data: {}
+  - if:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.kitchen_dishwasher_status
+        state: 'off'
+      - condition: state
+        entity_id: sensor.ms963932g_laundry_machine_state
+        state: 'Off'
+    then:
+    - service: switch.turn_off
+      data: {}
+      target:
+        entity_id: switch.hot_water_pump_switch_0
   - alias: Optionally wait for vacuum completion
     if:
     - condition: not
@@ -2155,6 +2169,14 @@
     - condition: state
       entity_id: person.shannon
       state: home
+  - alias: Assert the laundry machine is off
+    condition: state
+    entity_id: sensor.ms963932g_laundry_machine_state
+    state: 'Off'
+  - condition: state
+    entity_id: binary_sensor.kitchen_dishwasher_status
+    state: 'off'
+    alias: Assert Dishwasher is off
   action:
   - alias: Turn on/off the switch
     service: switch.turn_{{ trigger.to_state.state }}
@@ -2441,17 +2463,16 @@
     - condition: state
       entity_id: person.shannon
       state: home
+    enabled: false
   - condition: state
     entity_id: schedule.hot_water_pump
     state: 'off'
   - condition: state
     entity_id: binary_sensor.kitchen_dishwasher_status
     state: 'off'
-  - condition: state
-    entity_id: trigger.to_state
-    state:
-    - Run
-    - 'Off'
+  - condition: template
+    value_template: '{{ trigger.to_state.state|lower in [''run'', ''off''] }}'
+    alias: Confirm valid trigger state
   action:
   - alias: Turn on/off the switch
     service: switch.turn_{{ trigger.to_state.state|lower == "off" and "off" or "on"
@@ -2465,24 +2486,12 @@
   alias: Hot Water Pump - Dishwasher
   description: Turn on/off the hot water pump when dishwasher is active
   trigger:
-  - platform: numeric_state
-    entity_id: sensor.dishwasher_switch_0_power
-    above: 1.9
-    id: dishwasher_on
-    enabled: false
-  - platform: numeric_state
-    entity_id: sensor.dishwasher_switch_0_power
-    for:
-      hours: 0
-      minutes: 2
-      seconds: 0
-    below: 1.9
-    id: dishwasher_off
-    enabled: false
   - platform: state
     entity_id:
     - binary_sensor.kitchen_dishwasher_status
     to:
+    - 'on'
+    - 'off'
   condition:
   - alias: Check someone is home
     condition: or
@@ -2493,6 +2502,7 @@
     - condition: state
       entity_id: person.shannon
       state: home
+    enabled: false
   - condition: state
     entity_id: schedule.hot_water_pump
     state: 'off'

@@ -126,15 +126,28 @@
     delay_off:
       minutes: 2
     icon: |
-      {{ states('sensor.dishwasher_switch_0_power')|float > 2.30 and 'mdi:dishwasher' or 'mdi:dishwasher-off' }}
+      {% if states('sensor.dishwasher_switch_0_power')|float(0.0) > 5.0 %}
+        mdi:dishwasher-alert
+      {% elif states('sensor.dishwasher_switch_0_power')|float(0.0) > 0.0 %}
+        mdi:dishwasher
+      {% else %}
+        mdi:dishwasher-off
+      {% endif %}
     state: |
       {{ states('sensor.dishwasher_switch_0_power')|float > 2.30 }}
 
   - name: "Kitchen Microwave Status"
     unique_id: binary_sensor.kitchen_microwave_status
     availability: "{{ is_state('sensor.node_157_node_status', 'alive') }}"
+    # FIXME: When available, use 'mdi:microwave-alert'
     icon: |
-      {{ states('sensor.microwave_plug_electric_consumption_w')|float > 0.2 and 'mdi:microwave' or 'mdi:microwave-off' }}
+      {% if states('sensor.microwave_plug_electric_consumption_w')|float(0.0) > 10.0 %}
+        mdi:microwave
+      {% elif states('sensor.microwave_plug_electric_consumption_w')|float(0.0) > 0.0 %}
+        mdi:microwave
+      {% else %}
+        mdi:microwave-off
+      {% endif %}
     state: |
       {{ states('sensor.microwave_plug_electric_consumption_w')|float > 0.0 }}
 

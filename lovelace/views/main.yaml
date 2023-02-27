@@ -291,7 +291,9 @@ cards:
                   {%- if is_charging -%}
                     -charging
                   {%- endif -%}
-                  -{{ battery_round -}}
+                  {%- if battery_round < 100 -%}
+                    -{{ battery_round -}}
+                  {%- endif -%}
                 icon_color: |-
                   {% if states('sensor.powerwall_charge')|int > 50 %}
                   green
@@ -521,11 +523,11 @@ cards:
                   - entities:
                       - entity: binary_sensor.back_deck_protect_motion
                       - entity: binary_sensor.back_door_contact
+                      - entity: light.back_door_light
                       - entity: group.back_deck_lights
                         icon: mdi:led-strip-variant
                         tap_action:
                           action: more-info
-                      - entity: light.back_door_light
           - type: custom:mushroom-title-card
             title: Upstairs
             alignment: left

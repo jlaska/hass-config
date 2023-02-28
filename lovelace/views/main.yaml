@@ -521,7 +521,7 @@ cards:
                   - title: Back Deck
                   - entity: camera.back_deck_protect_high
                   - entities:
-                      - entity: binary_sensor.back_deck_protect_motion
+                      - entity: binary_sensor.back_deck_protect_motion_any
                       - entity: binary_sensor.back_door_contact
                       - entity: light.back_door_light
                       - entity: group.back_deck_lights

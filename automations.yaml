@@ -362,10 +362,10 @@
   - alias: Turn off interior lights
     service: light.turn_off
     target:
-      entity_id: "{% set exclude_light = area_entities('outside')|select('contains',
-        'light.')|list -%} {%- for device in states.light|selectattr('state','in','on')|rejectattr('entity_id','in',exclude_light)
-        -%}\n  {{device.entity_id }}\n  {%- if not loop.last %},{% endif %}\n{%- endfor
-        \ %}\n"
+      entity_id: "{% set exclude_entity_ids = area_entities('outside')|select('contains',
+        'light.')|list -%} {{\n  (\n    states.light\n    | selectattr('state', 'eq',
+        'on')\n    | rejectattr('entity_id', 'in', exclude_entity_ids)\n    | map(attribute='entity_id')\n
+        \   | list \n    | join (', ')\n  )\n}}"
   mode: single
 - id: '1618088888089'
   alias: Good Night

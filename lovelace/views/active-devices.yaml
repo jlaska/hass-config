@@ -241,8 +241,9 @@ cards:
           options:
             secondary_info: last-changed
     sort:
-      method: name
-      ignore_case: true
+      method: state
+      reverse: true
+      numeric: true
   - type: custom:auto-entities
     card:
       type: entities

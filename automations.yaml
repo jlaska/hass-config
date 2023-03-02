@@ -169,7 +169,7 @@
     data: {}
   mode: restart
 - id: '1617977378814'
-  alias: Downstairs Luminance Above Threshold
+  alias: Downstairs Illuminance Above Threshold
   description: When it gets bright outside, turn certain lights off
   trigger:
   - platform: numeric_state
@@ -180,15 +180,14 @@
   - condition: time
     after: input_datetime.time_of_day_automation_start
     before: '15:00:00'
+    enabled: false
   - condition: sun
     before: sunset
     after: sunrise
+    enabled: false
   - condition: state
     entity_id: sun.sun
     state: above_horizon
-  - condition: state
-    entity_id: sensor.period_of_day
-    state: day
   action:
   - service: light.turn_off
     data: {}
@@ -647,13 +646,10 @@
     path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       target_entity: light.entryway_door_light
-      illuminance_cutoff: input_number.illumination_very_low
       no_motion_wait: input_number.inactivity_timeout_short
-      motion_sensor:
-      - binary_sensor.front_door_contact
-      - binary_sensor.front_door_protect_person_detected
-      - binary_sensor.front_door_protect_doorbell
+      motion_sensor: binary_sensor.front_door_contact,binary_sensor.front_door_protect_person_detected,binary_sensor.front_door_protect_doorbell
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
+      illuminance_cutoff: input_number.illumination_very_low
 - id: '1619447091981'
   alias: Dining Room Floor Lamp - Activity
   description: ''
@@ -1427,16 +1423,16 @@
   use_blueprint:
     path: jlaska/motion_illuminance_activated_entity.yaml
     input:
-      illuminance_cutoff: input_number.illumination_very_low
+      illuminance_cutoff: input_number.illumination_low
       no_motion_wait: input_number.inactivity_timeout_short
       motion_sensor:
       - binary_sensor.front_door_contact
       - binary_sensor.front_door_protect_person_detected
       - binary_sensor.front_door_protect_doorbell
-      illuminance_sensor: sensor.dining_room_motion_illuminance_lux
       target_entity: light.front_door_light
       blocker_entity: light.garage_exterior_light
       turn_off_blocker_entity: light.garage_exterior_light
+      illuminance_sensor: sensor.keener_illuminance_lux
 - id: '1638199338566'
   alias: Master Bedroom - Button
   description: Aqara Wireless Switch (single, double, hold)
@@ -1758,10 +1754,10 @@
     input:
       motion_sensor: binary_sensor.back_deck_protect_motion,binary_sensor.back_door_contact,binary_sensor.back_yard_protect_person_detected
       target_entity: scene.back_deck_activity
-      illuminance_sensor: sensor.kitchen_motion_illuminance_lux
-      illuminance_cutoff: input_number.illumination_low
       no_motion_wait: input_number.inactivity_timeout_medium
       target_off_entity: group.back_deck_lights
+      illuminance_sensor: sensor.keener_illuminance_lux
+      illuminance_cutoff: input_number.illumination_low
 - id: '1655993369268'
   alias: Notify If Any Power Plug Off
   description: ''
@@ -2242,7 +2238,7 @@
   mode: parallel
   max: 8
 - id: '1673644598281'
-  alias: Downstairs - Activity (blueprint)
+  alias: Downstairs - Activity
   description: Activate scene based on downstairs motion
   use_blueprint:
     path: jlaska/motion_illuminance_activated_entity.yaml

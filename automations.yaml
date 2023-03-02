@@ -1108,6 +1108,9 @@
   - condition: or
     conditions:
     - condition: template
+      value_template: '{{ trigger.platform == ''state'' and is_state(''binary_sensor.docker_hub_update_available'',
+        ''on'')}}'
+    - condition: template
       value_template: '{{ trigger.platform == ''state'' and states(''sensor.hacs'')|int(0)
         > 0}}'
     - condition: template

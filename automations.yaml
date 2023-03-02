@@ -622,7 +622,7 @@
   alias: Mudroom - Activity
   description: Blueprint
   use_blueprint:
-    path: freakshock88/motion_illuminance_activated_entity.yaml
+    path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       no_motion_wait: input_number.inactivity_timeout_short
       target_entity: light.mudroom_light

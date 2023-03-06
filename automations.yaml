@@ -244,7 +244,9 @@
         data: {}
       - service: light.turn_off
         target:
-          entity_id: light.william_s_room_fan_light
+          entity_id:
+          - light.william_s_room_fan_light
+          - light.william_s_closet_light
         data: {}
       hold_action:
       - service: fan.toggle
@@ -1214,7 +1216,9 @@
         data: {}
       - service: light.turn_off
         target:
-          entity_id: light.henry_s_room_fan_light
+          entity_id:
+          - light.henry_s_room_fan_light
+          - group.henry_s_room_closet_light
         data: {}
       release_action: []
       hold_action:

@@ -244,22 +244,40 @@ cards:
       method: state
       reverse: true
       numeric: true
-  - type: custom:auto-entities
+  - type: custom:config-template-card
+    entities:
+      - sensor.powerwall_load_now
+    variables:
+      load_now: "states['sensor.powerwall_load_now'].state * 1000"
     card:
-      type: entities
-      title: Watts On
-    filter:
-      include:
-        - domain: sensor
-          state: '> 0.0'
-          attributes:
-              unit_of_measurement: W
-          options:
-            secondary_info: last-changed
-      exclude:
-        - entity_id: sensor.solaredge_*
-        - entity_id: sensor.power_production_now
-    sort:
-      method: state
-      reverse: true
-      numeric: true
+      type: 'custom:auto-entities'
+      card:
+        type: 'custom:bar-card'
+        title: Watts On
+        max: '${load_now}'
+        icon: 'mdi:flash'
+        style: |-
+          bar-card-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 1; /* number of lines to show */
+                    line-clamp: 1;
+            -webkit-box-orient: vertical;
+          }
+      filter:
+        include:
+          - domain: sensor
+            state: '> 0.0'
+            attributes:
+                unit_of_measurement: W
+            options:
+              secondary_info: last-changed
+        exclude:
+          - entity_id: sensor.solaredge_*
+          - entity_id: sensor.power_production_now
+      sort:
+        method: state
+        reverse: true
+        numeric: true

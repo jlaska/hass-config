@@ -2176,7 +2176,9 @@
   - alias: Assert the laundry machine is off
     condition: state
     entity_id: sensor.ms963932g_laundry_machine_state
-    state: 'Off'
+    state:
+    - 'Off'
+    - unavailable
   - condition: state
     entity_id: binary_sensor.kitchen_dishwasher_status
     state: 'off'

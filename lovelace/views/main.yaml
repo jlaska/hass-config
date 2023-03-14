@@ -485,7 +485,7 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: Front Yard
-                  - entity: camera.front_yard_protect_high
+                  - camera_image: camera.front_yard_protect_high
                   - entities:
                       - entity: binary_sensor.front_yard_protect_motion
                         tap_action:
@@ -496,7 +496,7 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: Front Door
-                  - entity: camera.front_door_protect_high
+                  - camera_image: camera.front_door_protect_high
                   - background_position: 0% 50%
                   - entities:
                       - entity: binary_sensor.front_door_protect_motion
@@ -508,7 +508,7 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: Back Yard
-                  - entity: camera.back_yard_protect_high
+                  - camera_image: camera.back_yard_protect_high
                   - entities:
                       - entity: binary_sensor.back_yard_protect_motion
                         tap_action:
@@ -519,7 +519,7 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: Back Deck
-                  - entity: camera.back_deck_protect_high
+                  - camera_image: camera.back_deck_protect_high
                   - entities:
                       - entity: binary_sensor.back_deck_protect_motion_any
                       - entity: binary_sensor.back_door_contact
@@ -562,7 +562,7 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: Guest
-                  - entity: camera.guest_room_protect_high
+                  - camera_image: camera.guest_room_protect_high
                   - entities:
                       - entity: binary_sensor.guest_room_motion_any
                         tap_action:
@@ -575,7 +575,7 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: Henry
-                  - entity: camera.henrys_protect_high
+                  - camera_image: camera.henrys_protect_high
                   - entities:
                       - entity: binary_sensor.henrys_protect_motion
                         tap_action:
@@ -589,7 +589,7 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: William
-                  - entity: camera.williams_protect_high
+                  - camera_image: camera.williams_protect_high
                   - entities:
                       - entity: binary_sensor.williams_protect_motion
                         tap_action:
@@ -715,7 +715,7 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: Living
-                  - entity: camera.living_room_protect_high
+                  - camera_image: camera.living_room_protect_high
                   - entities:
                       - entity: binary_sensor.living_room_motion_any
                       - entity: remote.hubname
@@ -728,7 +728,7 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: Dining
-                  - entity: camera.dining_room_protect_high
+                  - camera_image: camera.dining_room_protect_high
                   - entities:
                       - entity: binary_sensor.dining_room_motion_any
                       - entity: vacuum.roomba
@@ -739,7 +739,7 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: Sunroom
-                  - entity: camera.sunroom_protect_high
+                  - camera_image: camera.sunroom_protect_high
                   - entities:
                       - entity: binary_sensor.sunroom_motion_any
                       - entity: binary_sensor.sunroom_door_contact
@@ -788,7 +788,7 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: Garage
-                  - entity: camera.garage_protect_high
+                  - camera_image: camera.garage_protect_high
                   - entities:
                       - entity: binary_sensor.garage_motion_any
                       - entity: binary_sensor.garage_freezer_door_contact

@@ -2,6 +2,7 @@ minimal_area_card:
   default:
     - title: null
     - entity: null
+    - camera_image: null
     - area: null
     - image: null
     - entities: []
@@ -98,7 +99,7 @@ minimal_area_card:
     entity: '[[entity]]'
     area: '[[area]]'
     image: '[[image]]'
-    camera_image: '[[entity]]'
+    camera_image: '[[camera_image]]'
     tap_action:
       action: more-info
     entities: '[[entities]]'

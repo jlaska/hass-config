@@ -481,28 +481,24 @@
   - platform: time
     at: input_datetime.time_of_day_automation_start
   condition:
-  - condition: numeric_state
-    entity_id: sun.sun
-    attribute: elevation
-    above: '4.0'
+  - alias: Assert no recent motion
+    condition: template
+    value_template: "{{ \n  states.binary_sensor.williams_protect_motion.last_updated
+      + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)
+      <= utcnow()\n}}\n"
+  - alias: Assert a fan or light is on
+    condition: template
+    value_template: "{{ expand(area_entities(area_id('binary_sensor.williams_protect_motion')))\n
+      \ |selectattr('domain', 'in', ['light','fan'])\n  |selectattr('state', 'eq',
+      'on')\n  |list|length > 0}}\n"
   - alias: Assert automation time constraints
     condition: time
     after: input_datetime.time_of_day_automation_start
     before: input_datetime.time_of_day_automation_stop
   - alias: Assert automation.sunset did not run
     condition: template
-    value_template: "{{\n  as_timestamp(utcnow())|timestamp_custom('%-d') != as_timestamp(state_attr('automation.sunset',
-      'last_triggered'))|timestamp_custom('%-d')\n}}\n"
-  - alias: Assert a fan or light is on
-    condition: template
-    value_template: "{{ expand(area_entities(area_id('binary_sensor.williams_protect_motion')))\n
-      \ |selectattr('domain', 'in', ['light','fan'])\n  |selectattr('state', 'eq',
-      'on')\n  |list|length > 0}}\n"
-  - alias: Assert no recent motion
-    condition: template
-    value_template: "{{ \n  states.binary_sensor.williams_protect_motion.last_updated
-      + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)
-      <= utcnow()\n}}\n"
+    value_template: "{{ \n  (state_attr('automation.sunset', 'last_triggered')|as_local).day
+      != now().day\n}}\n"
   action:
   - service: light.turn_off
     data: {}
@@ -529,10 +525,16 @@
   - platform: time
     at: input_datetime.time_of_day_automation_start
   condition:
-  - condition: numeric_state
-    entity_id: sun.sun
-    attribute: elevation
-    above: '4.0'
+  - alias: Assert no recent motion
+    condition: template
+    value_template: "{{ \n  states.binary_sensor.henrys_protect_motion.last_updated
+      + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)
+      <= utcnow()\n}}"
+  - alias: Assert a fan or light is on
+    condition: template
+    value_template: "{{\n  expand(area_entities(area_id('binary_sensor.henrys_protect_motion')))\n
+      \   |selectattr('domain', 'in', ['light','fan'])\n    |selectattr('state', 'eq',
+      'on')\n    |list|length > 0\n}}"
   - condition: state
     entity_id: sun.sun
     state: above_horizon
@@ -542,18 +544,8 @@
     before: input_datetime.time_of_day_automation_stop
   - alias: Assert automation.sunset did not run
     condition: template
-    value_template: "{{\n  as_timestamp(utcnow())|timestamp_custom('%-d') != as_timestamp(state_attr('automation.sunset',
-      'last_triggered'))|timestamp_custom('%-d')\n}}"
-  - alias: Assert a fan or light is on
-    condition: template
-    value_template: "{{\n  expand(area_entities(area_id('binary_sensor.henrys_protect_motion')))\n
-      \   |selectattr('domain', 'in', ['light','fan'])\n    |selectattr('state', 'eq',
-      'on')\n    |list|length > 0\n}}"
-  - alias: Assert no recent motion
-    condition: template
-    value_template: "{{ \n  states.binary_sensor.henrys_protect_motion.last_updated
-      + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)
-      <= utcnow()\n}}"
+    value_template: "{{ \n  (state_attr('automation.sunset', 'last_triggered')|as_local).day
+      != now().day\n}}"
   action:
   - service: light.turn_off
     target:
@@ -853,19 +845,6 @@
     for:
       minutes: '{{ states(''input_number.inactivity_timeout_long'')|int }}'
   condition:
-  - alias: Assert automation time constraints
-    condition: time
-    after: input_datetime.time_of_day_automation_start
-    before: input_datetime.time_of_day_automation_stop
-  - alias: Assert automation.sunset did not run
-    condition: template
-    value_template: "{{\n  as_timestamp(utcnow())|timestamp_custom('%-d') != as_timestamp(state_attr('automation.sunset',
-      'last_triggered'))|timestamp_custom('%-d')\n}}"
-  - alias: Assert a fan or light is on
-    condition: template
-    value_template: "{{\n  expand(area_entities(area_id('binary_sensor.master_bedroom_motion_occupancy')))\n
-      \   |selectattr('domain', 'in', ['light','fan'])\n    |selectattr('state', 'eq',
-      'on')\n    |list|length > 0\n}}"
   - alias: Assert no recent motion
     condition: template
     value_template: "{{ \n  states.binary_sensor.master_bedroom_motion_occupancy.last_updated
@@ -880,6 +859,19 @@
     condition: state
     entity_id: calendar.work
     state: 'off'
+  - alias: Assert a fan or light is on
+    condition: template
+    value_template: "{{\n  expand(area_entities(area_id('binary_sensor.master_bedroom_motion_occupancy')))\n
+      \   |selectattr('domain', 'in', ['light','fan'])\n    |selectattr('state', 'eq',
+      'on')\n    |list|length > 0\n}}"
+  - alias: Assert automation time constraints
+    condition: time
+    after: input_datetime.time_of_day_automation_start
+    before: input_datetime.time_of_day_automation_stop
+  - alias: Assert automation.sunset did not run
+    condition: template
+    value_template: "{{ \n  (state_attr('automation.sunset', 'last_triggered')|as_local).day
+      != now().day\n}}"
   action:
   - service: light.turn_off
     data: {}
@@ -906,6 +898,16 @@
   - platform: time
     at: input_datetime.time_of_day_automation_start
   condition:
+  - alias: Assert no recent motion
+    condition: template
+    value_template: "{{ \n  states.binary_sensor.guest_room_motion_any.last_updated
+      + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)
+      <= utcnow()\n}}\n"
+  - alias: Assert a fan or light is on
+    condition: template
+    value_template: "{{ expand(area_entities(area_id('binary_sensor.guest_room_motion_any')))\n
+      \ |selectattr('domain', 'in', ['light','fan'])\n  |selectattr('state', 'eq',
+      'on')\n  |list|length > 0}}\n"
   - condition: state
     entity_id: sun.sun
     state: above_horizon
@@ -913,20 +915,10 @@
     condition: time
     after: input_datetime.time_of_day_automation_start
     before: input_datetime.time_of_day_automation_stop
-  - alias: Assert automation.sunset did not run
+  - alias: Assert automation.sunset did not run today
     condition: template
-    value_template: "{{\n  as_timestamp(utcnow())|timestamp_custom('%-d') != as_timestamp(state_attr('automation.sunset',
-      'last_triggered'))|timestamp_custom('%-d')\n}}\n"
-  - alias: Assert a fan or light is on
-    condition: template
-    value_template: "{{ expand(area_entities(area_id('binary_sensor.guest_room_motion_any')))\n
-      \ |selectattr('domain', 'in', ['light','fan'])\n  |selectattr('state', 'eq',
-      'on')\n  |list|length > 0}}\n"
-  - alias: Assert no recent motion
-    condition: template
-    value_template: "{{ \n  states.binary_sensor.guest_room_motion_any.last_updated
-      + timedelta(minutes=states('input_number.inactivity_timeout_long')|int, seconds=-5)
-      <= utcnow()\n}}\n"
+    value_template: "{{ \n  (state_attr('automation.sunset', 'last_triggered')|as_local).day
+      != now().day\n}}\n"
   action:
   - service: light.turn_off
     data: {}

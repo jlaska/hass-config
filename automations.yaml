@@ -535,7 +535,8 @@
     value_template: "{{\n  expand(area_entities(area_id('binary_sensor.henrys_protect_motion')))\n
       \   |selectattr('domain', 'in', ['light','fan'])\n    |selectattr('state', 'eq',
       'on')\n    |list|length > 0\n}}"
-  - condition: state
+  - alias: Assert daytime
+    condition: state
     entity_id: sun.sun
     state: above_horizon
   - alias: Assert automation time constraints
@@ -908,7 +909,8 @@
     value_template: "{{ expand(area_entities(area_id('binary_sensor.guest_room_motion_any')))\n
       \ |selectattr('domain', 'in', ['light','fan'])\n  |selectattr('state', 'eq',
       'on')\n  |list|length > 0}}\n"
-  - condition: state
+  - alias: Assert daytime
+    condition: state
     entity_id: sun.sun
     state: above_horizon
   - alias: Assert automation time constraints

@@ -344,9 +344,13 @@ announce:
     - condition: state
       entity_id: person.james
       state: home
-  - alias: Assert Not Quiet Time
+  - alias: Assert not quiet time
     condition: state
     entity_id: schedule.quiet_time
+    state: 'off'
+  - alias: Assert not morning run
+    condition: state
+    entity_id: schedule.morning_run_time
     state: 'off'
   - service: script.disable_google_home_chime
     data: {}

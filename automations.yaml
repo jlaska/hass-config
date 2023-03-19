@@ -2095,23 +2095,32 @@
     - binary_sensor.back_door_contact
     - binary_sensor.attic_door_contact
     to: 'on'
-  condition: []
+  condition:
+  - alias: Assert someone is home
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: person.shannon
+      state: home
+    - condition: state
+      entity_id: person.james
+      state: home
+  - alias: Assert not quiet time
+    condition: state
+    entity_id: schedule.quiet_time
+    state: 'off'
+  - alias: Assert not morning run
+    condition: state
+    entity_id: schedule.morning_run_time
+    state: 'off'
   action:
-  - alias: Conditionally play chime
-    if:
-    - condition: not
-      conditions:
-      - alias: Going for a morning run
-        condition: time
-        after: 06:20:00
-        before: 07:30:00
-    then:
-    - service: media_player.play_media
-      target:
-        entity_id: media_player.all_speakers
-      data:
-        media_content_id: media-source://media_source/sounds/jump.m4a
-        media_content_type: audio/mpeg
+  - alias: Play chime
+    service: media_player.play_media
+    target:
+      entity_id: media_player.all_speakers
+    data:
+      media_content_id: media-source://media_source/sounds/jump.m4a
+      media_content_type: audio/mpeg
   mode: single
 - id: '1671588501013'
   alias: Good Night (exterior)

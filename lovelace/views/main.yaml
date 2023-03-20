@@ -748,14 +748,10 @@ cards:
               - type: custom:state-switch
                 entity: template
                 template: |
-                  {% set entities = expand(['binary_sensor.garage_motion_any',
-                      'binary_sensor.garage_motion_occupancy',
-                      'binary_sensor.garage_motion_tamper',
-                      'binary_sensor.garage_protect_motion',
+                  {% set entities = expand(['binary_sensor.powder_room_motion_occupancy',
+                      'light.powder_room_light',
+                      'fan.powder_room_fan',
                       'binary_sensor.mudroom_motion_occupancy',
-                      'binary_sensor.mudroom_motion_tamper',
-                      'light.garage_light',
-                      'light.garage_work_light',
                       'light.mudroom_light']) %}
                   {% if entities|count > 0 %}
                     {{ (entities|max(attribute='last_updated')).entity_id|area_id }}
@@ -773,7 +769,7 @@ cards:
                           - entity: binary_sensor.mudroom_motion_occupancy
                           - entity: binary_sensor.mudroom_door_contact
                           - entity: light.mudroom_light
-                  'garage':
+                  'powder_room':
                     type: custom:decluttering-card
                     template: minimal_area_card
                     variables:

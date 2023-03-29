@@ -602,6 +602,7 @@ cards:
                 template: minimal_area_card
                 variables:
                   - title: M Bath
+                  - area: master_bathroom
                   - entity: null
                   - entities:
                     - entity: binary_sensor.master_bathroom_motion_any
@@ -613,29 +614,22 @@ cards:
               - type: custom:state-switch
                 entity: template
                 template: |
-                  {% set entities = expand(['binary_sensor.guest_bathroom_hygrostat',
+                  {% set entities = expand([
+                    'binary_sensor.guest_bathroom_hygrostat',
                     'binary_sensor.guest_bathroom_motion_occupancy',
+                    'fan.guest_bathroom_fan',
+                    'light.guest_bathroom_light',
                     'binary_sensor.kids_bathroom_hygrostat',
-                    'binary_sensor.laundry_room_dryer_leak_water_leak',
+                    'binary_sensor.kids_bathroom_motion_occupancy',
+                    'fan.kids_bathroom_fan',
+                    'light.kids_bathroom_light',
+                    'light.kids_bathroom_shower_light',
                     'binary_sensor.laundry_room_motion_occupancy',
+                    'binary_sensor.laundry_room_dryer_leak_water_leak',
                     'binary_sensor.laundry_room_washer_leak_water_leak',
                     'binary_sensor.ms963932g_laundry_door',
                     'binary_sensor.vs553419c_laundry_door',
-                    'fan.guest_bathroom_fan',
-                    'fan.kids_bathroom_fan',
-                    'light.guest_bathroom_light',
-                    'light.kids_bathroom_light',
-                    'light.kids_bathroom_shower_light',
                     'light.laundry_room_light',
-                    'sensor.guest_bathroom_motion_device_temperature',
-                    'sensor.guest_bathroom_motion_illuminance_lux',
-                    'sensor.guest_bathroom_weather_humidity',
-                    'sensor.guest_bathroom_weather_temperature',
-                    'sensor.kids_bathroom_weather_humidity',
-                    'sensor.kids_bathroom_weather_temperature',
-                    'sensor.laundry_room_dryer_leak_device_temperature',
-                    'sensor.laundry_room_motion_temperature',
-                    'sensor.laundry_room_washer_leak_temperature',
                     'sensor.ms963932g_laundry_machine_state',
                     'sensor.vs553419c_laundry_machine_state']) %}
                   {% if entities|count > 0 %}
@@ -648,6 +642,7 @@ cards:
                     template: minimal_area_card
                     variables:
                       - title: G Bath
+                      - area: guest_bathroom
                       - entity: null
                       - entities:
                           - entity: binary_sensor.guest_bathroom_motion_occupancy
@@ -659,6 +654,7 @@ cards:
                     template: minimal_area_card
                     variables:
                       - title: K Bath
+                      - area: kids_bathroom
                       - entity: null
                       - entities:
                           - entity: binary_sensor.kids_bathroom_motion_occupancy
@@ -748,7 +744,8 @@ cards:
               - type: custom:state-switch
                 entity: template
                 template: |
-                  {% set entities = expand(['binary_sensor.powder_room_motion_occupancy',
+                  {% set entities = expand([
+                      'binary_sensor.powder_room_motion_occupancy',
                       'light.powder_room_light',
                       'fan.powder_room_fan',
                       'binary_sensor.mudroom_motion_occupancy',

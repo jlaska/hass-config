@@ -87,32 +87,6 @@ cards:
   - type: custom:auto-entities
     card:
       type: entities
-      title: Appliances
-    filter:
-      include:
-        - entity_id: binary_sensor.kitchen_*_status
-          state: on
-          options:
-            secondary_info: last-changed
-        - entity_id: sensor.*_laundry_machine_state
-          state: Run
-          options:
-            secondary_info: last-changed
-        - entity_id: switch.hubname_*
-          state: 'on'
-          options:
-            secondary_info: last-changed
-      exclude:
-        - attributes:
-            device_class: motion
-        - attributes:
-            device_class: moisture
-    sort:
-      method: name
-      ignore_case: true
-  - type: custom:auto-entities
-    card:
-      type: entities
       title: Active Motion
     filter:
       include:
@@ -128,17 +102,14 @@ cards:
             device_class: occupancy
           options:
             secondary_info: last-changed
-        - domain: binary_sensor
-          state: 'on'
-          attributes:
-            device_class: vibration
-          options:
-            secondary_info: last-changed
       exclude:
         - entity_id: '*_any'
+        - entity_id: 'binary_sensor.nest_protect*'
     sort:
-      method: name
+      method: last_triggered
+      reverse: true
       ignore_case: true
+      count: 8
   - type: custom:auto-entities
     card:
       type: entities
@@ -203,6 +174,21 @@ cards:
             {% endfor %}
           {% endfor %}
         {% endwith %}
+    sort:
+      method: last_triggered
+      reverse: true
+      ignore_case: true
+      count: 5
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Active Timers
+    filter:
+      include:
+        - domain: timer
+          state: 'active'
+          options:
+            secondary_info: last-updated
     sort:
       method: last_triggered
       reverse: true

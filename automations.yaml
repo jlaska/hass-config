@@ -303,14 +303,25 @@
     entity_id:
     - person.james
     - person.shannon
+    - person.kevin
+    - person.thomas
     to: not_home
   condition:
-  - condition: state
-    entity_id: person.james
-    state: not_home
-  - condition: state
-    entity_id: person.shannon
-    state: not_home
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.james
+      state: home
+    - condition: state
+      entity_id: person.shannon
+      state: home
+    - condition: state
+      entity_id: person.kevin
+      state: home
+    - condition: state
+      entity_id: person.thomas
+      state: home
+    alias: Confirm nobody home
   action:
   - alias: Turn off Harmony
     type: turn_off
@@ -2530,4 +2541,53 @@
     target:
       entity_id: switch.hot_water_pump_switch_0
     enabled: true
+  mode: single
+- id: '1680273000558'
+  alias: Notify Person Geofence
+  description: Notify based on person state changes
+  trigger:
+  - platform: state
+    entity_id:
+    - person.james
+    - person.shannon
+    from:
+    - home
+    - not_home
+    to:
+    - home
+    - not_home
+  - platform: state
+    entity_id:
+    - person.kevin
+    to: home
+  - platform: state
+    entity_id:
+    - person.kevin
+    to: not_home
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  condition: []
+  action:
+  - variables:
+      trigger_event: '{{ trigger.to_state.state == ''home'' and ''arrive'' or ''leave''
+        }}'
+      trigger_zone: zone.home
+  - service: script.turn_on
+    target:
+      entity_id: script.announce
+    data:
+      variables:
+        message: '{{ state_attr(trigger.entity_id, ''friendly_name'') }} {{ trigger.to_state.state
+          == ''home'' and ''arrived at'' or ''left'' }} {{ state_attr(''zone.home'',
+          ''friendly_name'') }}'
+  - service: script.turn_on
+    target:
+      entity_id: script.zone_geofence_notification
+    data:
+      variables:
+        trigger_event: '{{ trigger.event }}'
+        trigger_zone: zone.home
+        trigger_person: '{{ trigger.entity_id }}'
   mode: single

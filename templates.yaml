@@ -122,7 +122,7 @@
 - binary_sensor:
   - name: "Kitchen Dishwasher Status"
     unique_id: binary_sensor.kitchen_dishwasher_status
-    availability: "{{ is_state('device_tracker.dishwasher_shelly_shelly', 'home') }}"
+    availability: "{{ is_state('device_tracker.shellyplus1pm_c049ef8ca2f4', 'home') }}"
     delay_off:
       minutes: 2
     icon: |

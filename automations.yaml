@@ -653,11 +653,11 @@
     input:
       turn_off_blocker_entity: light.entryway_hall_light
       illuminance_cutoff: input_number.illumination_very_low
-      motion_sensor: binary_sensor.dining_room_motion_any
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
       no_motion_wait: input_number.inactivity_timeout_short
       target_entity: scene.dining_room_activity
       target_off_entity: light.dining_room_floor_lamp
+      motion_sensor: binary_sensor.dining_room_motion_occupancy
 - id: '1619530751693'
   alias: Sunrise (interior)
   description: ''
@@ -1817,19 +1817,19 @@
     to: 'on'
   condition:
   - condition: state
-    entity_id: binary_sensor.front_door_contact
     state: 'off'
     for:
       hours: 0
       minutes: 10
       seconds: 0
+    entity_id: binary_sensor.front_door_contact
   - condition: state
     entity_id: cover.garage_door_shelly
-    state: closed
     for:
       hours: 0
       minutes: 10
       seconds: 0
+    state: closed
   - condition: state
     entity_id: binary_sensor.front_door_protect_doorbell
     state: 'off'
@@ -1837,6 +1837,10 @@
       hours: 0
       minutes: 10
       seconds: 0
+  - alias: Confirm Not Recently Triggered
+    condition: template
+    value_template: "{{ \n  utcnow() - timedelta(minutes=states('input_number.inactivity_timeout_medium')|int)
+      > state_attr(this.entity_id, 'last_triggered')\n}}"
   action:
   - service: script.announce
     data:

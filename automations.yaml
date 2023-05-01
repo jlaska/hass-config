@@ -2,11 +2,6 @@
   alias: Sunset (interior)
   description: Turn on interior lights when getting dark inside
   trigger:
-  - platform: numeric_state
-    entity_id: sun.sun
-    attribute: elevation
-    below: '12.5'
-    enabled: false
   - platform: state
     entity_id:
     - sensor.sun_phase
@@ -15,12 +10,18 @@
   - platform: sun
     event: sunset
     offset: 0
+  - platform: homeassistant
+    event: start
   condition:
   - alias: Sun is setting
     condition: state
     entity_id: sun.sun
     attribute: rising
     state: false
+  - condition: template
+    value_template: "{{ state_attr(this.entity_id, 'last_triggered') is none  or \n
+      \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}"
+    alias: Confirm once per day
   action:
   - scene: scene.sunset
   - service: frontend.set_theme
@@ -35,14 +36,6 @@
   alias: Dawn (exterior)
   description: Turn off exterior lights before dawn (see also https://www.timeanddate.com/astronomy/dawn.html)
   trigger:
-  - alias: Twilight (custom)
-    platform: state
-    entity_id: sensor.sun_phase_2
-    to:
-    - civil_twilight
-    - nautical_twilight
-    - astronomical_twilight
-    enabled: false
   - alias: Twilight (sun2)
     platform: state
     entity_id: sensor.sun_phase
@@ -50,16 +43,18 @@
     - Civil Twilight
     - Nautical Twilight
     - Astronomical Twilight
+  - platform: homeassistant
+    event: start
   condition:
   - alias: Sun is rising
     condition: state
     entity_id: sun.sun
     attribute: rising
     state: true
-  - alias: Run once per day
-    condition: template
+  - condition: template
     value_template: "{{ state_attr(this.entity_id, 'last_triggered') is none  or \n
-      \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}\n"
+      \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}"
+    alias: Confirm once per day
   action:
   - scene: scene.dawn
   mode: single
@@ -676,12 +671,18 @@
   - platform: sun
     event: sunrise
     offset: 0
+  - platform: homeassistant
+    event: start
   condition:
   - alias: Sun is rising
     condition: state
     entity_id: sun.sun
     attribute: rising
     state: true
+  - condition: template
+    value_template: "{{ state_attr(this.entity_id, 'last_triggered') is none  or \n
+      \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}"
+    alias: Confirm once per day
   action:
   - service: frontend.set_theme
     data:
@@ -802,14 +803,6 @@
   alias: Dusk (exterior)
   description: Turn on exterior lights at dusk (see also https://www.timeanddate.com/astronomy/dusk.html)
   trigger:
-  - alias: Twilight (custom)
-    platform: state
-    entity_id: sensor.sun_phase_2
-    to:
-    - civil_twilight
-    - nautical_twilight
-    - astronomical_twilight
-    enabled: false
   - alias: Twilight (sun2)
     platform: state
     entity_id: sensor.sun_phase
@@ -817,6 +810,8 @@
     - Civil Twilight
     - Nautical Twilight
     - Astronomical Twilight
+  - platform: homeassistant
+    event: start
   condition:
   - alias: Sun is not rising
     condition: not
@@ -830,10 +825,10 @@
     entity_id: sun.sun
     attribute: rising
     state: false
-  - alias: Run once per day
-    condition: template
+  - condition: template
     value_template: "{{ state_attr(this.entity_id, 'last_triggered') is none  or \n
-      \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}\n"
+      \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}"
+    alias: Confirm once per day
   action:
   - alias: Activate dusk scene
     scene: scene.dusk

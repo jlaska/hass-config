@@ -103,3 +103,6 @@ minimal_area_card:
     tap_action:
       action: more-info
     entities: '[[entities]]'
+    darken_image: true
+    # https://github.com/junalmeida/homeassistant-minimalistic-area-card/issues/67
+    shadow: false

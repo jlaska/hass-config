@@ -157,7 +157,7 @@ cards:
                 low: 1
                 high: 3
             weather:
-              icons_model: darksky
+              icons_model: climacell
               current:
                 sun: sun.sun
                 moon_phase: sensor.moon

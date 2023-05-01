@@ -350,7 +350,7 @@ cards:
               game:
                 card:
                   type: custom:button-card
-                  entity: device_tracker.williams_nintendo_switch_ping
+                  entity: device_tracker.williams_nintendo_switch
                   show_name: false
                   show_label: false
                   show_icon: true
@@ -391,7 +391,7 @@ cards:
               tablet:
                 card:
                   type: custom:button-card
-                  entity: device_tracker.williams_ipad_ping
+                  entity: device_tracker.williams_ipad
                   show_name: false
                   icon: mdi:tablet
                   styles:
@@ -555,16 +555,16 @@ cards:
                   variables:
                     entity: person.william
                     activity: device_tracker.williams_chromebook
-                    connection_type: device_tracker.williams_ipad_ping
-                    battery_level: device_tracker.williams_nintendo_switch_ping
+                    connection_type: device_tracker.williams_ipad
+                    battery_level: device_tracker.williams_nintendo_switch
                 - type: custom:button-card
                   template: person-state-card
                   entity: person.henry
                   variables:
                     entity: person.henry
                     activity: device_tracker.family_chromebook
-                    connection_type: device_tracker.henrys_ipad_ping
-                    battery_level: device_tracker.henrys_nintendo_switch_ping
+                    connection_type: device_tracker.henrys_ipad
+                    battery_level: device_tracker.henrys_nintendo_switch
       - type: custom:layout-card
         layout_type: custom:grid-layout
         layout:
@@ -1263,130 +1263,3 @@ cards:
                     style="color: var(--paper-item-icon-color); width: 20px; height: 20px; margin-right: 5px;">
                     </ha-icon><span style="color: var(--text-color-sensor);">${conn_name}</span>`
                 ]]]
-  - type: custom:layout-card
-    layout_type: custom:grid-layout
-    layout:
-      grid-template-columns: repeat(2,350px)
-      grid-template-rows: min-content
-    cards:
-      - type: custom:ha-card-weather-conditions
-        name: Cary, NC
-        animation: true
-        pollen:
-          weed:
-            entity: sensor.cc_weed_pollen_index_mod
-            min: 0
-            max: 5
-            low: 1
-            high: 3
-          grass:
-            entity: sensor.cc_grass_pollen_index_mod
-            min: 0
-            max: 5
-            low: 1
-            high: 3
-          tree:
-            entity: sensor.cc_tree_pollen_index_mod
-            min: 0
-            max: 5
-            low: 1
-            high: 3
-        weather:
-          icons_model: darksky
-          current:
-            sun: sun.sun
-            moon_phase: sensor.moon
-            current_conditions: sensor.cc_current_conditions
-            temperature: sensor.cc_temperature
-            humidity: sensor.cc_humidity
-            pressure: sensor.cc_pressure
-            visibility: sensor.cc_visibility
-            wind_bearing: sensor.cc_wind_bearing
-            wind_speed: sensor.cc_wind_speed
-            forecast: true
-          forecast:
-            meteogram: camera.weather_local_forecast
-            temperature_high:
-              day_1: sensor.cc_temperature_maximum_0d
-            temperature_low:
-              day_1: sensor.cc_temperature_minimum_0d
-            precipitation_probability:
-              day_1: sensor.cc_precipitation_probability_0d
-            precipitation_intensity:
-              day_1: sensor.cc_precipitation_intensity_0d
-        air_quality:
-          o3: sensor.airnow_o3
-          pm25: sensor.airnow_pm2_5
-          _pm10: sensor.cc_particulate_matter_10_mm
-          _no2: sensor.climacell_nitrogen_dioxide
-      - type: custom:layout-card
-        layout_type: custom:vertical-layout
-        cards:
-          - type: custom:ha-card-weather-conditions
-            name: Cary, NC
-            animation: true
-            pollen:
-              weed:
-                entity: sensor.cc_weed_pollen_index_mod
-                min: 0
-                max: 5
-                low: 1
-                high: 3
-              grass:
-                entity: sensor.cc_grass_pollen_index_mod
-                min: 0
-                max: 5
-                low: 1
-                high: 3
-              tree:
-                entity: sensor.cc_tree_pollen_index_mod
-                min: 0
-                max: 5
-                low: 1
-                high: 3
-            weather:
-              icons_model: darksky
-              current:
-                sun: sun.sun
-                moon_phase: sensor.moon
-                current_conditions: sensor.cc_current_conditions
-                temperature: sensor.cc_temperature
-                humidity: sensor.cc_humidity
-                pressure: sensor.cc_pressure
-                visibility: sensor.cc_visibility
-                wind_bearing: sensor.cc_wind_bearing
-                wind_speed: sensor.cc_wind_speed
-                forecast: true
-              forecast:
-                temperature_high:
-                  day_1: sensor.cc_temperature_maximum_0d
-                temperature_low:
-                  day_1: sensor.cc_temperature_minimum_0d
-                precipitation_probability:
-                  day_1: sensor.cc_precipitation_probability_0d
-                precipitation_intensity:
-                  day_1: sensor.cc_precipitation_intensity_0d
-            air_quality:
-              o3: sensor.airnow_o3
-              pm25: sensor.airnow_pm2_5
-              _pm10: sensor.cc_particulate_matter_10_mm
-              _no2: sensor.climacell_nitrogen_dioxide
-          - type: custom:swipe-card
-            parameters:
-              autoplay:
-                delay: 6000
-              speed: 600
-              preloadImages: true
-            cards:
-              - type: picture-entity
-                show_name: false
-                show_state: false
-                entity: camera.weather_local_forecast
-                name: Local Forecase
-                aspect_ratio: '625:375'
-              - type: picture-entity
-                show_name: false
-                show_state: false
-                entity: camera.weather_local_doplar
-                name: Doplar Radar
-                aspect_ratio: '625:375'

@@ -293,7 +293,7 @@ sengled_light_pulse_test:
       transition: 4
 announce:
   alias: Announce
-  mode: single
+  mode: queued
   icon: mdi:bullhorn-outline
   fields:
     message:
@@ -323,7 +323,7 @@ announce:
       normal: 0.6
       quiet: 0.3
       announce: true
-      volume: false
+      volume: true
     - entity_id: media_player.living_room_homepod_left
       normal: 0.7
       quiet: 0.7
@@ -384,6 +384,7 @@ announce:
         data:
           message: '{{ message }}'
           entity_id: '{{ all_speakers[repeat.index - 1][''entity_id''] }}'
+  max: 4
 notify:
   alias: Notify
   mode: single

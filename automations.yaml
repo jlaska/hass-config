@@ -22,13 +22,18 @@
     value_template: "{{ state_attr(this.entity_id, 'last_triggered') is none  or \n
       \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}"
     alias: Confirm once per day
-  - alias: Confirm if trigger on homeassistant.start is
-    condition: and
+  - condition: or
     conditions:
-    - condition: template
-      value_template: '{{ trigger.platform == ''homeassistant'' }}'
-    - condition: sun
-      after: sunset
+    - alias: Triggered by sunset
+      condition: template
+      value_template: '{{ trigger.platform != ''homeassistant'' }}'
+    - alias: Triggered by homeassistant.start
+      condition: and
+      conditions:
+      - condition: template
+        value_template: '{{ trigger.platform == ''homeassistant'' }}'
+      - condition: sun
+        after: sunset
   action:
   - scene: scene.sunset
   - service: frontend.set_theme
@@ -707,15 +712,18 @@
     value_template: "{{ state_attr(this.entity_id, 'last_triggered') is none  or \n
       \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}"
     alias: Confirm once per day
-  - alias: Confirm if trigger on homeassistant.start is
-    condition: and
+  - condition: or
     conditions:
-    - condition: template
-      value_template: '{{ trigger.platform == ''homeassistant'' }}'
-    - condition: trigger
-      id: homeassistant
-    - condition: sun
-      after: sunrise
+    - alias: Triggered by sunrise
+      condition: template
+      value_template: '{{ trigger.platform != ''homeassistant'' }}'
+    - alias: Triggered by homeassistant.start
+      condition: and
+      conditions:
+      - condition: template
+        value_template: '{{ trigger.platform == ''homeassistant'' }}'
+      - condition: sun
+        after: sunrise
   action:
   - service: frontend.set_theme
     data:

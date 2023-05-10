@@ -1826,7 +1826,11 @@
   use_blueprint:
     path: jlaska/motion_illuminance_activated_entity.yaml
     input:
-      motion_sensor: binary_sensor.back_deck_protect_motion,binary_sensor.back_door_contact,binary_sensor.back_yard_protect_person_detected
+      motion_sensor:
+      - binary_sensor.back_deck_protect_motion
+      - binary_sensor.back_deck_protect_object_detected
+      - binary_sensor.back_door_contact
+      - binary_sensor.back_deck_protect_person_detected
       target_entity: scene.back_deck_activity
       no_motion_wait: input_number.inactivity_timeout_medium
       target_off_entity: group.back_deck_lights
@@ -2336,16 +2340,15 @@
     path: jlaska/motion_illuminance_activated_entity.yaml
     input:
       motion_sensor:
-      - binary_sensor.living_room_motion_occupancy
-      - binary_sensor.sunroom_motion_occupancy
-      - binary_sensor.sunroom_protect_motion
-      - binary_sensor.dining_room_motion_occupancy
+      - binary_sensor.sunroom_motion_any
       - binary_sensor.mudroom_motion_occupancy
       - binary_sensor.kitchen_motion_occupancy
+      - binary_sensor.living_room_motion_any
+      - binary_sensor.dining_room_motion_any
       target_entity: scene.downstairs_motion
-      illuminance_sensor: sensor.kitchen_motion_illuminance_lux
+      illuminance_sensor: sensor.living_room_ep1_illuminance
       illuminance_cutoff: input_number.illumination_medium
-      no_motion_wait: input_number.inactivity_timeout_long
+      no_motion_wait: input_number.inactivity_timeout_medium
       target_off_entity: scene.downstairs_inactivity
 - id: '1673646188464'
   alias: Dining Room Light - Activity
@@ -2516,6 +2519,8 @@
     entity_id:
     - switch.hot_water_pump_switch_0
     to:
+    - 'on'
+    - 'off'
   condition: []
   action:
   - enabled: false

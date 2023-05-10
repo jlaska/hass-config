@@ -3,8 +3,11 @@
   description: Turn on interior lights when getting dark inside
   trigger:
   - platform: state
-    entity_id:
-    - sensor.sun_phase
+    entity_id: sensor.sun_phase
+    attribute: blue_hour
+    to: true
+  - platform: state
+    entity_id: sensor.sun_phase
     attribute: golden_hour
     to: true
   - platform: sun
@@ -22,18 +25,23 @@
     value_template: "{{ state_attr(this.entity_id, 'last_triggered') is none  or \n
       \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}"
     alias: Confirm once per day
+    enabled: true
   - condition: or
     conditions:
-    - alias: Triggered by sunset
+    - alias: Not triggered by homeassistant.start
       condition: template
       value_template: '{{ trigger.platform != ''homeassistant'' }}'
     - alias: Triggered by homeassistant.start
       condition: and
       conditions:
-      - condition: template
+      - alias: Triggered by homeassistant.start
+        condition: template
         value_template: '{{ trigger.platform == ''homeassistant'' }}'
       - condition: sun
         after: sunset
+      - condition: state
+        entity_id: sun.sun
+        state: below_horizon
   action:
   - scene: scene.sunset
   - service: frontend.set_theme
@@ -708,13 +716,17 @@
     entity_id: sun.sun
     attribute: rising
     state: true
+  - condition: state
+    entity_id: sun.sun
+    state: above_horizon
+    enabled: false
   - condition: template
     value_template: "{{ state_attr(this.entity_id, 'last_triggered') is none  or \n
       \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}"
     alias: Confirm once per day
   - condition: or
     conditions:
-    - alias: Triggered by sunrise
+    - alias: Not triggered by homeassistant.start
       condition: template
       value_template: '{{ trigger.platform != ''homeassistant'' }}'
     - alias: Triggered by homeassistant.start
@@ -724,6 +736,9 @@
         value_template: '{{ trigger.platform == ''homeassistant'' }}'
       - condition: sun
         after: sunrise
+      - condition: state
+        entity_id: sun.sun
+        state: above_horizon
   action:
   - service: frontend.set_theme
     data:
@@ -916,6 +931,7 @@
     condition: template
     value_template: "{{ \n  (state_attr('automation.sunset', 'last_triggered')|as_local).day
       != now().day\n}}"
+    enabled: true
   - alias: Assert a fan or light is on
     condition: template
     value_template: "{{\n  expand(area_entities(area_id(this.entity_id)))\n    |selectattr('domain',

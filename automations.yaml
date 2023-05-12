@@ -2344,12 +2344,15 @@
       - binary_sensor.mudroom_motion_occupancy
       - binary_sensor.kitchen_motion_occupancy
       - binary_sensor.living_room_motion_any
+      - binary_sensor.living_room_ep1_pir
+      - binary_sensor.living_room_ep1_mmwave
       - binary_sensor.dining_room_motion_any
       target_entity: scene.downstairs_motion
       illuminance_sensor: sensor.living_room_ep1_illuminance
       illuminance_cutoff: input_number.illumination_medium
       no_motion_wait: input_number.inactivity_timeout_medium
       target_off_entity: scene.downstairs_inactivity
+      turn_off_blocker_entity: binary_sensor.downstairs_motion_any
 - id: '1673646188464'
   alias: Dining Room Light - Activity
   description: ''

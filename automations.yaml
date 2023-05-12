@@ -859,7 +859,7 @@
   alias: Dusk (exterior)
   description: Turn on exterior lights at dusk (see also https://www.timeanddate.com/astronomy/dusk.html)
   trigger:
-  - alias: Twilight (sun2)
+  - alias: Twilight
     platform: state
     entity_id: sensor.sun_phase
     to:
@@ -2365,8 +2365,9 @@
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
       no_motion_wait: input_number.inactivity_timeout_long
       target_off_entity: scene.dining_room_inactivity
-      time_limit_before: input_datetime.lights_out_kids
       motion_sensor: binary_sensor.dining_room_motion_occupancy
+      time_limit_after: input_datetime.time_of_day_automation_start
+      time_limit_before: input_datetime.time_of_day_automation_stop
 - id: '1673809836266'
   alias: Hot Water Pump - Timer
   description: Start/stop the pump timer based on various events

@@ -126,6 +126,13 @@ master_bathroom_lights:
     - light.master_bathroom_shower_light
     - light.master_bathroom_toilet_light
 
+master_bathroom_fans:
+  name: 'Master Bathroom Fans'
+  icon: mdi:fan
+  entities:
+    - fan.master_bathroom_fan
+    - fan.master_bathroom_toilet_fan
+
 henry_s_room_lights:
   name: "Henry's Room Lights"
   icon: mdi:lightbulb-group

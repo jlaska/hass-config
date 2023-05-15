@@ -610,7 +610,9 @@ cards:
                     - entity: group.master_bathroom_lights
                       tap_action:
                         action: more-info
-                    - entity: fan.master_bathroom_fan
+                    - entity: group.master_bathroom_fans
+                      tap_action:
+                        action: more-info
               - type: custom:state-switch
                 entity: template
                 template: |

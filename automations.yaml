@@ -75,6 +75,21 @@
     value_template: "{{ state_attr(this.entity_id, 'last_triggered') is none  or \n
       \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}"
     alias: Confirm once per day
+  - condition: or
+    conditions:
+    - alias: Not triggered by homeassistant.start
+      condition: template
+      value_template: '{{ trigger.platform != ''homeassistant'' }}'
+    - alias: Triggered by homeassistant.start
+      condition: and
+      conditions:
+      - condition: template
+        value_template: '{{ trigger.platform == ''homeassistant'' }}'
+      - condition: sun
+        after: sunrise
+      - condition: state
+        entity_id: sun.sun
+        state: above_horizon
   action:
   - scene: scene.dawn
   mode: single
@@ -878,6 +893,21 @@
     value_template: "{{ state_attr(this.entity_id, 'last_triggered') is none  or \n
       \  ((state_attr(this.entity_id, 'last_triggered')|as_local).day != now().day)\n}}"
     alias: Confirm once per day
+  - condition: or
+    conditions:
+    - alias: Not triggered by homeassistant.start
+      condition: template
+      value_template: '{{ trigger.platform != ''homeassistant'' }}'
+    - alias: Triggered by homeassistant.start
+      condition: and
+      conditions:
+      - condition: template
+        value_template: '{{ trigger.platform == ''homeassistant'' }}'
+      - condition: sun
+        after: sunrise
+      - condition: state
+        entity_id: sun.sun
+        state: below_horizon
   action:
   - alias: Activate dusk scene
     scene: scene.dusk

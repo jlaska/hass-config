@@ -445,11 +445,12 @@
     for:
       minutes: 30
     entity_id: media_player.samsung_un55h7100
-  - alias: Assert last_triggered was more than 8 hours ago
-    enabled: false
-    condition: template
-    value_template: '{{ state_attr(this.entity_id, ''last_triggered'')|default(utcnow()
-      - timedelta(weeks=1), true) < utcnow() - timedelta(hours=8) }}'
+  - alias: Assert Samsung TV is off
+    condition: not
+    conditions:
+    - condition: state
+      entity_id: media_player.samsung_un55h7100
+      state: 'on'
   action:
   - service: light.turn_off
     data: {}

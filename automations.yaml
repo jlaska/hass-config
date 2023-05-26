@@ -1092,7 +1092,7 @@
     condition: template
     value_template: "{{ expand(area_entities(area_id(trigger.entity_id)))\n    |selectattr('attributes.device_class','defined')\n
       \   |selectattr('attributes.device_class', 'in', ['motion','occupancy'])\n    |selectattr('state',
-      'eq', 'FIXME')\n    |list\n    |length == 0 }}"
+      'eq', 'on')\n    |list\n    |length == 0 }}"
   action:
   - service: homeassistant.turn_off
     target:
@@ -2164,40 +2164,66 @@
         target:
           area_id: living_room
 - id: '1668379653327'
-  alias: Sunroom - Inactivity
+  alias: Sunroom - Activity
   description: ''
   trigger:
   - platform: state
     entity_id:
-    - light.sunroom_fan_light
+    - binary_sensor.sunroom_motion_occupancy
+    - binary_sensor.sunroom_protect_motion
+    - binary_sensor.sunroom_motion_any
     to: 'on'
-    for:
-      hours: 0
-      minutes: 30
-      seconds: 0
+    id: activity
   - platform: state
+    id: inactivity
     entity_id:
     - binary_sensor.sunroom_motion_any
     to: 'off'
     for:
       minutes: '{{ states(''input_number.inactivity_timeout_short'')|int }}'
+  - platform: template
+    value_template: "{{\n        expand(area_entities(area_id(this.entity_id)))\n
+      \         |selectattr('domain', 'eq', 'binary_sensor')\n          |selectattr('attributes.device_class',
+      'defined')\n          |selectattr('attributes.device_class', 'in', ['motion','occupancy'])\n
+      \         |selectattr('state', 'eq', 'off')\n          |selectattr('last_changed',
+      'gt', utcnow() - timedelta(minutes=states('input_number.inactivity_timeout_short')|int))\n
+      \         |map(attribute='entity_id')\n          |list|length > 0\n}}"
+    id: area_inactivity
+    enabled: false
   condition:
-  - alias: Assert no recent motion
-    condition: state
-    entity_id: binary_sensor.sunroom_motion_any
-    state: 'off'
-    for:
-      minutes: '{{ states(''input_number.inactivity_timeout_short'')|int }}'
-  - alias: Assert a fan or light is on
-    condition: template
-    value_template: "{{\n  expand(area_entities(area_id(this.entity_id)))\n    |selectattr('domain',
-      'in', ['light','fan'])\n    |selectattr('state', 'eq', 'on')\n    |list|length
-      > 0\n}}"
   action:
-  - service: light.turn_off
-    data: {}
-    target:
-      area_id: sunroom
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: activity
+      sequence:
+      - service: light.turn_on
+        data: {}
+        target:
+          entity_id: light.sunroom_fan_light
+    - conditions:
+      - condition: trigger
+        id:
+        - inactivity
+        - area_inactivity
+      sequence:
+      - alias: Assert no recent motion
+        condition: state
+        entity_id: binary_sensor.sunroom_motion_any
+        state: 'off'
+        for:
+          minutes: '{{ states(''input_number.inactivity_timeout_short'')|int }}'
+      - alias: Assert a fan or light is on
+        condition: template
+        value_template: "{{\n expand(area_entities(area_id(this.entity_id)))\n |selectattr('domain',
+          'in', ['light','fan'])\n |selectattr('state', 'eq', 'on')\n |list|length
+          > 0\n}}"
+      - service: homeassistant.turn_off
+        data: {}
+        target:
+          entity_id:
+          - light.sunroom_fan_light
+          - fan.sunroom_fan
   mode: restart
 - id: '1671326649922'
   alias: Exterior Door - Chime
@@ -2373,7 +2399,10 @@
       motion_sensor:
       - binary_sensor.sunroom_motion_any
       - binary_sensor.mudroom_motion_occupancy
+      - binary_sensor.kitchen_motion_any
       - binary_sensor.kitchen_motion_occupancy
+      - binary_sensor.kitchen_ep1_pir
+      - binary_sensor.kitchen_ep1_mmwave
       - binary_sensor.living_room_motion_any
       - binary_sensor.living_room_ep1_pir
       - binary_sensor.living_room_ep1_mmwave
@@ -2697,13 +2726,95 @@
         trigger_zone: zone.home
         trigger_person: '{{ trigger.entity_id }}'
   mode: single
-- id: '1681235936279'
-  alias: Sunroom Daytime Inactivity (blueprint)
+- id: '1684540640435'
+  alias: Sunroom Activity (new blueprint)
   description: ''
   use_blueprint:
-    path: jlaska/inactivity_timeout.yaml
+    path: jlaska/activity_and_inactivity_trigger.yaml
     input:
-      target_area: sunroom
-      time_limit_after: input_datetime.time_of_day_automation_start
-      motion_sensor: binary_sensor.sunroom_motion_any
-      no_motion_wait: input_number.inactivity_timeout_long
+      turn_off_wait: input_number.inactivity_timeout_short
+      trigger_entities:
+        entity_id:
+        - binary_sensor.back_door_contact
+        - binary_sensor.sunroom_motion_any
+      turn_on_target:
+        entity_id: light.sunroom_fan_light
+      turn_off_target:
+        entity_id:
+        - light.sunroom_fan_light
+      illuminance_entity: sensor.kitchen_ep1_illuminance
+      turn_on_illuminance_cutoff: input_number.inactivity_timeout_short
+- id: '1684802508446'
+  alias: Mudroom - Activity (new blueprint)
+  description: ''
+  use_blueprint:
+    path: jlaska/activity_and_inactivity_trigger.yaml
+    input:
+      trigger_entities:
+        entity_id:
+        - binary_sensor.mudroom_door_contact
+        - binary_sensor.mudroom_motion_occupancy
+      turn_on_target:
+        entity_id: light.mudroom_light
+      turn_off_wait: input_number.inactivity_timeout_short
+      turn_off_blocker_entity: light.garage_light
+      turn_off_target:
+        entity_id: light.mudroom_light
+- id: '1684803365694'
+  alias: Powder Room - Activity (new blueprint)
+  description: ''
+  use_blueprint:
+    path: jlaska/activity_and_inactivity_trigger.yaml
+    input:
+      turn_off_wait: input_number.inactivity_timeout_short
+      turn_off_target:
+        entity_id:
+        - light.powder_room_light
+      turn_on_target:
+        entity_id: light.powder_room_light
+      trigger_entities:
+        entity_id: binary_sensor.powder_room_motion_occupancy
+- id: '1684949380060'
+  alias: William's Room - Activity (new blueprint)
+  description: ''
+  use_blueprint:
+    path: jlaska/activity_and_inactivity_trigger.yaml
+    input:
+      turn_on_after: input_datetime.time_of_day_automation_start
+      turn_on_before: input_datetime.time_of_day_automation_stop
+      turn_off_blocker_entity: schedule.quiet_time
+      turn_off_target:
+        entity_id:
+        - fan.williams_room_fan
+        - light.william_s_room_fan_light
+        - light.william_s_closet_light
+        - light.williams_room_light
+        - light.williams_room_floor_lamp
+        - light.williams_room_table_lamp
+      trigger_entities:
+        entity_id:
+        - binary_sensor.nest_protect_williams_room_occupancy
+        - binary_sensor.williams_protect_motion
+      turn_on_blocker_entity: schedule.quiet_time
+- id: '1684956380650'
+  alias: Guest Room - Activity (new blueprint)
+  description: ''
+  use_blueprint:
+    path: jlaska/activity_and_inactivity_trigger.yaml
+    input:
+      trigger_entities:
+        entity_id:
+        - binary_sensor.guest_room_motion_any
+        - binary_sensor.guest_bathroom_motion_occupancy
+        - binary_sensor.nest_protect_guest_room_occupancy
+      turn_off_target:
+        entity_id:
+        - fan.guest_room_fan
+        - light.guest_room_fan_light
+        - light.guest_room_nightstand
+        - light.guest_room_closet_light
+      turn_off_wait: input_number.inactivity_timeout_short
+      turn_on_blocker_entity: schedule.quiet_time
+      turn_on_after: input_datetime.time_of_day_automation_start
+      turn_on_before: input_datetime.time_of_day_automation_start
+      turn_off_blocker_entity: schedule.quiet_time

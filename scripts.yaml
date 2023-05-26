@@ -319,7 +319,7 @@ announce:
       quiet: 0.7
       announce: false
       volume: true
-    - entity_id: media_player.master_bedroom
+    - entity_id: media_player.master_bedroom_homepod
       normal: 0.6
       quiet: 0.3
       announce: true

@@ -432,19 +432,11 @@
     entity_id: binary_sensor.downstairs_motion_any
     state: 'off'
     for:
-      minutes: 30
+      minutes: '{{states(''input_number.inactivity_timeout_long'')|int }}'
   - alias: Assert evening
     condition: state
     entity_id: sun.sun
     state: below_horizon
-  - alias: Assert TV off
-    condition: state
-    state:
-    - 'off'
-    - unavailable
-    for:
-      minutes: 30
-    entity_id: media_player.samsung_un55h7100
   - alias: Assert Samsung TV is off
     condition: not
     conditions:

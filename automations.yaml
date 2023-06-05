@@ -222,12 +222,11 @@
   - service: light.turn_off
     data: {}
     target:
-      area_id: living_room
       entity_id:
       - light.kitchen_end_table_light_zha_group_0x0004
-      - light.kitchen_island_light
       - light.kitchen_cabinet_light
-      - light.kitchen_table_light
+      - light.living_room_table_lamp
+      - light.living_room_bookshelf
   mode: restart
 - id: '1618002489309'
   alias: Master Bathroom - Button
@@ -2401,7 +2400,7 @@
       - binary_sensor.dining_room_motion_any
       target_entity: scene.downstairs_motion
       illuminance_sensor: sensor.living_room_ep1_illuminance
-      illuminance_cutoff: input_number.illumination_medium
+      illuminance_cutoff: input_number.inactivity_timeout_medium
       no_motion_wait: input_number.inactivity_timeout_medium
       target_off_entity: scene.downstairs_inactivity
       turn_off_blocker_entity: binary_sensor.downstairs_motion_any

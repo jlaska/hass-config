@@ -263,6 +263,7 @@ cards:
         exclude:
           - entity_id: sensor.solaredge_*
           - entity_id: sensor.power_production_now
+          - hidden_by: "user"
       sort:
         method: state
         reverse: true

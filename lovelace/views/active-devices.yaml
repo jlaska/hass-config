@@ -46,6 +46,7 @@ cards:
     card:
       type: entities
       title: Plugs
+      show_header_toggle: false
     filter:
       exclude:
         - hidden_by: "user"
@@ -114,6 +115,7 @@ cards:
     card:
       type: entities
       title: Unavailable
+      show_header_toggle: false
     filter:
       include:
         - state: unavailable
@@ -198,18 +200,16 @@ cards:
     card:
       type: entities
       title: Recent Automations
+      show_header_toggle: false
     filter:
       include:
         - domain: automation
           state: 'on'
           options:
             secondary_info: last-triggered
-      _fixme_template: |
-        {{ states.automation
-           | selectattr('attributes.last_triggered')
-           | sort(attribute='attributes.last_triggered', reverse=true)
-           | map(attribute='entity_id')
-           | list }}
+      exclude:
+        - attributes:
+            last_triggered: null
     sort:
       method: last_triggered
       reverse: true

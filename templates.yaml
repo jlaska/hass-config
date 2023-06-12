@@ -195,6 +195,7 @@
     state: |
       {{
         expand(area_entities('master_bedroom'))
+          |rejectattr('entity_id', 'eq', 'binary_sensor.master_bedroom_occupancy')
           |selectattr('domain', 'eq', 'binary_sensor')
           |selectattr('attributes.device_class', 'defined')
           |selectattr('attributes.device_class', 'in', ['motion','occupancy'])

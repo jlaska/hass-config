@@ -1,0 +1,354 @@
+title: Lights
+path: lights
+theme: ''
+icon: mdi:lightbulb-multiple
+badges: []
+type: panel
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: mdi:fan
+            content: |-
+              Climate
+          - type: template
+            icon: mdi:lightbulb-group
+            content: |-
+              {%- set num_lights = states.light|selectattr('state', 'eq', 'on')|list|count -%}
+              {{ num_lights > 0 and num_lights or "All" }} {{ num_lights == 1 and 'Light' or 'Lights' }} {{ num_lights > 0 and 'On' or 'Off' }}
+          - type: template
+            icon: mdi:lock
+            content: |-
+              Security
+          - type: template
+            icon: mdi:television-speaker
+            content: |-
+              Speakers & TVs
+          - type: template
+            icon: mdi:water
+            content: |-
+              Water
+      - type: custom:mushroom-template-card
+        icon: mdi:lightbulb-group
+        primary: Lights
+        secondary: |-
+          {%- set num_lights = states.light|selectattr('state', 'eq', 'on')|list|count -%}
+          {{ num_lights > 0 and num_lights or "All" }} {{ num_lights > 0 and 'On' or 'Off' }}
+      - type: custom:mushroom-title-card
+        title: Entryway
+        alignment: left
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.entryway_door_light
+            name: Door Light
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            collapsible_controls: true
+            show_color_temp_control: true
+          - type: custom:mushroom-light-card
+            entity: light.stairway_light
+            name: Stairway Light
+          - type: custom:mushroom-light-card
+            entity: light.entryway_hall_light
+            name: Hall Light
+
+      - type: custom:mushroom-title-card
+        title: Living Room
+        alignment: left
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.living_room_light
+            name: Light
+          - type: custom:mushroom-light-card
+            entity: light.living_room_table_lamp
+            name: Table Lamp
+          - type: custom:mushroom-light-card
+            entity: light.living_room_bookshelf
+            name: Bookshelf Light
+          - type: custom:mushroom-light-card
+            entity: light.living_room_fan_light
+            name: Fan Light
+
+      - type: custom:mushroom-title-card
+        title: Dining Room
+        alignment: left
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.under_stair_light
+          - type: custom:mushroom-light-card
+            entity: light.dining_room_floor_lamp
+            name: Floor Lamp
+          - type: custom:mushroom-light-card
+            entity: light.dining_room_light
+            name: Light
+
+      - type: custom:mushroom-title-card
+        title: Kitchen
+        alignment: left
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.kitchen_end_table_light_zha_group_0x0004
+            name: End Table Light
+          - type: custom:mushroom-light-card
+            entity: light.kitchen_table_light
+            name: Table Light
+          - type: custom:mushroom-light-card
+            entity: light.kitchen_light
+            name: Light
+          - type: custom:mushroom-light-card
+            entity: light.kitchen_cabinet_light
+            name: Cabinet Light
+          - type: custom:mushroom-light-card
+            entity: light.kitchen_island_light
+            name: Island Light
+
+      - type: custom:mushroom-title-card
+        title: Master Bedroom
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.master_bedroom_light
+            name:  Light
+          - type: custom:mushroom-light-card
+            entity: light.master_bedroom_nightstand
+            name:  Nightstand
+          - type: custom:mushroom-light-card
+            entity: light.master_bedroom_fan_light
+            name:  Fan Light
+
+      - type: custom:mushroom-title-card
+        title: Henry's Room
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.henrys_room_closet_light_rgb
+            name: Henry’s Room Closet Light RGB
+          - type: custom:mushroom-light-card
+            entity: light.henrys_room_closet_light_cct
+            name: Henry’s Room Closet Light CCT
+          - type: custom:mushroom-light-card
+            entity: light.henrys_room_floor_lamp
+            name:  Floor Lamp
+          - type: custom:mushroom-light-card
+            entity: light.henrys_room_table_lamp
+            name:  Table Lamp
+          - type: custom:mushroom-light-card
+            entity: light.henrys_room_light
+            name:  Light
+          - type: custom:mushroom-light-card
+            entity: light.henry_s_room_fan_light
+            name:  Fan Light
+
+      - type: custom:mushroom-title-card
+        title: William's Room
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.williams_room_light
+            name:  Light
+          - type: custom:mushroom-light-card
+            entity: light.williams_room_table_lamp
+            name:  Table Lamp
+          - type: custom:mushroom-light-card
+            entity: light.williams_room_floor_lamp
+            name:  Floor Lamp
+          - type: custom:mushroom-light-card
+            entity: light.william_s_closet_light
+            name: William's Closet Light
+          - type: custom:mushroom-light-card
+            entity: light.william_s_room_fan_light
+            name:  Fan Light
+
+      - type: custom:mushroom-title-card
+        title: Guest Room
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.guest_room_closet_light
+            name:  Closet Light
+          - type: custom:mushroom-light-card
+            entity: light.guest_room_nightstand
+            name:  Nightstand
+          - type: custom:mushroom-light-card
+            entity: light.guest_room_fan_light
+            name:  Fan Light
+
+      - type: custom:mushroom-title-card
+        title: Master Bathroom
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.master_bathroom_toilet_light
+            name:  Toilet Light
+          - type: custom:mushroom-light-card
+            entity: light.master_bathroom_shower_light
+            name:  Shower Light
+          - type: custom:mushroom-light-card
+            entity: light.master_bathroom_light
+            name:  Light
+
+      - type: custom:mushroom-title-card
+        title: Kids Bathroom
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.kids_bathroom_shower_light
+            name:  Shower Light
+          - type: custom:mushroom-light-card
+            entity: light.kids_bathroom_light
+            name:  Light
+
+      - type: custom:mushroom-title-card
+        title: Guest Bathroom
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.guest_bathroom_light
+            name:  Light
+
+      - type: custom:mushroom-title-card
+        title: Laundry Room
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.laundry_room_light
+            name:  Light
+
+      - type: custom:mushroom-title-card
+        title: Attic
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.attic_stairway_light
+            name:  Stairway Light
+          - type: custom:mushroom-light-card
+            entity: light.attic_light
+            name:  Light
+
+      - type: custom:mushroom-title-card
+        title: Sunroom
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.sunroom_fan_light
+            name:  Fan Light
+
+      - type: custom:mushroom-title-card
+        title: Mudroom
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.mudroom_light
+            name:  Light
+
+      - type: custom:mushroom-title-card
+        title: Garage
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.garage_work_light
+            name:  Work Light
+          - type: custom:mushroom-light-card
+            entity: light.garage_light
+            name:  Light
+
+      - type: custom:mushroom-title-card
+        title: Outside
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(min(155px, 100%), 1fr))
+          grid-template-rows: auto
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.deck_rail_light
+            name: Deck Rail Light
+          - type: custom:mushroom-light-card
+            entity: light.deck_step_light
+            name: Deck Step Light
+          - type: custom:mushroom-light-card
+            entity: light.garage_exterior_light
+            name: Garage Exterior Light
+          - type: custom:mushroom-light-card
+            entity: light.front_spot_light
+            name: Front Spot Light
+          - type: custom:mushroom-light-card
+            entity: light.front_door_light
+            name: Front Door Light
+          - type: custom:mushroom-light-card
+            entity: light.back_spot_light
+            name: Back Spot Light
+          - type: custom:mushroom-light-card
+            entity: light.back_door_light
+            name: Back Door Light

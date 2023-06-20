@@ -18,4 +18,5 @@ views:
   - !include lovelace/views/cameras.yaml
   - !include lovelace/views/solar.yaml
   - !include lovelace/views/rooms.yaml
+  - !include lovelace/views/lights.yaml
   - !include lovelace/views/testing.yaml

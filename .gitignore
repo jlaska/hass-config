@@ -14,6 +14,8 @@
 !fans.yaml
 !groups.yaml
 !homekit.yaml
+# !input_datetime.yaml
+!input_number.yaml
 !input_text.yaml
 !lights.yaml
 !mqtt.yaml
@@ -26,6 +28,7 @@
 !zwave.yaml
 !device_trackers.yaml
 !known_devices.yaml
+
 
 # !blueprints
 # blueprints/*

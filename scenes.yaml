@@ -107,12 +107,11 @@
     light.kitchen_island_light: false
     light.kitchen_end_table_light_zha_group_0x0004: false
     light.entryway_hall_light: false
-    light.entryway_door_light: false
 - id: '1618704370608'
   name: Roomba Start
   icon: mdi:robot-vacuum
   entities:
-    light.entryway_door_light:
+    light.entryway_hall_light:
       state: 'on'
     light.dining_room_light:
       brightness: 255

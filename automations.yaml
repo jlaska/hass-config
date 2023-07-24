@@ -1074,6 +1074,7 @@
       - condition: template
         value_template: "{{ trigger.entity_id == 'fan.sunroom_fan' and\n  is_state('binary_sensor.sunroom_motion_any',
           'on') }}\n"
+    enabled: false
   - alias: Assert no humidity detected in area
     condition: template
     value_template: "{{ expand(area_entities(area_id(trigger.entity_id)))\n    |selectattr('entity_id',
@@ -1084,6 +1085,7 @@
     value_template: "{{ expand(area_entities(area_id(trigger.entity_id)))\n    |selectattr('attributes.device_class','defined')\n
       \   |selectattr('attributes.device_class', 'in', ['motion','occupancy'])\n    |selectattr('state',
       'eq', 'on')\n    |list\n    |length == 0 }}"
+    enabled: false
   action:
   - service: homeassistant.turn_off
     target:
@@ -1870,6 +1872,7 @@
     - switch.microwave_plug
     - switch.laundry_room_washer_plug_centralite_switch
     - binary_sensor.grid_status
+    - switch.hot_water_heater_switch_0
     to:
     - 'off'
     - unknown
@@ -2908,3 +2911,75 @@
         - binary_sensor.kitchen_motion_occupancy
         - binary_sensor.mudroom_motion_occupancy
       turn_off_blocker_entity: media_player.samsung_un55h7100
+- id: '1689514775923'
+  alias: Kids Bathroom Light - Double Tap
+  description: ''
+  use_blueprint:
+    path: jlaska/zwave_js_ge_switch_event_handler.yaml
+    input:
+      device: dcd7d2c5933b6ed43ec7922a2534b7e3
+      double_tap_on:
+      - service: light.turn_on
+        data: {}
+        target:
+          entity_id: light.kids_bathroom_shower_light
+      double_tap_off:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id: light.kids_bathroom_shower_light
+- id: '1689539045768'
+  alias: Kids Bathroom Shower Light - Activity
+  description: Turn on Shower light during shower time in the evening
+  use_blueprint:
+    path: jlaska/motion_illuminance_activated_entity.yaml
+    input:
+      time_limit_after: input_datetime.time_of_day_shower_automation_start
+      time_limit_before: input_datetime.time_of_day_automation_stop
+      no_motion_wait: input_number.inactivity_timeout_medium
+      turn_off_blocker_wait: input_number.inactivity_timeout_long
+      motion_sensor: binary_sensor.kids_bathroom_motion_occupancy
+      target_entity: light.kids_bathroom_shower_light
+      turn_off_blocker_entity: binary_sensor.kids_bathroom_hygrostat
+- id: '1689611723404'
+  alias: Hot Water Pump - On Demand
+  description: Turn off pump when there is demand
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.hot_water_heater_switch_0_power
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 10
+    above: 10
+  condition:
+  - alias: Check someone is home
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: person.james
+      state: home
+    - condition: state
+      entity_id: person.shannon
+      state: home
+    enabled: false
+  - condition: state
+    entity_id: switch.hot_water_pump_switch_0
+    state: 'off'
+  - condition: state
+    entity_id: schedule.hot_water_pump
+    state: 'off'
+  - condition: state
+    entity_id: binary_sensor.kitchen_dishwasher_status
+    state: 'off'
+  - condition: state
+    entity_id: sensor.ms963932g_laundry_machine_state
+    state: 'Off'
+  action:
+  - alias: Turn on/off the switch
+    service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.hot_water_pump_switch_0
+    enabled: true
+  mode: single

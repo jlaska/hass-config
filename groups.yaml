@@ -133,6 +133,13 @@ master_bathroom_fans:
     - fan.master_bathroom_fan
     - fan.master_bathroom_toilet_fan
 
+kids_bathroom_lights:
+  name: 'Kids Bathroom Lights'
+  icon: mdi:lightbulb-group
+  entities:
+    - light.kids_bathroom_light
+    - light.kids_bathroom_shower_light
+
 henry_s_room_lights:
   name: "Henry's Room Lights"
   icon: mdi:lightbulb-group

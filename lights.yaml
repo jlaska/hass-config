@@ -93,7 +93,7 @@
   entity_id: switch.powder_room_light_switch
 - platform: switch
   name: Kids Bathroom Shower Light
-  entity_id: switch.kids_bathroom_fan_switch
+  entity_id: switch.kids_bathroom_shower_light_switch_0
 - platform: switch
   name: Stairway Light
   entity_id: switch.stairway_light_switch

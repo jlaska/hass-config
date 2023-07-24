@@ -661,7 +661,9 @@ cards:
                       - entities:
                           - entity: binary_sensor.kids_bathroom_motion_occupancy
                           - entity: binary_sensor.kids_bathroom_hygrostat
-                          - entity: light.kids_bathroom_light
+                          - entity: group.kids_bathroom_lights
+                            tap_action:
+                              action: more-info
                           - entity: fan.kids_bathroom_fan
                   'laundry_room':
                     type: custom:decluttering-card
@@ -716,7 +718,8 @@ cards:
                   - camera_image: camera.living_room_protect_high
                   - entities:
                       - entity: binary_sensor.living_room_motion_any
-                      - entity: remote.hubname
+                      # - entity: remote.hubname
+                      - entity: media_player.samsung_un55h7100
                       - entity: media_player.living_room_apple_tv
                       - entity: group.living_room_lights
                         tap_action:

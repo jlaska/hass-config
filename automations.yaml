@@ -808,6 +808,7 @@
         tag: notify-door-open-{{ trigger.entity_id }}
   - service: script.announce
     data:
+      critical: true
       message: The {{ state_attr(trigger.entity_id, 'friendly_name')|replace(' Contact','')
         }} is open
   - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'

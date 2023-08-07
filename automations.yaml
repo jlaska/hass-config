@@ -2304,7 +2304,7 @@
     - schedule.hot_water_pump
     to:
   condition:
-  - alias: Check someone is home
+  - alias: Assert someone is home
     condition: or
     conditions:
     - condition: state
@@ -2313,16 +2313,14 @@
     - condition: state
       entity_id: person.shannon
       state: home
-  - alias: Assert the laundry machine is off
-    condition: state
-    entity_id: sensor.ms963932g_laundry_machine_state
-    state:
-    - 'Off'
-    - unavailable
+  - alias: Assert the laundry machine is not on
+    not:
+    - condition: state
+      entity_id: sensor.ms963932g_laundry_machine_state
+      state: 'on'
   - condition: state
     entity_id: binary_sensor.kitchen_dishwasher_status
     state: 'off'
-    alias: Assert Dishwasher is off
   action:
   - alias: Turn on/off the switch
     service: switch.turn_{{ trigger.to_state.state }}
@@ -2441,18 +2439,17 @@
     - unavailable
     to:
   condition:
-  - alias: Assert the hot water pump schedule is off
-    condition: state
+  - condition: state
     entity_id: schedule.hot_water_pump
     state: 'off'
-  - alias: Assert the laundry machine is off
-    condition: state
-    entity_id: sensor.ms963932g_laundry_machine_state
-    state: 'Off'
+  - alias: Assert the laundry machine is not on
+    not:
+    - condition: state
+      entity_id: sensor.ms963932g_laundry_machine_state
+      state: 'on'
   - condition: state
     entity_id: binary_sensor.kitchen_dishwasher_status
     state: 'off'
-    alias: Assert Dishwasher is off
   action:
   - choose:
     - conditions:
@@ -2626,7 +2623,7 @@
     state: 'off'
   - condition: template
     value_template: '{{ trigger.to_state.state|lower in [''run'', ''off''] }}'
-    alias: Confirm valid trigger state
+    alias: Confirm triggered by expected state changes
   action:
   - alias: Turn on/off the switch
     service: switch.turn_{{ trigger.to_state.state|lower == "off" and "off" or "on"
@@ -2660,9 +2657,12 @@
   - condition: state
     entity_id: schedule.hot_water_pump
     state: 'off'
-  - condition: state
-    entity_id: sensor.ms963932g_laundry_machine_state
-    state: 'Off'
+  - alias: Assert laundry machine is off
+    condition: not
+    conditions:
+    - condition: state
+      entity_id: sensor.ms963932g_laundry_machine_state
+      state: 'on'
   action:
   - alias: Turn on/off the switch
     service: switch.turn_{{ trigger.to_state.state }}
@@ -2964,6 +2964,18 @@
       entity_id: person.shannon
       state: home
     enabled: false
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.master_bathroom_motion_any
+      state: 'on'
+    - condition: state
+      entity_id: binary_sensor.kids_bathroom_motion_occupancy
+      state: 'on'
+    - condition: state
+      entity_id: binary_sensor.guest_bathroom_motion_occupancy
+      state: 'on'
+    alias: Confirm occupancy in any bathroom
   - condition: state
     entity_id: switch.hot_water_pump_switch_0
     state: 'off'
@@ -2973,9 +2985,11 @@
   - condition: state
     entity_id: binary_sensor.kitchen_dishwasher_status
     state: 'off'
-  - condition: state
-    entity_id: sensor.ms963932g_laundry_machine_state
-    state: 'Off'
+  - alias: Assert laundry machine is not on
+    not:
+    - condition: state
+      entity_id: sensor.ms963932g_laundry_machine_state
+      state: 'on'
   action:
   - alias: Turn on/off the switch
     service: switch.turn_on

@@ -120,6 +120,12 @@
     availability: "{{ is_state('device_tracker.shellyplus1_441793a9aca4', 'home') }}"
 
 - binary_sensor:
+  - name: "Garage Door Ajar"
+    unique_id: binary_sensor.garage_door_ajar
+    state: |
+      {{ not is_state('binary_sensor.shellyplus1_441793a9aca4_input', 'on') }}
+    availability: "{{ is_state('device_tracker.shellyplus1_441793a9aca4', 'home') }}"
+
   - name: "Kitchen Dishwasher Status"
     unique_id: binary_sensor.kitchen_dishwasher_status
     availability: "{{ is_state('device_tracker.shellyplus1pm_c049ef8ca2f4', 'home') }}"

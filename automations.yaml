@@ -2999,3 +2999,22 @@
       entity_id: switch.hot_water_pump_switch_0
     enabled: true
   mode: single
+- id: '1695232163961'
+  alias: Garage Light - Activity (new blueprint)
+  description: ''
+  use_blueprint:
+    path: jlaska/activity_and_inactivity_trigger.yaml
+    input:
+      trigger_entities:
+        entity_id:
+        - binary_sensor.mudroom_door_contact
+        - binary_sensor.garage_freezer_door_contact
+        - binary_sensor.garage_motion_any
+        - binary_sensor.garage_door_ajar
+      turn_on_target:
+        entity_id:
+        - light.garage_light
+        - light.mudroom_light
+      turn_off_target:
+        entity_id: light.garage_light
+      turn_off_wait: input_number.inactivity_timeout_short

@@ -706,7 +706,7 @@
       no_motion_wait: input_number.inactivity_timeout_short
       target_entity: scene.dining_room_activity
       target_off_entity: light.dining_room_floor_lamp
-      motion_sensor: binary_sensor.dining_room_motion_occupancy
+      motion_sensor: binary_sensor.dining_room_motion_any
 - id: '1619530751693'
   alias: Sunrise (interior)
   description: ''
@@ -1948,6 +1948,7 @@
   - service: script.announce
     data:
       message: Someone is at the front door
+      critical: true
   mode: single
 - id: '1662509874218'
   alias: Master Bedroom Light - Double Tap
@@ -2889,7 +2890,7 @@
     path: jlaska/activity_and_inactivity_trigger.yaml
     input:
       illuminance_entity: sensor.living_room_ep1_illuminance
-      turn_off_wait: input_number.inactivity_timeout_medium
+      turn_off_wait: input_number.inactivity_timeout_long
       turn_on_illuminance_cutoff: input_number.inactivity_timeout_medium
       turn_on_target:
         entity_id: scene.downstairs_motion
@@ -2951,7 +2952,7 @@
     for:
       hours: 0
       minutes: 0
-      seconds: 10
+      seconds: 5
     above: 10
   condition:
   - alias: Check someone is home

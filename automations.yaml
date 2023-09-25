@@ -2795,6 +2795,7 @@
         entity_id: light.williams_room_lamps_zha_group_0x0003
       turn_on_after: automation.sunset
       turn_on_before: input_datetime.lights_out_kids
+      turn_off_wait: input_number.inactivity_timeout_medium
 - id: '1684956380650'
   alias: Guest Room - Activity (new blueprint)
   description: ''
@@ -2842,6 +2843,7 @@
         - light.henrys_room_lamps_zha_group_0x0002
       turn_on_target:
         entity_id: light.henrys_room_lamps_zha_group_0x0002
+      turn_off_wait: input_number.inactivity_timeout_medium
 - id: '1686082188633'
   alias: Master Bedroom - Activity (new blueprint)
   description: ''

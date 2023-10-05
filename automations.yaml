@@ -482,7 +482,7 @@
   trigger:
   - platform: state
     to: playing
-    entity_id: media_player.plex_plex_for_apple_tv_family_room
+    entity_id: media_player.plex_plex_for_apple_tv_apple_tv
   - platform: state
     entity_id: automation.watching_a_movie
     to: 'on'
@@ -491,7 +491,7 @@
     entity_id: sun.sun
     state: below_horizon
   - condition: state
-    entity_id: media_player.family_room_apple_tv
+    entity_id: media_player.plex_plex_for_apple_tv_apple_tv
     state: playing
   action:
   - service: light.turn_off
@@ -1922,14 +1922,14 @@
     state: 'off'
     for:
       hours: 0
-      minutes: 10
+      minutes: 15
       seconds: 0
     entity_id: binary_sensor.front_door_contact
   - condition: state
     entity_id: cover.garage_door_shelly
     for:
       hours: 0
-      minutes: 10
+      minutes: 15
       seconds: 0
     state: closed
   - condition: state
@@ -1937,7 +1937,7 @@
     state: 'off'
     for:
       hours: 0
-      minutes: 10
+      minutes: 15
       seconds: 0
   - alias: Confirm Not Recently Triggered
     condition: template
@@ -2788,7 +2788,6 @@
         - light.williams_room_table_lamp
       trigger_entities:
         entity_id:
-        - binary_sensor.nest_protect_williams_room_occupancy
         - binary_sensor.williams_protect_motion
       turn_on_blocker_entity: schedule.quiet_time
       turn_on_target:
@@ -2806,16 +2805,15 @@
         entity_id:
         - binary_sensor.guest_room_motion_any
         - binary_sensor.guest_bathroom_motion_occupancy
-        - binary_sensor.nest_protect_guest_room_occupancy
       turn_off_target:
         entity_id:
         - fan.guest_room_fan
         - light.guest_room_fan_light
         - light.guest_room_nightstand
         - light.guest_room_closet_light
-      turn_off_wait: input_number.inactivity_timeout_short
+      turn_off_wait: input_number.inactivity_timeout_medium
       turn_on_blocker_entity: schedule.quiet_time
-      turn_on_before: input_datetime.lights_out_kids
+      turn_on_before: input_datetime.goodnight_start_time
       turn_off_blocker_entity: schedule.quiet_time
       turn_on_target:
         entity_id: light.guest_room_nightstand
@@ -2829,7 +2827,6 @@
       trigger_entities:
         entity_id:
         - binary_sensor.henrys_protect_motion
-        - binary_sensor.nest_protect_henrys_room_occupancy
       turn_off_blocker_entity: schedule.quiet_time
       turn_on_blocker_entity: schedule.quiet_time
       turn_on_after: automation.sunset
@@ -2864,7 +2861,7 @@
       turn_off_before: input_datetime.goodnight_start_time
       turn_off_after: input_datetime.time_of_day_automation_start
       turn_on_after: automation.sunset
-      turn_on_before: automation.kids_bedtime
+      turn_on_before: input_datetime.lights_out_kids
       turn_on_target:
         entity_id: light.master_bedroom_nightstand
       turn_off_wait: input_number.inactivity_timeout_short

@@ -442,7 +442,7 @@ cards:
               game:
                 card:
                   type: custom:button-card
-                  entity: device_tracker.henrys_nintendo_switch_ping
+                  entity: device_tracker.henrys_nintendo_switch
                   show_name: false
                   show_label: false
                   show_icon: true
@@ -483,7 +483,7 @@ cards:
               tablet:
                 card:
                   type: custom:button-card
-                  entity: device_tracker.henrys_ipad_ping
+                  entity: device_tracker.henrys_ipad
                   show_name: false
                   icon: mdi:tablet
                   styles:
@@ -899,7 +899,7 @@ cards:
                       "cards"
                   cards:
                     - type: custom:button-card
-                      entity: device_tracker.williams_nintendo_switch_ping
+                      entity: device_tracker.williams_nintendo_switch
                       show_name: false
                       show_label: false
                       show_icon: true
@@ -939,7 +939,7 @@ cards:
                             icon:
                               - color: var(--paper-item-icon-active-color)
                     - type: custom:button-card
-                      entity: device_tracker.williams_ipad_ping
+                      entity: device_tracker.williams_ipad
                       show_name: false
                       styles:
                         card:
@@ -989,7 +989,7 @@ cards:
                       "cards"
                   cards:
                     - type: custom:button-card
-                      entity: device_tracker.henrys_nintendo_switch_ping
+                      entity: device_tracker.henrys_nintendo_switch
                       show_name: false
                       show_label: false
                       show_icon: true
@@ -1029,7 +1029,7 @@ cards:
                             icon:
                               - color: var(--paper-item-icon-active-color)
                     - type: custom:button-card
-                      entity: device_tracker.henrys_ipad_ping
+                      entity: device_tracker.henrys_ipad
                       show_name: false
                       styles:
                         card:

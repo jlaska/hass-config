@@ -1,110 +1,5 @@
 # Climacel Sensors (https://community.home-assistant.io/t/ha-card-weather-conditions-setup-with-climacell-tomorrow-io-integration/314398)
 - sensor:
-  - name: cc_temperature
-    state: |
-      {{ state_attr('weather.climacell_daily','temperature') or state_attr('weather.keener', 'temperature') }}
-    unit_of_measurement: °F
-  - name: cc_humidity
-    state: |
-      {{ state_attr('weather.climacell_daily','humidity') or state_attr('weather.keener','humidity') }}
-  - name: cc_pressure
-    state: |
-      {{ state_attr('weather.climacell_daily','pressure') or state_attr('weather.keener','pressure') }}
-    unit_of_measurement: Hg
-  - name: cc_visibility
-    state: |
-      {{ state_attr('weather.climacell_daily','visibility') }}
-  - name: cc_wind_bearing
-    state: |
-      {{ state_attr('weather.climacell_daily','wind_bearing') or state_attr('weather.keener','wind_bearing') }}
-  - name: cc_wind_speed
-    state: |
-      {{ state_attr('weather.climacell_daily','wind_speed') or state_attr('weather.keener','wind_speed') }}
-  - name: cc_current_conditions
-    state: |
-      {{ states.weather.climacell_daily.state or states.weather.keener.state }}
-  - name: cc_o3
-    state: "{{ states('sensor.airnow_o3') }} {{ state_attr('sensor.airnow_o3', 'unit_of_measurement') }}"
-  - name: cc_weather_condition_0d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[0].condition or state_attr('weather.keener','forecast')[0].condition }}
-  - name: cc_weather_condition_1d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[1].condition or state_attr('weather.keener','forecast')[1].condition }}
-  - name: cc_weather_condition_2d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[2].condition or state_attr('weather.keener','forecast')[2].condition }}
-  - name: cc_weather_condition_3d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[3].condition or state_attr('weather.keener','forecast')[3].condition }}
-  - name: cc_weather_condition_4d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[4].condition or state_attr('weather.keener','forecast')[4].condition }}
-  - name: cc_temperature_maximum_0d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[0].temperature or state_attr('weather.keener','forecast')[0].temperature }}
-    unit_of_measurement: °F
-  - name: cc_temperature_maximum_1d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[1].temperature or state_attr('weather.keener','forecast')[1].temperature }}
-    unit_of_measurement: °F
-  - name: cc_temperature_maximum_2d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[2].temperature or state_attr('weather.keener','forecast')[2].temperature }}
-    unit_of_measurement: °F
-  - name: cc_temperature_maximum_3d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[3].temperature or state_attr('weather.keener','forecast')[3].temperature }}
-    unit_of_measurement: °F
-  - name: cc_temperature_maximum_4d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[4].temperature or state_attr('weather.keener','forecast')[4].temperature }}
-    unit_of_measurement: °F
-  - name: cc_temperature_minimum_0d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[0].templow or state_attr('weather.keener','forecast')[0].templow }}
-    unit_of_measurement: °F
-  - name: cc_temperature_minimum_1d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[1].templow or state_attr('weather.keener','forecast')[1].templow }}
-    unit_of_measurement: °F
-  - name: cc_temperature_minimum_2d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[2].templow or state_attr('weather.keener','forecast')[2].templow }}
-    unit_of_measurement: °F
-  - name: cc_temperature_minimum_3d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[3].templow or state_attr('weather.keener','forecast')[3].templow }}
-    unit_of_measurement: °F
-  - name: cc_temperature_minimum_4d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[4].templow or state_attr('weather.keener','forecast')[4].templow }}
-    unit_of_measurement: °F
-  - name: cc_precipitation_intensity_0d
-    state: |
-      {{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[0].precipitation or state_attr('weather.keener','forecast')[0].precipitation }}
-  - name: cc_precipitation_probability_0d
-    state: "{{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[0].precipitation_probability }}"
-  - name: cc_precipitation_probability_1d
-    state: "{{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[1].precipitation_probability }}"
-  - name: cc_precipitation_probability_2d
-    state: "{{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[2].precipitation_probability }}"
-  - name: cc_precipitation_probability_3d
-    state: "{{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[3].precipitation_probability }}"
-  - name: cc_precipitation_probability_4d
-    state: "{{ state_attr('weather.climacell_daily','forecast') and state_attr('weather.climacell_daily','forecast')[4].precipitation_probability }}"
-  - name: cc_particulate_matter_2_5_mm
-    state: |
-      {{ states('sensor.u_s_main_pollutant') }}
-  - name: cc_particulate_matter_10_mm
-    state: |
-      {{ states('state.climacell_particulate_matter_10_mm')|float(0.0) or states('sensor.airnow_pm10')|float(0.0) }}
-  - name: cc_us_epa_air_quality_index
-    state: |
-      {{ states('sensor.u_s_air_quality_index') }}
-  - name: cc_us_epa_health_concern
-    state: |
-      {{ states('sensor.climacell_us_epa_health_concern')|lower != 'unknown' and states('sensor.climacell_us_epa_health_concern') or states('sensor.u_s_air_pollution_level')|capitalize }}
   - name: "Garage Door Shelly"
     unique_id: sensor.garage_door_shelly
     state: |
@@ -125,6 +20,24 @@
     state: |
       {{ not is_state('binary_sensor.shellyplus1_441793a9aca4_input', 'on') }}
     availability: "{{ is_state('device_tracker.shellyplus1_441793a9aca4', 'home') }}"
+
+  - name: "Sun Phase Golden Hour Status"
+    unique_id: binary_sensor.sun_phase_golden_hour_status
+    icon: 'mdi:weather-sunset'
+    state: |
+      {{ state_attr('sensor.sun_phase', 'golden_hour') }}
+
+  - name: "Sun Phase Blue Hour Status"
+    unique_id: binary_sensor.sun_phase_blue_hour_status
+    icon: 'mdi:weather-sunset'
+    state: |
+      {{ state_attr('sensor.sun_phase', 'blue_hour') }}
+
+  - name: "Sun Phase Rising Status"
+    unique_id: binary_sensor.sun_phase_rising_status
+    icon: 'mdi:weather-sunset-up'
+    state: |
+      {{ state_attr('sensor.sun_phase', 'rising') }}
 
   - name: "Kitchen Dishwasher Status"
     unique_id: binary_sensor.kitchen_dishwasher_status

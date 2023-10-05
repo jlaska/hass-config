@@ -20,7 +20,6 @@ cards:
         - entity_id: light.living_room_bookshelf_*
         - entity_id: light.kitchen_end_table_light_1
         - entity_id: light.kitchen_end_table_light_2
-        - entity_id: light.dining_room_lights
     sort:
       method: name
       ignore_case: true

@@ -262,12 +262,17 @@ cards:
                   {{ "%.2f %s"|format(states('sensor.powerwall_site_now')|float, state_attr('sensor.powerwall_site_now', 'unit_of_measurement')) }}
                 tap_action:
                   action: more-info
-                icon: mdi:transmission-tower
+                icon: |-
+                  {% if is_state('binary_sensor.grid_status', 'on') %}
+                    mdi:transmission-tower
+                  {% else %}
+                    mdi:transmission-tower-off
+                  {% endif %}
                 icon_color: |-
                   {% if states('sensor.powerwall_site_now')|float > 0.1 %}
-                  red
+                    red
                   {% elif states('sensor.powerwall_site_now')|float < 0.0 %}
-                  green
+                    green
                   {% endif %}
           - type: custom:mini-climate
             entity: climate.upstairs

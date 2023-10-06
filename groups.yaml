@@ -54,7 +54,7 @@ upstairs_lights:
     - light.guest_bathroom_light
     - light.guest_room_fan_light
     - light.guest_room_nightstand
-    - light.henrys_room_fan_light
+    - light.henry_s_room_fan_light
     - light.henrys_room_lamps_zha_group_0x0002
     - light.henrys_room_light
     - light.laundry_room_light
@@ -64,7 +64,7 @@ upstairs_lights:
     - light.master_bedroom_fan_light
     - light.master_bedroom_light
     - light.master_bedroom_nightstand
-    - light.williams_room_fan_light
+    - light.william_s_room_fan_light
     - light.williams_room_lamps_zha_group_0x0003
     - light.williams_room_light
 

@@ -136,7 +136,7 @@ cards:
                 fill_container: true
 
           - type: custom:weather-card
-            entity: weather.keener_2
+            entity: weather.keener
             name: Cary
             hourly_forecast: false
             forecast: false

@@ -57,6 +57,7 @@ upstairs_lights:
     - light.henry_s_room_fan_light
     - light.henrys_room_lamps_zha_group_0x0002
     - light.henrys_room_light
+    - light.henrys_room_closet_light
     - light.laundry_room_light
     - light.master_bathroom_light
     - light.master_bathroom_shower_light
@@ -151,15 +152,7 @@ henry_s_room_lights:
     # - light.henrys_room_table_lamp
     # - light.henrys_room_floor_lamp
     - light.henrys_room_lamps_zha_group_0x0002
-    - light.henrys_room_closet_light_cct
-    - light.henrys_room_closet_light_rgb
-
-henry_s_room_closet_light:
-  name: "Henry's Room Closet Light"
-  icon: mdi:led-strip-variant
-  entities:
-    - light.henrys_room_closet_light_cct
-    - light.henrys_room_closet_light_rgb
+    - light.henrys_room_closet_light
 
 william_s_room_lights:
   name: "William's Room Lights"

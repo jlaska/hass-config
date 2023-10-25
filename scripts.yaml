@@ -24,6 +24,7 @@ ge_switch_led_light:
     - switch.guest_room_closet_light_switch
     - switch.master_bedroom_nightstand_switch
     - switch.master_bedroom_fan_switch
+    - switch.master_bathroom_light_switch
   fields:
     node_value:
       description: The config value used (0=on_without_power, 1==on_with_power, 2==always_off,
@@ -299,12 +300,20 @@ announce:
     message:
       description: Message to announce
       required: true
+      selector:
+        text:
     critical:
       description: Message is critical
       default: false
-    entity_id:
+      selector:
+        boolean:
+    entity_ids:
       description: Entity id
-      default: media_player.all_speakers
+      selector:
+        entity:
+          multiple: true
+          filter:
+          - domain: media_player
   variables:
     all_speakers:
     - entity_id: media_player.all_speakers

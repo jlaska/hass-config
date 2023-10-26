@@ -834,7 +834,7 @@
       illuminance_cutoff: input_number.illumination_medium
       time_limit_after: input_datetime.time_of_day_automation_start
       time_limit_before: input_datetime.goodnight_start_time
-      no_motion_wait: input_number.inactivity_timeout_short
+      no_motion_wait: input_number.inactivity_timeout_medium
       target_entity: light.guest_bathroom_light
       motion_sensor: binary_sensor.guest_bathroom_motion_occupancy
       illuminance_sensor: sensor.guest_bathroom_motion_illuminance_lux
@@ -1967,20 +1967,6 @@
         data: {}
         target:
           area_id: master_bedroom
-- id: '1664630103324'
-  alias: Homekit Harmony Handler
-  description: Handle homekit remote event data
-  trigger:
-  - platform: event
-    event_type: 'homekit_tv_remote_key_pressed '
-    event_data: {}
-  condition: []
-  action:
-  - service: notify.mobile_app_james_iphone
-    data:
-      title: Harmony Event
-      message: Things are happening!
-  mode: single
 - id: '1664929317664'
   alias: Henry’s Room Closet - Activity
   description: Turn on light based on door state
@@ -1988,26 +1974,29 @@
   - platform: state
     entity_id:
     - binary_sensor.henrys_room_closet_door_contact
-    to: 'on'
+    to:
   condition: []
   action:
-  - service: light.turn_on
-    data:
-      transition: 0
-      color_temp: 500
-      brightness_pct: 100
-    target:
-      entity_id:
-      - group.henry_s_room_closet_light
-  - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
-    timeout:
-      minutes: '{{states(''input_number.inactivity_timeout_medium'')|int }}'
-    continue_on_timeout: true
-  - service: light.turn_off
-    data: {}
-    target:
-      entity_id:
-      - group.henry_s_room_closet_light
+  - if:
+    - '{{ trigger.to_state.state == ''on'' }}'
+    then:
+    - service: light.turn_on
+      data:
+        transition: 0
+        brightness_pct: 100
+        rgb_color:
+        - 255
+        - 219
+        - 187
+        effect: Solid
+      target:
+        entity_id: light.henrys_room_closet_light
+    else:
+    - alias: Turn on/off light
+      service: light.turn_off
+      target:
+        entity_id: light.henrys_room_closet_light
+      data: {}
   mode: restart
 - id: '1665078195857'
   alias: Master Bathroom Shower Light - Double Tap
@@ -2021,8 +2010,8 @@
         data: {}
         target:
           entity_id:
-          - light.master_bathroom_light
           - light.master_bathroom_shower_light
+          - light.master_bathroom_light
       double_tap_off:
       - service: light.turn_off
         data: {}
@@ -2792,7 +2781,7 @@
       turn_on_blocker_entity: schedule.quiet_time
       turn_on_target:
         entity_id: light.williams_room_lamps_zha_group_0x0003
-      turn_on_after: automation.sunset
+      turn_on_after: input_datetime.time_of_day_shower_automation_start
       turn_on_before: input_datetime.lights_out_kids
       turn_off_wait: input_number.inactivity_timeout_medium
 - id: '1684956380650'
@@ -2813,11 +2802,11 @@
         - light.guest_room_closet_light
       turn_off_wait: input_number.inactivity_timeout_medium
       turn_on_blocker_entity: schedule.quiet_time
-      turn_on_before: input_datetime.goodnight_start_time
+      turn_on_before: input_datetime.lights_out_kids
       turn_off_blocker_entity: schedule.quiet_time
       turn_on_target:
         entity_id: light.guest_room_nightstand
-      turn_on_after: automation.sunset
+      turn_on_after: input_datetime.time_of_day_shower_automation_start
 - id: '1685537870181'
   alias: Henry's Room - Activity (new blueprint)
   description: ''
@@ -2829,7 +2818,7 @@
         - binary_sensor.henrys_protect_motion
       turn_off_blocker_entity: schedule.quiet_time
       turn_on_blocker_entity: schedule.quiet_time
-      turn_on_after: automation.sunset
+      turn_on_after: input_datetime.time_of_day_shower_automation_start
       turn_on_before: input_datetime.lights_out_kids
       turn_off_target:
         entity_id:
@@ -2840,7 +2829,7 @@
         - light.henrys_room_lamps_zha_group_0x0002
       turn_on_target:
         entity_id: light.henrys_room_lamps_zha_group_0x0002
-      turn_off_wait: input_number.inactivity_timeout_medium
+      turn_off_wait: input_number.inactivity_timeout_long
 - id: '1686082188633'
   alias: Master Bedroom - Activity (new blueprint)
   description: ''
@@ -2860,11 +2849,14 @@
         - light.master_bedroom_light
       turn_off_before: input_datetime.goodnight_start_time
       turn_off_after: input_datetime.time_of_day_automation_start
-      turn_on_after: automation.sunset
-      turn_on_before: input_datetime.lights_out_kids
+      turn_on_after: input_datetime.time_of_day_shower_automation_start
       turn_on_target:
         entity_id: light.master_bedroom_nightstand
       turn_off_wait: input_number.inactivity_timeout_short
+      illuminance_entity: sensor.master_bedroom_ep1_illuminance
+      turn_on_illuminance_cutoff: input_number.inactivity_timeout_short
+      turn_on_blocker_entity: schedule.quiet_time
+      turn_on_before: input_datetime.lights_out_kids
 - id: '1686318000799'
   alias: Master Bathroom - Activity (new blueprint)
   description: ''
@@ -2878,10 +2870,10 @@
       illuminance_entity: sensor.master_bedroom_ep1_illuminance
       turn_on_illuminance_cutoff: input_number.illumination_very_low
       turn_on_after: input_datetime.time_of_day_automation_start
-      turn_on_before: input_datetime.goodnight_start_time
       turn_off_target:
         entity_id: light.master_bathroom_light
       turn_off_wait: input_number.inactivity_timeout_short
+      turn_on_before: input_datetime.goodnight_start_time
 - id: '1687362323196'
   alias: Downstairs - Activity (new blueprint)
   description: ''

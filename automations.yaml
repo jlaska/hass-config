@@ -1770,13 +1770,21 @@
   alias: Attic Door - Activity
   description: ''
   use_blueprint:
-    path: jlaska/motion_illuminance_activated_entity.yaml
+    path: jlaska/activity_and_inactivity_trigger.yaml
     input:
-      motion_sensor: binary_sensor.attic_door_contact
-      target_entity: light.attic_stairway_light
-      no_motion_wait: input_number.inactivity_timeout_short
-      illuminance_cutoff: input_number.illumination_high
-      illuminance_sensor: sensor.keener_illuminance_lux
+      trigger_entities:
+        entity_id: binary_sensor.attic_door_contact
+      turn_on_target:
+        entity_id:
+        - light.attic_light
+        - light.attic_stairway_light
+      illuminance_entity: sensor.keener_illuminance_lux
+      turn_off_target:
+        entity_id:
+        - light.attic_light
+        - light.attic_stairway_light
+      turn_off_wait: input_number.inactivity_timeout_medium
+      turn_on_illuminance_cutoff: input_number.illumination_high
 - id: '1651594543069'
   alias: Open Garage Door Upon Arrival
   description: Open garage door when arriving home by car

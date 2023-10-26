@@ -3017,3 +3017,104 @@
       turn_off_target:
         entity_id: light.garage_light
       turn_off_wait: input_number.inactivity_timeout_short
+- id: '1696376203190'
+  alias: WLED Testing
+  description: Turn on/off WLED based on occupancy
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.master_bedroom_motion_any
+    to:
+  condition:
+  - condition: template
+    value_template: '{{ trigger.to_state.state != trigger.from_state.state }}'
+  - condition: state
+    entity_id: schedule.quiet_time
+    state: 'off'
+  action:
+  - if:
+    - '{{ trigger.to_state.state == ''on'' }}'
+    then:
+    - service: switch.turn_on
+      data: {}
+      target:
+        entity_id: switch.wled_b54d68_sync_send
+    - service: light.turn_on
+      target:
+        entity_id:
+        - light.wled_b54d68
+      data: {}
+    - service: select.select_option
+      data:
+        option: "{{ \n  state_attr('select.wled_b54d68_preset', 'options')|random\n}}\n"
+      target:
+        entity_id:
+        - select.wled_b54d68_preset
+    - service: light.turn_on
+      data:
+        rgb_color:
+        - 255
+        - 191
+        - 137
+        brightness: 255
+      target:
+        entity_id:
+        - light.gledopto_led_strip_light_rgb
+        - light.gledopto_led_strip_light_cct
+    else:
+    - service: switch.turn_on
+      data: {}
+      target:
+        entity_id: switch.wled_b54d68_sync_send
+    - alias: Turn on/off light
+      service: light.turn_off
+      target:
+        entity_id:
+        - light.wled_b54d68
+        - light.wled_b63ac0
+        - light.gledopto_led_strip_light_rgb
+        - light.gledopto_led_strip_light_cct
+      data: {}
+  mode: parallel
+  max: 4
+- id: '1696680900067'
+  alias: Turn off Harmony When TV Off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - media_player.samsung_un55h7100
+    to: unavailable
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: remote.hubname
+      state: 'off'
+  action:
+  - service: remote.turn_off
+    data: {}
+    target:
+      entity_id: remote.hubname
+  mode: single
+- id: '1697236853367'
+  alias: Kitchen Activity (new blueprint)
+  description: ''
+  use_blueprint:
+    path: jlaska/activity_and_inactivity_trigger.yaml
+    input:
+      illuminance_entity: sensor.living_room_ep1_illuminance
+      turn_off_wait: input_number.inactivity_timeout_long
+      turn_on_illuminance_cutoff: input_number.inactivity_timeout_medium
+      turn_on_target:
+        entity_id: scene.downstairs_motion
+      turn_off_target:
+        entity_id:
+        - scene.downstairs_inactivity
+      trigger_entities:
+        entity_id:
+        - binary_sensor.kitchen_ep1_mmwave
+        - binary_sensor.kitchen_ep1_pir
+        - binary_sensor.kitchen_ep1_occupancy
+        - binary_sensor.kitchen_motion_occupancy
+      turn_off_blocker_entity: media_player.samsung_un55h7100

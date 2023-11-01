@@ -3,23 +3,23 @@
   - name: "Garage Door Shelly"
     unique_id: sensor.garage_door_shelly
     state: |
-      {% if is_state('binary_sensor.shellyplus1_441793a9aca4_input', 'on') %}
+      {% if is_state('binary_sensor.garage_door_opener_input', 'on') %}
         closed
-      {% elif is_state('binary_sensor.shellyplus1_441793a9aca4_switch_100_input', 'on') %}
+      {% elif is_state('binary_sensor.garage_door_opener_switch_100_input', 'on') %}
         open
-      {% elif states.binary_sensor.shellyplus1_441793a9aca4_switch_100_input.last_updated > states.binary_sensor.shellyplus1_441793a9aca4_input.last_updated %}
+      {% elif states.binary_sensor.garage_door_opener_switch_100_input.last_updated > states.binary_sensor.garage_door_opener_input.last_updated %}
         closing
       {% else %}
         opening
       {% endif %}
-    availability: "{{ is_state('device_tracker.shellyplus1_441793a9aca4', 'home') }}"
+    availability: "{{ is_state('device_tracker.garage_door_opener', 'home') }}"
 
 - binary_sensor:
   - name: "Garage Door Ajar"
     unique_id: binary_sensor.garage_door_ajar
     state: |
-      {{ not is_state('binary_sensor.shellyplus1_441793a9aca4_input', 'on') }}
-    availability: "{{ is_state('device_tracker.shellyplus1_441793a9aca4', 'home') }}"
+      {{ not is_state('binary_sensor.garage_door_opener_input', 'on') }}
+    availability: "{{ is_state('device_tracker.garage_door_opener', 'home') }}"
 
   - name: "Sun Phase Golden Hour Status"
     unique_id: binary_sensor.sun_phase_golden_hour_status

@@ -341,22 +341,31 @@
     - person.kevin
     - person.thomas
     to: not_home
+    from: home
   condition:
-  - condition: not
+  - alias: Confirm nobody home
+    condition: and
     conditions:
-    - condition: state
-      entity_id: person.james
-      state: home
-    - condition: state
-      entity_id: person.shannon
-      state: home
-    - condition: state
-      entity_id: person.kevin
-      state: home
-    - condition: state
-      entity_id: person.thomas
-      state: home
-    alias: Confirm nobody home
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: person.james
+        state: home
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: person.shannon
+        state: home
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: person.kevin
+        state: home
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: person.thomas
+        state: home
   action:
   - alias: Turn off Harmony
     type: turn_off

@@ -51,6 +51,12 @@
   - service: script.ge_switch_led_light
     data:
       node_value: 3
+  - alias: Record sunset datetime into helper
+    service: input_datetime.set_datetime
+    data:
+      datetime: '{{ now().timestamp() | timestamp_local }}'
+    target:
+      entity_id: input_datetime.sunset
   mode: single
 - id: '1617753489001'
   alias: Dawn (exterior)
@@ -684,7 +690,7 @@
       motion_sensor: binary_sensor.back_door_contact
       target_entity: light.sunroom_fan_light
 - id: '1619441985700'
-  alias: Front Door - Activity
+  alias: Entryway Light - Activity
   description: Trigger actions based on front door activity
   use_blueprint:
     path: jlaska/motion_illuminance_activated_entity.yaml
@@ -695,18 +701,22 @@
       illuminance_sensor: sensor.dining_room_motion_illuminance_lux
       illuminance_cutoff: input_number.illumination_very_low
 - id: '1619447091981'
-  alias: Dining Room Floor Lamp - Activity
+  alias: Dining Room Floor Lamp - Activity (new blueprint)
   description: ''
   use_blueprint:
-    path: jlaska/motion_illuminance_activated_entity.yaml
+    path: jlaska/activity_and_inactivity_trigger.yaml
     input:
+      trigger_entities:
+        entity_id: binary_sensor.dining_room_motion_any
+      turn_on_target:
+        entity_id:
+        - scene.dining_room_activity
+      turn_off_target:
+        entity_id: light.dining_room_floor_lamp
+      turn_off_wait: input_number.inactivity_timeout_short
       turn_off_blocker_entity: light.entryway_hall_light
-      illuminance_cutoff: input_number.illumination_very_low
-      illuminance_sensor: sensor.dining_room_motion_illuminance_lux
-      no_motion_wait: input_number.inactivity_timeout_short
-      target_entity: scene.dining_room_activity
-      target_off_entity: light.dining_room_floor_lamp
-      motion_sensor: binary_sensor.dining_room_motion_any
+      illuminance_entity: sensor.dining_room_motion_illuminance_lux
+      turn_on_illuminance_cutoff: input_number.illumination_very_low
 - id: '1619530751693'
   alias: Sunrise (interior)
   description: ''
@@ -826,20 +836,23 @@
   mode: parallel
   max: 6
 - id: '1622157422281'
-  alias: Guest Bathroom - Activity
+  alias: Guest Bathroom Light - Activity (new blueprint)
   description: ''
   use_blueprint:
-    path: jlaska/motion_illuminance_activated_entity.yaml
+    path: jlaska/activity_and_inactivity_trigger.yaml
     input:
-      illuminance_cutoff: input_number.illumination_medium
-      time_limit_after: input_datetime.time_of_day_automation_start
-      time_limit_before: input_datetime.goodnight_start_time
-      no_motion_wait: input_number.inactivity_timeout_medium
-      target_entity: light.guest_bathroom_light
-      motion_sensor: binary_sensor.guest_bathroom_motion_occupancy
-      illuminance_sensor: sensor.guest_bathroom_motion_illuminance_lux
+      turn_on_target:
+        entity_id: light.guest_bathroom_light
+      illuminance_entity: sensor.guest_bathroom_motion_illuminance_lux
+      turn_on_illuminance_cutoff: input_number.illumination_medium
+      turn_on_after: input_datetime.time_of_day_automation_start
+      turn_on_before: input_datetime.goodnight_start_time
+      turn_off_target:
+        entity_id: light.guest_bathroom_light
       turn_off_blocker_entity: binary_sensor.guest_bathroom_hygrostat
       turn_off_blocker_wait: input_number.inactivity_timeout_extralong
+      trigger_entities:
+        entity_id: binary_sensor.guest_bathroom_motion_occupancy
 - id: '1622209187653'
   alias: Guest Room - Button
   description: ''
@@ -1094,18 +1107,21 @@
   mode: parallel
   max: 8
 - id: '1624750206254'
-  alias: Master Bathroom Shower Light - Activity
+  alias: Master Bathroom Shower Light - Activity (new blueprint)
   description: Turn on Shower light during shower time in the evening
   use_blueprint:
-    path: jlaska/motion_illuminance_activated_entity.yaml
+    path: jlaska/activity_and_inactivity_trigger.yaml
     input:
-      motion_sensor: binary_sensor.master_bathroom_motion_occupancy
-      target_entity: light.master_bathroom_shower_light
-      time_limit_after: input_datetime.time_of_day_shower_automation_start
-      time_limit_before: input_datetime.time_of_day_automation_stop
-      no_motion_wait: input_number.inactivity_timeout_medium
+      trigger_entities:
+        entity_id: binary_sensor.master_bathroom_motion_any
+      turn_on_target:
+        entity_id: light.master_bathroom_shower_light
+      turn_on_after: input_datetime.time_of_day_shower_automation_start
+      turn_on_before: input_datetime.time_of_day_automation_stop
+      turn_off_target:
+        entity_id: light.master_bathroom_shower_light
+      turn_off_wait: input_number.inactivity_timeout_medium
       turn_off_blocker_entity: binary_sensor.master_bathroom_hygrostat
-      turn_off_blocker_wait: input_number.inactivity_timeout_long
 - id: '1625665304293'
   alias: Laundry Cycle Finished
   description: Notify when a laundry cycle has finished
@@ -1517,21 +1533,26 @@
     - scene: scene.sunset
   mode: single
 - id: '1634814893252'
-  alias: Front Door - Exterior Activity
+  alias: Front Door Light - Activity (new blueprint)
   description: Trigger events based on front door exterior activity
   use_blueprint:
-    path: jlaska/motion_illuminance_activated_entity.yaml
+    path: jlaska/activity_and_inactivity_trigger.yaml
     input:
-      no_motion_wait: input_number.inactivity_timeout_short
-      motion_sensor:
-      - binary_sensor.front_door_contact
-      - binary_sensor.front_door_protect_person_detected
-      - binary_sensor.front_door_protect_doorbell
-      target_entity: light.front_door_light
-      blocker_entity: light.garage_exterior_light
+      turn_on_target:
+        entity_id: light.front_door_light
+      turn_off_target:
+        entity_id: light.front_door_light
       turn_off_blocker_entity: light.garage_exterior_light
-      illuminance_sensor: sensor.keener_illuminance_lux
-      illuminance_cutoff: input_number.illumination_high
+      turn_on_blocker_entity: light.garage_exterior_light
+      illuminance_entity: sensor.keener_illuminance_lux
+      turn_on_illuminance_cutoff: input_number.illumination_high
+      turn_off_wait: input_number.inactivity_timeout_short
+      trigger_entities:
+        entity_id:
+        - binary_sensor.front_door_contact
+        - binary_sensor.front_door_protect_motion
+        - binary_sensor.front_door_protect_doorbell
+        - binary_sensor.front_door_protect_person_detected
 - id: '1638199338566'
   alias: Master Bedroom - Button
   description: Aqara Wireless Switch (single, double, hold)
@@ -1767,7 +1788,7 @@
       time_limit_after: input_datetime.time_of_day_automation_start
       time_limit_before: input_datetime.goodnight_start_time
 - id: '1649466447589'
-  alias: Attic Door - Activity
+  alias: Attic Door - Activity (new blueprint)
   description: ''
   use_blueprint:
     path: jlaska/activity_and_inactivity_trigger.yaml
@@ -1854,21 +1875,24 @@
         target:
           entity_id: light.williams_room_lamps_zha_group_0x0003
 - id: '1655769646628'
-  alias: Back Deck - Activity
+  alias: Back Deck Lights - Activity (new blueprint)
   description: ''
   use_blueprint:
-    path: jlaska/motion_illuminance_activated_entity.yaml
+    path: jlaska/activity_and_inactivity_trigger.yaml
     input:
-      motion_sensor:
-      - binary_sensor.back_deck_protect_motion
-      - binary_sensor.back_deck_protect_object_detected
-      - binary_sensor.back_door_contact
-      - binary_sensor.back_deck_protect_person_detected
-      target_entity: scene.back_deck_activity
-      no_motion_wait: input_number.inactivity_timeout_medium
-      target_off_entity: group.back_deck_lights
-      illuminance_sensor: sensor.keener_illuminance_lux
-      illuminance_cutoff: input_number.illumination_low
+      trigger_entities:
+        entity_id:
+        - binary_sensor.back_deck_protect_motion
+        - binary_sensor.back_door_contact
+        - binary_sensor.back_deck_protect_object_detected
+        - binary_sensor.back_deck_protect_person_detected
+      illuminance_entity: sensor.keener_illuminance_lux
+      turn_on_illuminance_cutoff: input_number.illumination_low
+      turn_on_target:
+        entity_id: scene.back_deck_activity
+      turn_off_target:
+        entity_id: light.back_deck_lights
+      turn_off_wait: input_number.inactivity_timeout_medium
 - id: '1655993369268'
   alias: Notify If Any Power Plug Off
   description: ''
@@ -2406,20 +2430,23 @@
       target_off_entity: scene.downstairs_inactivity
       turn_off_blocker_entity: binary_sensor.downstairs_motion_any
 - id: '1673646188464'
-  alias: Dining Room Light - Activity
+  alias: Dining Room Light - Activity (new blueprint)
   description: ''
   use_blueprint:
-    path: jlaska/motion_illuminance_activated_entity.yaml
+    path: jlaska/activity_and_inactivity_trigger.yaml
     input:
+      trigger_entities:
+        entity_id: binary_sensor.dining_room_motion_any
+      turn_on_target:
+        entity_id: light.dining_room_light
+      turn_off_target:
+        entity_id: scene.dining_room_inactivity
+      illuminance_entity: sensor.dining_room_motion_illuminance_lux
+      turn_on_illuminance_cutoff: input_number.illumination_very_low
+      turn_on_after: input_datetime.time_of_day_automation_start
+      turn_on_before: input_datetime.time_of_day_automation_stop
+      turn_off_wait: input_number.inactivity_timeout_long
       turn_off_blocker_entity: light.entryway_hall_light
-      illuminance_cutoff: input_number.illumination_very_low
-      target_entity: light.dining_room_light
-      illuminance_sensor: sensor.dining_room_motion_illuminance_lux
-      no_motion_wait: input_number.inactivity_timeout_long
-      target_off_entity: scene.dining_room_inactivity
-      motion_sensor: binary_sensor.dining_room_motion_occupancy
-      time_limit_after: input_datetime.time_of_day_automation_start
-      time_limit_before: input_datetime.time_of_day_automation_stop
 - id: '1673809836266'
   alias: Hot Water Pump - Timer
   description: Start/stop the pump timer based on various events
@@ -2721,7 +2748,7 @@
         trigger_person: '{{ trigger.entity_id }}'
   mode: single
 - id: '1684540640435'
-  alias: Sunroom Activity (new blueprint)
+  alias: Sunroom Light - Activity (new blueprint)
   description: ''
   use_blueprint:
     path: jlaska/activity_and_inactivity_trigger.yaml
@@ -2736,7 +2763,7 @@
       turn_off_target:
         entity_id:
         - light.sunroom_fan_light
-      illuminance_entity: sensor.kitchen_ep1_illuminance
+      illuminance_entity: sensor.keener_illuminance_lux
       turn_on_illuminance_cutoff: input_number.inactivity_timeout_short
 - id: '1684802508446'
   alias: Mudroom - Activity (new blueprint)
@@ -2789,7 +2816,7 @@
       turn_on_blocker_entity: schedule.quiet_time
       turn_on_target:
         entity_id: light.williams_room_lamps_zha_group_0x0003
-      turn_on_after: input_datetime.time_of_day_shower_automation_start
+      turn_on_after: input_datetime.sunset
       turn_on_before: input_datetime.lights_out_kids
       turn_off_wait: input_number.inactivity_timeout_medium
 - id: '1684956380650'
@@ -2814,7 +2841,7 @@
       turn_off_blocker_entity: schedule.quiet_time
       turn_on_target:
         entity_id: light.guest_room_nightstand
-      turn_on_after: input_datetime.time_of_day_shower_automation_start
+      turn_on_after: input_datetime.sunset
 - id: '1685537870181'
   alias: Henry's Room - Activity (new blueprint)
   description: ''
@@ -2826,7 +2853,7 @@
         - binary_sensor.henrys_protect_motion
       turn_off_blocker_entity: schedule.quiet_time
       turn_on_blocker_entity: schedule.quiet_time
-      turn_on_after: input_datetime.time_of_day_shower_automation_start
+      turn_on_after: input_datetime.sunset
       turn_on_before: input_datetime.lights_out_kids
       turn_off_target:
         entity_id:
@@ -2857,7 +2884,7 @@
         - light.master_bedroom_light
       turn_off_before: input_datetime.goodnight_start_time
       turn_off_after: input_datetime.time_of_day_automation_start
-      turn_on_after: input_datetime.time_of_day_shower_automation_start
+      turn_on_after: input_datetime.sunset
       turn_on_target:
         entity_id: light.master_bedroom_nightstand
       turn_off_wait: input_number.inactivity_timeout_short
@@ -2866,7 +2893,7 @@
       turn_on_blocker_entity: schedule.quiet_time
       turn_on_before: input_datetime.lights_out_kids
 - id: '1686318000799'
-  alias: Master Bathroom - Activity (new blueprint)
+  alias: Master Bathroom Light - Activity (new blueprint)
   description: ''
   use_blueprint:
     path: jlaska/activity_and_inactivity_trigger.yaml
@@ -2876,12 +2903,12 @@
       turn_on_target:
         entity_id: light.master_bathroom_light
       illuminance_entity: sensor.master_bedroom_ep1_illuminance
-      turn_on_illuminance_cutoff: input_number.illumination_very_low
-      turn_on_after: input_datetime.time_of_day_automation_start
+      turn_on_illuminance_cutoff: input_number.illumination_low
       turn_off_target:
         entity_id: light.master_bathroom_light
       turn_off_wait: input_number.inactivity_timeout_short
       turn_on_before: input_datetime.goodnight_start_time
+      turn_on_after: input_datetime.time_of_day_automation_start
 - id: '1687362323196'
   alias: Downstairs - Activity (new blueprint)
   description: ''
@@ -3118,3 +3145,54 @@
         - binary_sensor.kitchen_ep1_occupancy
         - binary_sensor.kitchen_motion_occupancy
       turn_off_blocker_entity: media_player.samsung_un55h7100
+- id: '1700004931731'
+  alias: Laundry Room - Activity (new blueprint)
+  description: ''
+  use_blueprint:
+    path: jlaska/activity_and_inactivity_trigger.yaml
+    input:
+      trigger_entities:
+        entity_id:
+        - binary_sensor.laundry_room_motion_occupancy
+      turn_on_target:
+        entity_id: light.laundry_room_light
+      illuminance_entity: sensor.master_bedroom_ep1_illuminance
+      turn_on_illuminance_cutoff: input_number.illumination_medium
+      turn_on_after: input_datetime.time_of_day_automation_start
+      turn_on_before: input_datetime.time_of_day_automation_stop
+      turn_off_target:
+        entity_id: light.laundry_room_light
+      turn_off_wait: input_number.inactivity_timeout_short
+- id: '1700005344219'
+  alias: Master Bathroom Toilet - Activity (new blueprint)
+  description: ''
+  use_blueprint:
+    path: jlaska/activity_and_inactivity_trigger.yaml
+    input:
+      trigger_entities:
+        entity_id: binary_sensor.master_bathroom_toilet_motion_occupancy
+      turn_on_target:
+        entity_id: light.master_bathroom_toilet_light
+      turn_on_after: input_datetime.time_of_day_automation_start
+      turn_on_before: input_datetime.goodnight_start_time
+      turn_off_target:
+        entity_id: light.master_bathroom_toilet_light
+      turn_off_wait: input_number.inactivity_timeout_short
+- id: '1700169867555'
+  alias: Entryway Light - Activity (new blueprint)
+  description: Trigger actions based on front door activity
+  use_blueprint:
+    path: jlaska/activity_and_inactivity_trigger.yaml
+    input:
+      trigger_entities:
+        entity_id:
+        - binary_sensor.front_door_protect_doorbell
+        - binary_sensor.front_door_contact
+        - binary_sensor.front_door_protect_person_detected
+      turn_on_target:
+        entity_id: light.entryway_door_light
+      illuminance_entity: sensor.dining_room_ep1_illuminance
+      turn_on_illuminance_cutoff: input_number.inactivity_timeout_medium
+      turn_off_target:
+        entity_id: light.entryway_door_light
+      turn_off_wait: input_number.inactivity_timeout_short

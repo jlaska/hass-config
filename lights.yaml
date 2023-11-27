@@ -115,3 +115,9 @@
 - platform: switch
   name: "Attic Stairway Light"
   entity_id: switch.attic_stairway_light_switch
+- platform: switch
+  name: "Living Room Christmas Tree"
+  entity_id: switch.living_room_plug_switch
+- platform: switch
+  name: "Dining Room Christmas Tree"
+  entity_id: switch.dining_room_plug

@@ -22,6 +22,7 @@
       - light.kitchen_end_table_light_*_level_light_color_on_off
       - light.dining_room_floor_lamp*
       - light.henry*s_room_closet_light_*
+      - light.*_basic
 
 - name: Sensor Bridge
   port: 21064

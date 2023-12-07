@@ -1,0 +1,6 @@
+# Create an illuminance sensor based no current time of day
+# https://github.com/pnbruckner/ha-illuminance
+- unique_id: 1
+  name: Keener illuminance lux
+  entity_id: weather.keener
+

@@ -85,3 +85,7 @@ input_number: !include input_number.yaml
 
 # Enable/disable browser mod plugin
 # browser_mod:
+
+# Illuminance configuration
+# https://github.com/pnbruckner/ha-illuminance
+illuminance: !include illuminance.yaml

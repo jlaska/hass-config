@@ -1,7 +1,0 @@
-- platform: ping
-  hosts:
-    williams_nintendo_switch_ping: !secret williams_nintendo_switch_ip
-    henrys_nintendo_switch_ping: !secret henrys_nintendo_switch_ip
-    williams_ipad_ping: !secret williams_ipad_ip
-    henrys_ipad_ping: !secret henrys_ipad_ip
-  interval_seconds: 120

@@ -42,7 +42,6 @@ http:
 
 sensor: !include sensors.yaml
 binary_sensor: !include binary_sensors.yaml
-device_tracker: !include device_trackers.yaml
 light: !include lights.yaml
 fan: !include fans.yaml
 template: !include templates.yaml

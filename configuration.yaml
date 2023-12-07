@@ -15,6 +15,7 @@ homeassistant:
   customize: !include customize.yaml
   media_dirs:
     sounds: /config/www/sounds
+    images: /config/www/images
 
 # Include themes directory
 frontend:
@@ -31,6 +32,12 @@ lovelace:
       icon: mdi:script
       show_in_sidebar: true
       filename: ui-lovelace.yaml
+    keener-yaml:
+      mode: yaml
+      title: Keener
+      icon: mdi:home
+      show_in_sidebar: true
+      filename: ui-keener.yaml
 
 logger:
   default: warning
@@ -72,8 +79,9 @@ camera:
 downloader:
   download_dir: www
 
-# input_datetime: !include input_datetime.yaml
 input_text: !include input_text.yaml
+input_number: !include input_number.yaml
+# input_datetime: !include input_datetime.yaml
 
 # Enable/disable browser mod plugin
 # browser_mod:

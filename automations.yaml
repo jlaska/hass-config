@@ -2480,7 +2480,9 @@
     not:
     - condition: state
       entity_id: sensor.ms963932g_laundry_machine_state
-      state: 'on'
+      state:
+      - 'on'
+      - Run
   - condition: state
     entity_id: binary_sensor.kitchen_dishwasher_status
     state: 'off'

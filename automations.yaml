@@ -69,6 +69,9 @@
     - Civil Twilight
     - Nautical Twilight
     - Astronomical Twilight
+    - astronomical_twilight
+    - nautical_twilight
+    - civil_twilight
   - platform: homeassistant
     event: start
   condition:
@@ -889,13 +892,16 @@
   alias: Dusk (exterior)
   description: Turn on exterior lights at dusk (see also https://www.timeanddate.com/astronomy/dusk.html)
   trigger:
-  - alias: Twilight
+  - alias: Twilight (sun2)
     platform: state
     entity_id: sensor.sun_phase
     to:
     - Civil Twilight
     - Nautical Twilight
     - Astronomical Twilight
+    - astronomical_twilight
+    - nautical_twilight
+    - civil_twilight
   - platform: homeassistant
     event: start
   condition:

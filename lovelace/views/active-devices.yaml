@@ -79,8 +79,6 @@ cards:
             state: closed
           options:
             secondary_info: last-changed
-      exclude:
-        - entity_id: binary_sensor.garage_door_contact
     sort:
       method: name
       ignore_case: true

@@ -513,6 +513,9 @@ cards:
                       - entity: media_player.master_bedroom_apple_tv
                         tap_action:
                           action: more-info
+                      - entity: media_player.master_bedroom_homepod
+                        tap_action:
+                          action: more-info
                       - entity: group.master_bedroom_lights
                         tap_action:
                           action: more-info

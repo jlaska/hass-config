@@ -93,8 +93,7 @@
     unique_id: binary_sensor.sunroom_motion_any
     device_class: motion
     state: |
-      {{ is_state('binary_sensor.sunroom_protect_motion', 'on')
-         or is_state('binary_sensor.sunroom_motion_occupancy', 'on') }}
+      {{ is_state('binary_sensor.sunroom_protect_motion', 'on') }}
   - name: "Dining Room Motion (any)"
     unique_id: binary_sensor.dining_room_motion_any
     device_class: motion
@@ -114,7 +113,6 @@
     state: |
       {{
         expand(area_entities('master_bedroom'))
-          |rejectattr('entity_id', 'eq', 'binary_sensor.master_bedroom_occupancy')
           |selectattr('domain', 'eq', 'binary_sensor')
           |selectattr('attributes.device_class', 'defined')
           |selectattr('attributes.device_class', 'in', ['motion','occupancy'])

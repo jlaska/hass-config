@@ -2938,14 +2938,10 @@
       turn_on_target:
         entity_id:
         - scene.downstairs_motion
-        - light.dining_room_christmas_tree
-        - light.living_room_christmas_tree
       turn_off_target:
         entity_id:
         - scene.downstairs_inactivity
         - fan.living_room_fan
-        - light.dining_room_christmas_tree
-        - light.living_room_christmas_tree
       trigger_entities:
         entity_id:
         - binary_sensor.living_room_motion_any

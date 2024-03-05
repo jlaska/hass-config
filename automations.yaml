@@ -3,11 +3,11 @@
   description: Turn on interior lights when getting dark inside
   trigger:
   - platform: state
-    entity_id: sensor.sun_phase
+    entity_id: sensor.keener_sun_phase
     attribute: blue_hour
     to: true
   - platform: state
-    entity_id: sensor.sun_phase
+    entity_id: sensor.keener_sun_phase
     attribute: golden_hour
     to: true
   - platform: sun
@@ -64,11 +64,8 @@
   trigger:
   - alias: Twilight (sun2)
     platform: state
-    entity_id: sensor.sun_phase
+    entity_id: sensor.keener_sun_phase
     to:
-    - Civil Twilight
-    - Nautical Twilight
-    - Astronomical Twilight
     - astronomical_twilight
     - nautical_twilight
     - civil_twilight
@@ -894,11 +891,8 @@
   trigger:
   - alias: Twilight (sun2)
     platform: state
-    entity_id: sensor.sun_phase
+    entity_id: sensor.keener_sun_phase
     to:
-    - Civil Twilight
-    - Nautical Twilight
-    - Astronomical Twilight
     - astronomical_twilight
     - nautical_twilight
     - civil_twilight
@@ -2587,12 +2581,12 @@
   trigger:
   - platform: state
     entity_id:
-    - sensor.sun_phase
+    - sensor.keener_sun_phase
     attribute: golden_hour
     id: Golden Hour
   - platform: state
     entity_id:
-    - sensor.sun_phase
+    - sensor.keener_sun_phase
     attribute: blue_hour
     id: Blue Hour
   condition: []

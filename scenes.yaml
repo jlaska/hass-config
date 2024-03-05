@@ -70,6 +70,7 @@
     light.upstairs_hallway_light: false
     light.stairway_light: false
     light.william_s_closet_light: false
+    light.gledopto_led_strip_light_cct: false
     light.gledopto_led_strip_light_rgb: false
     light.wled_b54d68: false
     light.wled_b63ac0: false

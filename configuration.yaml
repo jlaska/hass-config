@@ -76,8 +76,9 @@ camera:
     name: Weather NOAA US Continent
     file_path: /config/www/camera.weather_noaa_us_continent
 
-downloader:
-  download_dir: www
+# This stops working in version 2024.10.0. Please address before upgrading
+# downloader:
+#   download_dir: www
 
 input_text: !include input_text.yaml
 input_number: !include input_number.yaml

@@ -366,6 +366,12 @@
       - condition: state
         entity_id: person.thomas
         state: home
+  - alias: Not Watching Something
+    condition: not
+    conditions:
+    - condition: state
+      entity_id: media_player.living_room_apple_tv
+      state: playing
   action:
   - alias: Turn off Harmony
     type: turn_off
@@ -398,11 +404,9 @@
         entity_id: switch.hot_water_pump_switch_0
   - alias: Optionally wait for vacuum completion
     if:
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: vacuum.roomba
-        state: docked
+    - condition: state
+      entity_id: vacuum.roomba
+      state: cleaning
     then:
     - wait_for_trigger:
       - platform: state
@@ -518,7 +522,7 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.williams_protect_motion
+    entity_id: binary_sensor.william_s_room_motion_any
     to: 'off'
     for:
       minutes: '{{ states(''input_number.inactivity_timeout_long'')|int }}'
@@ -531,7 +535,7 @@
   condition:
   - alias: Assert no recent motion
     condition: state
-    entity_id: binary_sensor.williams_protect_motion
+    entity_id: binary_sensor.william_s_room_motion_any
     state: 'off'
     for:
       minutes: '{{ states(''input_number.inactivity_timeout_long'')|int }}'
@@ -716,7 +720,11 @@
     path: jlaska/activity_and_inactivity_trigger.yaml
     input:
       trigger_entities:
-        entity_id: binary_sensor.dining_room_motion_any
+        entity_id:
+        - binary_sensor.dining_room_ep1_8e7f80_mmwave
+        - binary_sensor.dining_room_ep1_8e7f80_occupancy
+        - binary_sensor.dining_room_ep1_8e7f80_pir
+        - binary_sensor.dining_room_motion_occupancy
       turn_on_target:
         entity_id:
         - scene.dining_room_activity
@@ -862,6 +870,7 @@
       turn_off_blocker_wait: input_number.inactivity_timeout_extralong
       trigger_entities:
         entity_id: binary_sensor.guest_bathroom_motion_occupancy
+      turn_off_wait: input_number.inactivity_timeout_medium
 - id: '1622209187653'
   alias: Guest Room - Button
   description: ''
@@ -1059,6 +1068,7 @@
     - light.shannon_s_closet_light
     - light.james_closet_light
     - light.william_s_closet_light
+    - light.henrys_room_closet_light
     - light.guest_room_closet_light
     - light.under_stair_light
     - fan.powder_room_fan
@@ -1415,12 +1425,14 @@
     entity_id:
     - person.james
     - person.shannon
+    - person.kevin
     zone: zone.home
     event: enter
   - platform: zone
     entity_id:
     - person.james
     - person.shannon
+    - person.kevin
     zone: zone.home
     event: leave
   - platform: zone
@@ -1598,7 +1610,7 @@
   use_blueprint:
     path: jlaska/zwave_js_ge_switch_event_handler.yaml
     input:
-      device: 98c706574bccaab03950f857a02451d9
+      device: 1d673468893f45618de493e27bef1b1e
       double_tap_on:
       - service: light.turn_on
         target:
@@ -1730,6 +1742,14 @@
           url: '{{ images[repeat.index - 1][''url''] }}'
           filename: '{{ images[repeat.index - 1][''entity_id''] }}'
           overwrite: true
+      - wait_for_trigger:
+        - platform: event
+          event_type: downloader_download_completed
+        timeout:
+          hours: 0
+          minutes: 0
+          seconds: 20
+          milliseconds: 0
       - service: local_file.update_file_path
         data:
           entity_id: '{{ images[repeat.index - 1][''entity_id''] }}'
@@ -1869,20 +1889,20 @@
   use_blueprint:
     path: jlaska/zwave_js_ge_switch_event_handler.yaml
     input:
-      device: 732d10456301be460b20349595756983
+      device: 22d18a126f6ab28e7b8942fdfa7ecea3
       double_tap_on:
-      - service: light.turn_on
-        data:
+      - data:
           color_temp: 330
           brightness: 255
         target:
           entity_id: light.williams_room_lamps_zha_group_0x0003
+        action: light.turn_on
       double_tap_off:
-      - service: light.turn_off
-        data:
+      - data:
           transition: 1
         target:
           entity_id: light.williams_room_lamps_zha_group_0x0003
+        action: light.turn_off
 - id: '1655769646628'
   alias: Back Deck Lights - Activity (new blueprint)
   description: ''
@@ -1903,7 +1923,7 @@
         entity_id: light.back_deck_lights
       turn_off_wait: input_number.inactivity_timeout_medium
 - id: '1655993369268'
-  alias: Notify If Any Power Plug Off
+  alias: Notify on state changes for power plug
   description: ''
   trigger:
   - platform: state
@@ -1922,32 +1942,50 @@
       hours: 0
       minutes: 0
       seconds: 30
+  - platform: state
+    entity_id:
+    - switch.garage_freezer_plug
+    - switch.garage_chest_freezer_plug
+    - switch.kitchen_refrigerator_plug
+    - switch.microwave_plug
+    - switch.laundry_room_washer_plug_centralite_switch
+    - binary_sensor.grid_status
+    - switch.hot_water_heater_switch_0
+    from: 'off'
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 30
   condition: []
   action:
-  - service: script.notify
-    data:
-      title: The {{ state_attr(trigger.entity_id, 'friendly_name') }} is off
-      message: Please power on the {{ state_attr(trigger.entity_id, 'friendly_name')
-        }}
-      data:
-        group: notify-power-off
-        tag: notify-power-off-{{ trigger.entity_id }}
-  - service: script.announce
-    data:
-      message: The {{ state_attr(trigger.entity_id, 'friendly_name')|replace(' Contact','')
-        }} is off
-  - wait_template: '{{ is_state(trigger.entity_id, ''on'') }}'
-    timeout: 0:15:00
-  - service: script.notify
-    data:
-      title: ''
-      message: clear_notification
-      data:
-        tag: notify-power-off-{{ trigger.entity_id }}
-  - service: script.announce
-    data:
-      message: The {{ state_attr(trigger.entity_id, 'friendly_name')|replace(' Contact','')
-        }} has been restored
+  - if:
+    - condition: template
+      value_template: '{{ trigger.to_state.state|lower == ''on'' }}'
+    then:
+    - data:
+        title: ''
+        message: clear_notification
+        data:
+          tag: notify-power-off-{{ trigger.entity_id }}
+      action: script.notify
+    - data:
+        message: The {{ state_attr(trigger.entity_id, 'friendly_name')|replace(' Contact','')
+          }} has been restored
+      action: script.announce
+    else:
+    - data:
+        title: The {{ state_attr(trigger.entity_id, 'friendly_name') }} is off
+        message: Please power on the {{ state_attr(trigger.entity_id, 'friendly_name')
+          }}
+        data:
+          group: notify-power-off
+          tag: notify-power-off-{{ trigger.entity_id }}
+      action: script.notify
+    - data:
+        message: The {{ state_attr(trigger.entity_id, 'friendly_name')|replace(' Contact','')
+          }} is off
+      action: script.announce
   mode: parallel
   max: 6
 - id: '1656538179014'
@@ -2019,7 +2057,8 @@
   condition: []
   action:
   - if:
-    - '{{ trigger.to_state.state == ''on'' }}'
+    - condition: template
+      value_template: '{{ trigger.to_state.state == ''on'' }}'
     then:
     - service: light.turn_on
       data:
@@ -2051,14 +2090,12 @@
         data: {}
         target:
           entity_id:
-          - light.master_bathroom_shower_light
           - light.master_bathroom_light
       double_tap_off:
       - service: light.turn_off
         data: {}
         target:
           entity_id:
-          - light.master_bathroom_shower_light
           - light.master_bathroom_light
 - id: '1665923639357'
   alias: Under Stair - Button
@@ -2426,14 +2463,14 @@
       - binary_sensor.mudroom_motion_occupancy
       - binary_sensor.kitchen_motion_any
       - binary_sensor.kitchen_motion_occupancy
-      - binary_sensor.kitchen_ep1_pir
-      - binary_sensor.kitchen_ep1_mmwave
+      - binary_sensor.kitchen_ep1_f0f3d8_pir
+      - binary_sensor.kitchen_ep1_f0f3d8_mmwave
       - binary_sensor.living_room_motion_any
-      - binary_sensor.living_room_ep1_pir
-      - binary_sensor.living_room_ep1_mmwave
+      - binary_sensor.living_room_ep1_70cdd4_pir
+      - binary_sensor.living_room_ep1_70cdd4_mmwave
       - binary_sensor.dining_room_motion_any
       target_entity: scene.downstairs_motion
-      illuminance_sensor: sensor.living_room_ep1_illuminance
+      illuminance_sensor: sensor.living_room_ep1_70cdd4_illuminance
       illuminance_cutoff: input_number.inactivity_timeout_medium
       no_motion_wait: input_number.inactivity_timeout_medium
       target_off_entity: scene.downstairs_inactivity
@@ -2445,7 +2482,11 @@
     path: jlaska/activity_and_inactivity_trigger.yaml
     input:
       trigger_entities:
-        entity_id: binary_sensor.dining_room_motion_any
+        entity_id:
+        - binary_sensor.dining_room_ep1_8e7f80_mmwave
+        - binary_sensor.dining_room_ep1_8e7f80_occupancy
+        - binary_sensor.dining_room_ep1_8e7f80_pir
+        - binary_sensor.dining_room_motion_occupancy
       turn_on_target:
         entity_id: light.dining_room_light
       turn_off_target:
@@ -2486,6 +2527,10 @@
   - condition: state
     entity_id: binary_sensor.kitchen_dishwasher_status
     state: 'off'
+  - condition: numeric_state
+    entity_id: weather.keener
+    attribute: temperature
+    above: 36
   action:
   - choose:
     - conditions:
@@ -2544,6 +2589,7 @@
       hours: 0
       minutes: 30
       seconds: 0
+    enabled: false
   - condition: state
     entity_id: media_player.samsung_un55h7100
     state:
@@ -2785,7 +2831,7 @@
       trigger_entities:
         entity_id:
         - binary_sensor.mudroom_door_contact
-        - binary_sensor.mudroom_motion_occupancy
+        - binary_sensor.kitchen_motion_occupancy
       turn_on_target:
         entity_id: light.mudroom_light
       turn_off_wait: input_number.inactivity_timeout_short
@@ -2823,13 +2869,15 @@
         - light.williams_room_table_lamp
       trigger_entities:
         entity_id:
-        - binary_sensor.williams_protect_motion
+        - binary_sensor.william_s_room_motion_any
       turn_on_blocker_entity: schedule.quiet_time
       turn_on_target:
         entity_id: light.williams_room_lamps_zha_group_0x0003
-      turn_on_after: input_datetime.sunset
       turn_on_before: input_datetime.lights_out_kids
       turn_off_wait: input_number.inactivity_timeout_medium
+      illuminance_entity: sensor.everything_presence_lite_f93674_illuminance
+      turn_on_illuminance_cutoff: input_number.inactivity_timeout_medium
+      turn_on_after: input_datetime.sunset
 - id: '1684956380650'
   alias: Guest Room - Activity (new blueprint)
   description: ''
@@ -2840,6 +2888,7 @@
         entity_id:
         - binary_sensor.guest_room_motion_any
         - binary_sensor.guest_bathroom_motion_occupancy
+        - binary_sensor.everything_presence_lite_f18c04_occupancy
       turn_off_target:
         entity_id:
         - fan.guest_room_fan
@@ -2860,8 +2909,7 @@
     path: jlaska/activity_and_inactivity_trigger.yaml
     input:
       trigger_entities:
-        entity_id:
-        - binary_sensor.henrys_protect_motion
+        entity_id: binary_sensor.henrys_room_motion_any
       turn_off_blocker_entity: schedule.quiet_time
       turn_on_blocker_entity: schedule.quiet_time
       turn_on_after: input_datetime.sunset
@@ -2873,9 +2921,12 @@
         - light.henrys_room_light
         - group.henry_s_room_closet_light
         - light.henrys_room_lamps_zha_group_0x0002
+        - light.henrys_room_closet_light
       turn_on_target:
         entity_id: light.henrys_room_lamps_zha_group_0x0002
       turn_off_wait: input_number.inactivity_timeout_long
+      illuminance_entity: sensor.everything_presence_lite_f18c04_illuminance
+      turn_on_illuminance_cutoff: input_number.inactivity_timeout_medium
 - id: '1686082188633'
   alias: Master Bedroom - Activity (new blueprint)
   description: ''
@@ -2899,7 +2950,7 @@
       turn_on_target:
         entity_id: light.master_bedroom_nightstand
       turn_off_wait: input_number.inactivity_timeout_short
-      illuminance_entity: sensor.master_bedroom_ep1_illuminance
+      illuminance_entity: sensor.master_bedroom_ep1_f0f9a0_illuminance
       turn_on_illuminance_cutoff: input_number.inactivity_timeout_short
       turn_on_blocker_entity: schedule.quiet_time
       turn_on_before: input_datetime.lights_out_kids
@@ -2913,7 +2964,7 @@
         entity_id: binary_sensor.master_bathroom_motion_any
       turn_on_target:
         entity_id: light.master_bathroom_light
-      illuminance_entity: sensor.master_bedroom_ep1_illuminance
+      illuminance_entity: sensor.master_bedroom_ep1_f0f9a0_illuminance
       turn_on_illuminance_cutoff: input_number.illumination_low
       turn_off_target:
         entity_id: light.master_bathroom_light
@@ -2926,7 +2977,7 @@
   use_blueprint:
     path: jlaska/activity_and_inactivity_trigger.yaml
     input:
-      illuminance_entity: sensor.living_room_ep1_illuminance
+      illuminance_entity: sensor.living_room_ep1_70cdd4_illuminance
       turn_off_wait: input_number.inactivity_timeout_long
       turn_on_illuminance_cutoff: input_number.inactivity_timeout_medium
       turn_on_target:
@@ -2938,18 +2989,15 @@
         - fan.living_room_fan
       trigger_entities:
         entity_id:
-        - binary_sensor.living_room_motion_any
         - binary_sensor.living_room_motion_occupancy
-        - binary_sensor.living_room_protect_motion
-        - binary_sensor.living_room_ep1_occupancy
-        - binary_sensor.sunroom_motion_any
-        - binary_sensor.sunroom_motion_occupancy
+        - binary_sensor.living_room_ep1_70cdd4_occupancy
         - binary_sensor.sunroom_protect_motion
-        - binary_sensor.kitchen_ep1_mmwave
-        - binary_sensor.kitchen_ep1_pir
-        - binary_sensor.kitchen_ep1_occupancy
+        - binary_sensor.kitchen_ep1_f0f3d8_mmwave
+        - binary_sensor.kitchen_ep1_f0f3d8_pir
+        - binary_sensor.kitchen_ep1_f0f3d8_occupancy
         - binary_sensor.kitchen_motion_occupancy
         - binary_sensor.mudroom_motion_occupancy
+        - binary_sensor.dining_room_ep1_8e7f80_occupancy
       turn_off_blocker_entity: media_player.samsung_un55h7100
 - id: '1689514775923'
   alias: Kids Bathroom Light - Double Tap
@@ -3065,6 +3113,9 @@
     - binary_sensor.master_bedroom_motion_any
     to:
   condition:
+  - condition: state
+    entity_id: binary_sensor.grid_status
+    state: 'on'
   - condition: template
     value_template: '{{ trigger.to_state.state != trigger.from_state.state }}'
   - condition: state
@@ -3072,7 +3123,8 @@
     state: 'off'
   action:
   - if:
-    - '{{ trigger.to_state.state == ''on'' }}'
+    - condition: template
+      value_template: '{{ trigger.to_state.state == ''on'' }}'
     then:
     - service: switch.turn_on
       data: {}
@@ -3136,27 +3188,6 @@
     target:
       entity_id: remote.hubname
   mode: single
-- id: '1697236853367'
-  alias: Kitchen Activity (new blueprint)
-  description: ''
-  use_blueprint:
-    path: jlaska/activity_and_inactivity_trigger.yaml
-    input:
-      illuminance_entity: sensor.living_room_ep1_illuminance
-      turn_off_wait: input_number.inactivity_timeout_long
-      turn_on_illuminance_cutoff: input_number.inactivity_timeout_medium
-      turn_on_target:
-        entity_id: scene.downstairs_motion
-      turn_off_target:
-        entity_id:
-        - scene.downstairs_inactivity
-      trigger_entities:
-        entity_id:
-        - binary_sensor.kitchen_ep1_mmwave
-        - binary_sensor.kitchen_ep1_pir
-        - binary_sensor.kitchen_ep1_occupancy
-        - binary_sensor.kitchen_motion_occupancy
-      turn_off_blocker_entity: media_player.samsung_un55h7100
 - id: '1700004931731'
   alias: Laundry Room - Activity (new blueprint)
   description: ''
@@ -3168,7 +3199,7 @@
         - binary_sensor.laundry_room_motion_occupancy
       turn_on_target:
         entity_id: light.laundry_room_light
-      illuminance_entity: sensor.master_bedroom_ep1_illuminance
+      illuminance_entity: sensor.master_bedroom_ep1_f0f9a0_illuminance
       turn_on_illuminance_cutoff: input_number.illumination_medium
       turn_on_after: input_datetime.time_of_day_automation_start
       turn_on_before: input_datetime.time_of_day_automation_stop
@@ -3203,8 +3234,55 @@
         - binary_sensor.front_door_protect_person_detected
       turn_on_target:
         entity_id: light.entryway_door_light
-      illuminance_entity: sensor.dining_room_ep1_illuminance
+      illuminance_entity: sensor.dining_room_ep1_8e7f80_illuminance
       turn_on_illuminance_cutoff: input_number.inactivity_timeout_medium
       turn_off_target:
         entity_id: light.entryway_door_light
       turn_off_wait: input_number.inactivity_timeout_short
+- id: '1721413622520'
+  alias: Living Room - Activity (new blueprint)
+  description: ''
+  use_blueprint:
+    path: jlaska/activity_and_inactivity_trigger.yaml
+    input:
+      illuminance_entity: sensor.living_room_ep1_70cdd4_illuminance
+      turn_off_wait: input_number.inactivity_timeout_long
+      turn_on_illuminance_cutoff: input_number.inactivity_timeout_medium
+      turn_on_target:
+        entity_id:
+        - scene.downstairs_motion
+      turn_off_target:
+        entity_id:
+        - light.living_room_bookshelf
+        - light.living_room_fan_light
+        - light.living_room_christmas_tree
+        - light.living_room_table_lamp
+        - light.living_room_light
+      trigger_entities:
+        entity_id:
+        - binary_sensor.living_room_motion_occupancy
+        - binary_sensor.living_room_ep1_70cdd4_occupancy
+      turn_off_blocker_entity: media_player.samsung_un55h7100
+- id: '1721413730280'
+  alias: Kitchen - Activity (new blueprint)
+  description: ''
+  use_blueprint:
+    path: jlaska/activity_and_inactivity_trigger.yaml
+    input:
+      illuminance_entity: sensor.kitchen_ep1_f0f3d8_illuminance
+      turn_off_wait: input_number.inactivity_timeout_long
+      turn_on_illuminance_cutoff: input_number.inactivity_timeout_medium
+      turn_on_target:
+        entity_id:
+        - scene.downstairs_motion
+      turn_off_target:
+        entity_id:
+        - light.kitchen_cabinet_light
+        - light.kitchen_end_table_light_zha_group_0x0004
+        - light.kitchen_table_light
+        - light.kitchen_light
+        - light.kitchen_island_light
+      trigger_entities:
+        entity_id:
+        - binary_sensor.kitchen_motion_any
+        - binary_sensor.kitchen_motion_occupancy

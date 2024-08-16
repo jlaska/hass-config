@@ -510,10 +510,10 @@ cards:
                       - entity: binary_sensor.master_bedroom_workstation_sensor_vibration
                         tap_action:
                           action: more-info
-                      - entity: media_player.master_bedroom_apple_tv
+                      - entity: media_player.master_bedroom_homepod
                         tap_action:
                           action: more-info
-                      - entity: media_player.master_bedroom_homepod
+                      - entity: media_player.master_bedroom_apple_tv
                         tap_action:
                           action: more-info
                       - entity: group.master_bedroom_lights
@@ -539,7 +539,7 @@ cards:
                   - title: Henry
                   - camera_image: camera.henrys_protect_high
                   - entities:
-                      - entity: binary_sensor.henrys_protect_motion
+                      - entity: binary_sensor.henrys_room_motion_any
                         tap_action:
                           action: more-info
                       - entity: binary_sensor.henrys_room_closet_door_contact
@@ -553,7 +553,7 @@ cards:
                   - title: William
                   - camera_image: camera.williams_protect_high
                   - entities:
-                      - entity: binary_sensor.williams_protect_motion
+                      - entity: binary_sensor.william_s_room_motion_any
                         tap_action:
                           action: more-info
                       - entity: group.william_s_room_lights
@@ -681,7 +681,10 @@ cards:
                   - entities:
                       - entity: binary_sensor.living_room_motion_any
                       # - entity: remote.hubname
-                      - entity: media_player.samsung_un55h7100
+                      - entity: media_player.living_room_homepod_left
+                        tap_action:
+                          action: more-info
+                        # - entity: media_player.samsung_un55h7100
                       - entity: media_player.living_room_apple_tv
                       - entity: group.living_room_lights
                         tap_action:

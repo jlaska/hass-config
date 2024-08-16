@@ -11,7 +11,7 @@
   unique_id: guest_bathroom_hygrostat
   sensor: sensor.guest_bathroom_weather_humidity
   max_on_time: 1800
-  delta_trigger: 6
+  delta_trigger: 3
   min_humidity: 55
 
 - platform: generic_hygrostat

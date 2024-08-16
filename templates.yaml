@@ -81,13 +81,13 @@
     device_class: motion
     state: |
       {{ is_state('binary_sensor.kitchen_motion_occupancy', 'on')
-         or is_state('binary_sensor.kitchen_ep1_occupancy', 'on') }}
+         or is_state('binary_sensor.kitchen_ep1_f0f3d8_occupancy', 'on') }}
   - name: "Living Room Motion (any)"
     unique_id: binary_sensor.living_room_motion_any
     device_class: motion
     state: |
       {{ is_state('binary_sensor.living_room_motion_occupancy', 'on')
-         or is_state('binary_sensor.living_room_ep1_occupancy', 'on')
+         or is_state('binary_sensor.living_room_ep1_70cdd4_occupancy', 'on')
          or is_state('binary_sensor.living_room_protect_motion', 'on') }}
   - name: "Sunroom Motion (any)"
     unique_id: binary_sensor.sunroom_motion_any
@@ -100,13 +100,13 @@
     state: |
       {{ is_state('binary_sensor.dining_room_motion_occupancy', 'on')
          or is_state('binary_sensor.dining_room_protect_motion', 'on')
-         or is_state('binary_sensor.dining_room_ep1_occupancy', 'on') }}
+         or is_state('binary_sensor.dining_room_ep1_8e7f80_occupancy', 'on') }}
   - name: "Master Bedroom Motion (any)"
     unique_id: binary_sensor.master_bedroom_motion_any
     device_class: motion
     state: |
       {{ is_state('binary_sensor.master_bedroom_motion_occupancy', 'on')
-         or is_state('binary_sensor.master_bedroom_ep1_occupancy', 'on') }}
+         or is_state('binary_sensor.master_bedroom_ep1_f0f9a0_occupancy', 'on') }}
   - name: "Master Bedroom Occupancy"
     unique_id: binary_sensor.master_bedroom_occupancy
     device_class: occupancy
@@ -116,6 +116,7 @@
           |selectattr('domain', 'eq', 'binary_sensor')
           |selectattr('attributes.device_class', 'defined')
           |selectattr('attributes.device_class', 'in', ['motion','occupancy'])
+          |selectattr('entity_id', 'ne', 'binary_sensor.master_bedroom_occupancy')
           |selectattr('state', 'eq', 'on')
           |map(attribute='entity_id')
           |list|length > 0
@@ -145,7 +146,7 @@
          or is_state('binary_sensor.laundry_room_motion_occupancy', 'on')
          or is_state('binary_sensor.master_bathroom_motion_any', 'on')
          or is_state('binary_sensor.master_bedroom_motion_any', 'on')
-         or is_state('binary_sensor.williams_protect_motion', 'on') }}
+         or is_state('binary_sensor.william_s_room_motion_any', 'on') }}
     # Currently tracked as a helper
     # - name: "Motion (any)"
     #   device_class: motion
